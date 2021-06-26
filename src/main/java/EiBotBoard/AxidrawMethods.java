@@ -7,7 +7,18 @@ public class AxidrawMethods {
     static int xCoord=0;
     static int yCoord=0;
 
-    static void xyMove(Ebb ebb, int x, int y, int speed) throws MotorException{
+    public static void move(Ebb ebb, Position from, Position to){
+        AxidrawMethods.goToPosition(ebb, from, 12);
+        AxidrawMethods.connectToStone(ebb, true);
+        AxidrawMethods.wait(ebb, 1);
+        AxidrawMethods.goToPosition(ebb, to, 8);
+        AxidrawMethods.connectToStone(ebb, false);
+        AxidrawMethods.wait(ebb, 1);
+        AxidrawMethods.goHome(ebb, 12);
+
+    }
+
+    private static void xyMove(Ebb ebb, int x, int y, int speed) throws MotorException{
 
         xCoord += x;
         yCoord += y;
@@ -33,7 +44,6 @@ public class AxidrawMethods {
             tempX = (int) (tempY*relation);
         }
 
-
         int tempX2 = 0;
         int tempY2= 0;
 
@@ -46,7 +56,7 @@ public class AxidrawMethods {
         ebb.stepperMotorMove(duration, tempX2, tempY2);}
     }
 
-    static void goToPosition(Ebb ebb, Position position, int speed){
+    private static void goToPosition(Ebb ebb, Position position, int speed){
         System.out.println(RingAndFieldCoords.getCoord(position));
         int x = RingAndFieldCoords.getCoord(position).getX();
         int y = RingAndFieldCoords.getCoord(position).getY();
@@ -59,22 +69,12 @@ public class AxidrawMethods {
 
     }
 
-    static void wait(Ebb ebb, int seconds){
+    private static void wait(Ebb ebb, int seconds){
         ebb.stepperMotorMove(seconds*1000, 0, 0);
     }
 
-    static void move(Ebb ebb, Position from, Position to){
-        AxidrawMethods.goToPosition(ebb, from, 12);
-        AxidrawMethods.connectToStone(ebb, true);
-        AxidrawMethods.wait(ebb, 1);
-        AxidrawMethods.goToPosition(ebb, to, 8);
-        AxidrawMethods.connectToStone(ebb, false);
-        AxidrawMethods.wait(ebb, 1);
-        AxidrawMethods.goHome(ebb, 12);
 
-    }
-
-    static void goHome(Ebb ebb, int speed){
+    private static void goHome(Ebb ebb, int speed){
         ebb.setPenState(true);
         ebb.stepperMotorMove(500,0,0);
         try {
@@ -87,11 +87,11 @@ public class AxidrawMethods {
 
     }
 
-    static void disableMotors(Ebb ebb){
+    private static void disableMotors(Ebb ebb){
         ebb.enableMotor(0,0);
     }
 
-    static void connectToStone(Ebb ebb, boolean connect){
+    private static void connectToStone(Ebb ebb, boolean connect){
         if (connect){
             ebb.setPenState(false);
         }
