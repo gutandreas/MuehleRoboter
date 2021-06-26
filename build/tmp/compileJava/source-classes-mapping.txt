@@ -1,7 +1,11 @@
 EiBotBoard/Ebb.java
  EiBotBoard.Ebb
-EiBotBoard/AxidrawMethods.java
- EiBotBoard.AxidrawMethods
+EiBotBoard/UbwCommand.java
+ EiBotBoard.UbwCommand
+ EiBotBoard.UbwCommand$PinDirection
+ EiBotBoard.UbwCommand$Port
+ EiBotBoard.UbwCommand$TimerListener
+ EiBotBoard.UbwCommand$TimerMode
 EiBotBoard/EbbCommand.java
  EiBotBoard.EbbCommand
 EiBotBoard/Ubw.java
@@ -10,11 +14,9 @@ EiBotBoard/Ubw.java
 EiBotBoard/UbwException.java
  EiBotBoard.UbwException
  EiBotBoard.UbwException$ErrorCode
-EiBotBoard/UbwCommand.java
- EiBotBoard.UbwCommand
- EiBotBoard.UbwCommand$PinDirection
- EiBotBoard.UbwCommand$Port
- EiBotBoard.UbwCommand$TimerListener
- EiBotBoard.UbwCommand$TimerMode
+EiBotBoard/MotorException.java
+ EiBotBoard.MotorException
+EiBotBoard/AxidrawMethods.java
+ EiBotBoard.AxidrawMethods
 EiBotBoard/Controller.java
  EiBotBoard.Controller

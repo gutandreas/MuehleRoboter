@@ -10,7 +10,18 @@ public class Controller {
         //ebb.enableMotor(0,0);
         //ebb.setPenState(false);
         //ebb.version();
-        AxidrawMethods.xyMove(ebb,2000,-3000);
+
+        try {
+            AxidrawMethods.xyMove(ebb,10,0, 3);
+            AxidrawMethods.xyMove(ebb, 2,5, 3);
+            AxidrawMethods.xyMove(ebb, -2,-5, 1);
+            AxidrawMethods.xyMove(ebb,-10,0, 1);
+
+        }
+        catch (MotorException e){
+            e.printStackTrace();
+        }
+
         //ebb.setPenState(true);
         //ebb.setPenState(false);
 

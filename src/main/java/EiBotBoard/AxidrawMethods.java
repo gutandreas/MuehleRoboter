@@ -2,22 +2,45 @@ package EiBotBoard;
 
 public class AxidrawMethods {
 
-    static void xyMove(Ebb ebb, int x, int y){
+    static int xCoord=0;
+    static int yCoord=0;
 
-        int tempX = 0;
-        int tempY = 0;
-        int duration;
-        int speed = 1000;
+    static void xyMove(Ebb ebb, int x, int y, int speed) throws MotorException{
+
+        xCoord += x;
+        yCoord += y;
+
+        if (xCoord < 0 || yCoord < 0 || xCoord > 42 || yCoord > 28){
+            throw new MotorException("Dieser Weg würde über den Rand hinaus führen");
+        }
+        else {
+
+        int factorForCm = 800;
+        int duration = (int) (Math.sqrt(x*x + y*y) * speed * 300);
+        int tempX;
+        int tempY;
+
+        if (Math.abs(x) > Math.abs(y)){
+            double relation = (double) y/ (double) x;
+            tempX = (factorForCm*x);
+            tempY = (int) (tempX*relation);
+        }
+        else {
+            double relation = (double) x/ (double) y;
+            tempY = (factorForCm*y);
+            tempX = (int) (tempY*relation);
+        }
 
 
-        tempX += x;
-        tempY += x;
-        tempY -= y;
-        tempX += y;
+        int tempX2 = 0;
+        int tempY2= 0;
 
-        ebb.stepperMotorMove(1000, tempX, tempY);
+        tempX2 += tempX;
+        tempY2 += tempX;
+        tempY2 -= tempY;
+        tempX2 += tempY;
 
-
-
+        System.out.println("Aktuelle Position: x=" + xCoord + "cm / y=" + yCoord + "cm" );
+        ebb.stepperMotorMove(duration, tempX2, tempY2);}
     }
 }
