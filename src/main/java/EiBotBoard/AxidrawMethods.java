@@ -16,7 +16,7 @@ public class AxidrawMethods {
         else {
 
         int factorForCm = 800;
-        int duration = (int) (Math.sqrt(x*x + y*y) * speed * 300);
+        int duration = (int) (Math.sqrt(x*x + y*y) / speed * 1000);
         int tempX;
         int tempY;
 
