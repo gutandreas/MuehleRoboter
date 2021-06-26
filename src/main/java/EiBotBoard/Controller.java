@@ -12,10 +12,10 @@ public class Controller {
         //ebb.version();
 
         try {
+            ebb.setPenState(false);
             AxidrawMethods.xyMove(ebb,10,0, 8);
-            AxidrawMethods.xyMove(ebb, 2,5, 3);
-            AxidrawMethods.xyMove(ebb, -2,-5, 5);
-            AxidrawMethods.xyMove(ebb,-10,0, 3);
+            AxidrawMethods.xyMove(ebb, 2,5, 13);
+            AxidrawMethods.goHome(ebb, 4);
 
         }
         catch (MotorException e){

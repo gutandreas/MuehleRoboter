@@ -43,4 +43,15 @@ public class AxidrawMethods {
         System.out.println("Aktuelle Position: x=" + xCoord + "cm / y=" + yCoord + "cm" );
         ebb.stepperMotorMove(duration, tempX2, tempY2);}
     }
+
+    static void goHome(Ebb ebb, int speed){
+        ebb.setPenState(true);
+        ebb.stepperMotorMove(500,0,0);
+        try {
+            xyMove(ebb, -xCoord, -yCoord, speed);
+        } catch (MotorException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
