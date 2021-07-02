@@ -4,8 +4,11 @@ import game.Position;
 
 public class Controller {
     public static void main(String[] args) {
-        Ebb ebb = new Ebb("/dev/cu.usbmodem142101");
+        Ebb ebb = new Ebb("/dev/cu.usbmodem141101");
         RingAndFieldCoords ringAndFieldCoords = new RingAndFieldCoords();
+        ebb.execute("SC," + 4 + "," + 30000);
+
+        Connection connection = new Connection(ebb);
 
 
         //ebb.setPenState(true);
@@ -16,8 +19,16 @@ public class Controller {
         //ebb.version();
 
 
-        AxidrawMethods.move(ebb, new Position(0,0), new Position(0,7));
+        //Connection.move(ebb, new Position(0,0), new Position(0,7));
         ebb.enableMotor(0,0);
+
+
+        connection.put(new Position(0,1), 1);
+        connection.kill(new Position(0,1), 1);
+        /*connection.put(ebb, new Position(1, 0), 1);
+        Connection.put(ebb, new Position(0,2), 1);
+        Connection.kill(ebb, new Position(1,0), 1);
+        Connection.kill(ebb, new Position(0,2), 1);*/
 
 
 

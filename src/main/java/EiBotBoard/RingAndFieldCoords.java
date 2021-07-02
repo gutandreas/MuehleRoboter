@@ -8,6 +8,8 @@ public class RingAndFieldCoords {
 
 
 
+
+
     private static HashMap<Position, XyCoordsCm> positionMap = new HashMap<>();
 
     public RingAndFieldCoords() {
@@ -38,6 +40,24 @@ public class RingAndFieldCoords {
        positionMap.put(new Position(2,6), new XyCoordsCm(20, 9));
        positionMap.put(new Position(2,7), new XyCoordsCm(20, 13));
 
+        positionMap.put(new Position(-1,0), new XyCoordsCm(2, 1));
+        positionMap.put(new Position(-1,1), new XyCoordsCm(2, 4));
+        positionMap.put(new Position(-1,2), new XyCoordsCm(2, 7));
+        positionMap.put(new Position(-1,3), new XyCoordsCm(2, 10));
+        positionMap.put(new Position(-1,4), new XyCoordsCm(2, 13));
+        positionMap.put(new Position(-1,5), new XyCoordsCm(2, 16));
+        positionMap.put(new Position(-1,6), new XyCoordsCm(2, 19));
+        positionMap.put(new Position(-1,7), new XyCoordsCm(2, 22));
+        positionMap.put(new Position(-1,8), new XyCoordsCm(2, 25));
+        positionMap.put(new Position(-1,9), new XyCoordsCm(2, 28));
+
+        positionMap.put(new Position(-10,0), new XyCoordsCm(12, 23));
+        positionMap.put(new Position(-10,1), new XyCoordsCm(12, 15));
+        positionMap.put(new Position(-10,2), new XyCoordsCm(12,11));
+        positionMap.put(new Position(-10,3), new XyCoordsCm(12, 3));
+
+
+
 
     }
 
@@ -48,4 +68,6 @@ public class RingAndFieldCoords {
     public static XyCoordsCm getCoord(Position position){
         return positionMap.get(position);
     }
+
+
 }

@@ -108,10 +108,11 @@ public class Ebb extends Ubw implements EbbCommand {
 
 
 		validateRange(duration, 0, 65535);
-		validateRange(axis1, -32767, 32767);
-		validateRange(axis2, -32767, 32767);
+		validateRange(axis1, -50000, 50000);
+		validateRange(axis2, -50000, 50000);
 		execute("SM," + duration + "," + axis1 + "," + axis2);
-		readResponse();}
+		//readResponse();
+	}
 
 
 	@Override
