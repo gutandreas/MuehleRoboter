@@ -23,8 +23,13 @@ public class Controller {
         ebb.enableMotor(0,0);
 
 
-        connection.put(new Position(0,1), 1);
-        connection.kill(new Position(0,1), 1);
+            for (int j = 0; j<2; j++){
+                Position testPosition = new Position(0, j);
+                connection.put(testPosition, 1);
+                connection.kill(testPosition, 1);
+            }
+
+
         /*connection.put(ebb, new Position(1, 0), 1);
         Connection.put(ebb, new Position(0,2), 1);
         Connection.kill(ebb, new Position(1,0), 1);

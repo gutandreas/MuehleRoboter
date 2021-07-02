@@ -112,13 +112,14 @@ public class Ebb extends Ubw implements EbbCommand {
 		validateRange(axis2, -50000, 50000);
 		execute("SM," + duration + "," + axis1 + "," + axis2);
 		//readResponse();
+		//TODO: readResponse führt bei Kill zu einem invalid parameter
 	}
 
 
 	@Override
 	public void setPenState(boolean state) {
 		execute("SP," + (state ? "1" : "0"));
-		readResponse();
+		//readResponse();
 	}
 	@Override
 	public void setPenState(boolean state, int duration) {

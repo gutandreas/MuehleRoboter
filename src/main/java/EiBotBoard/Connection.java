@@ -32,6 +32,12 @@ public class Connection {
         goToPositionDirectly(startPosition, 10);
         connectToStone(true);
         wait(1);
+        try {
+            xyMove(2,0, 4);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         goToPositionInLinesBring(position, 4);
         goHome(10);
     }
@@ -44,6 +50,14 @@ public class Connection {
         Position startPosition = new Position(0-playerIndex, player1KillNumber);
         player1KillNumber++;
         goToPositionInLinesBack(position, 4);
+        try {
+            xyMove(RingAndFieldCoords.getCoord(startPosition).getX()+2-xCoord,
+                    RingAndFieldCoords.getCoord(startPosition).getY()-yCoord,
+                    4);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         goToPositionDirectly(startPosition, 4);
         goHome(10);
     }
@@ -103,9 +117,27 @@ public class Connection {
     private void goToPositionInLinesBring(Position stonePosition, int speed){
 
         if ((stonePosition.getRing() == 0 || stonePosition.getRing() == 1)
-                && (stonePosition.getField() == 0 || stonePosition.getField() == 1 || stonePosition.getField() == 2)){
+                && (stonePosition.getField() <= 2)){
             System.out.println("B0");
             goToPositionDirectly(new Position(-10, 0), 10);
+        }
+
+        if ((stonePosition.getRing() == 2 && stonePosition.getField() <= 2)
+                && (stonePosition.getField() == 0 || stonePosition.getField() == 1 || stonePosition.getField() == 2)){
+            System.out.println("B1");
+            goToPositionDirectly(new Position(-10, 1), 10);
+        }
+
+        if ((stonePosition.getField() == 7 || stonePosition.getField() == 3)
+                || (stonePosition.getRing() == 2 && stonePosition.getField() >=4 && stonePosition.getField() <=6)){
+            System.out.println("B2");
+            goToPositionDirectly(new Position(-10, 2), 10);
+        }
+
+        if ((stonePosition.getRing() == 1 && stonePosition.getField() >= 4 && stonePosition.getField() <= 6)
+                || (stonePosition.getRing() == 0 && stonePosition.getField() >= 4 && stonePosition.getField() <= 6)){
+            System.out.println("B3");
+            goToPositionDirectly(new Position(-10, 3), 10);
         }
 
         int x = RingAndFieldCoords.getCoord(stonePosition).getX();
@@ -123,20 +155,39 @@ public class Connection {
 
         goToPositionDirectly(stonePosition, 10);
 
-        int x;
-        int y;
+        int x = 0;
+        int y = 0;
 
         if ((stonePosition.getRing() == 0 || stonePosition.getRing() == 1)
                 && (stonePosition.getField() == 0 || stonePosition.getField() == 1 || stonePosition.getField() == 2)){
             System.out.println("B0");
             x = RingAndFieldCoords.getCoord(new Position(-10,0)).getX();
             y = RingAndFieldCoords.getCoord(new Position(-10,0)).getY();
-            try {
-                xyMove(0, y-yCoord, speed);
-                xyMove(x-xCoord, 0, speed);
-            } catch (MotorException e) {
-                e.printStackTrace();
-            }
+        }
+
+        if ((stonePosition.getRing() == 2 && stonePosition.getField() <= 2)
+                && (stonePosition.getField() == 0 || stonePosition.getField() == 1 || stonePosition.getField() == 2)){
+            x = RingAndFieldCoords.getCoord(new Position(-10,1)).getX();
+            y = RingAndFieldCoords.getCoord(new Position(-10,1)).getY();
+        }
+
+        if ((stonePosition.getField() == 7 || stonePosition.getField() == 3)
+                || (stonePosition.getRing() == 2 && stonePosition.getField() >=4 && stonePosition.getField() <=6)){
+            x = RingAndFieldCoords.getCoord(new Position(-10,2)).getX();
+            y = RingAndFieldCoords.getCoord(new Position(-10,2)).getY();
+        }
+
+        if ((stonePosition.getRing() == 1 && stonePosition.getField() >= 4 && stonePosition.getField() <= 6)
+                || (stonePosition.getRing() == 0 && stonePosition.getField() >= 4 && stonePosition.getField() <= 6)){
+            x = RingAndFieldCoords.getCoord(new Position(-10,3)).getX();
+            y = RingAndFieldCoords.getCoord(new Position(-10,3)).getY();
+        }
+
+        try {
+            xyMove(0, y-yCoord, speed);
+            xyMove(x-xCoord, 0, speed);
+        } catch (MotorException e) {
+            e.printStackTrace();
         }
 
     }
