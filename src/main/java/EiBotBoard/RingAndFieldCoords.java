@@ -51,10 +51,10 @@ public class RingAndFieldCoords {
         positionMap.put(new Position(-1,8), new XyCoordsCm(2, 25));
         positionMap.put(new Position(-1,9), new XyCoordsCm(2, 28));
 
-        positionMap.put(new Position(-10,0), new XyCoordsCm(12, 23));
-        positionMap.put(new Position(-10,1), new XyCoordsCm(12, 15));
-        positionMap.put(new Position(-10,2), new XyCoordsCm(12,11));
-        positionMap.put(new Position(-10,3), new XyCoordsCm(12, 3));
+        positionMap.put(new Position(-10,0), new XyCoordsCm(10, 23));
+        positionMap.put(new Position(-10,1), new XyCoordsCm(10, 15));
+        positionMap.put(new Position(-10,2), new XyCoordsCm(10,11));
+        positionMap.put(new Position(-10,3), new XyCoordsCm(10, 3));
 
 
 

@@ -20,14 +20,19 @@ public class Controller {
 
 
         //Connection.move(ebb, new Position(0,0), new Position(0,7));
-        ebb.enableMotor(0,0);
+
+        connection.put(new Position(0,6), 1);
+        connection.move(new Position(0,6), new Position(0,2), true);
+
+        /*ebb.enableMotor(0,0);
 
 
-            for (int j = 0; j<2; j++){
+            for (int j = 0; j<1; j++){
                 Position testPosition = new Position(0, j);
                 connection.put(testPosition, 1);
-                connection.kill(testPosition, 1);
-            }
+                connection.move(testPosition, new Position(testPosition.getRing(), (testPosition.getField()+1)%8), false);
+                connection.kill(new Position(testPosition.getRing(), (testPosition.getField()+1)%8), 1);
+            }*/
 
 
         /*connection.put(ebb, new Position(1, 0), 1);

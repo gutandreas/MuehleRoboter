@@ -17,11 +17,26 @@ public class Connection {
         this.ebb = ebb;
     }
 
-    public void move(Position from, Position to){
+    public void move(Position from, Position to, boolean jump){
+
         goToPositionDirectly(from, 12);
         connectToStone(true);
         wait(1);
-        goToPositionDirectly(to, 8);
+
+        if (jump){
+            try {
+                xyMove(2,2,4);
+                xyMove(0,RingAndFieldCoords.getCoord(to).getY()+2-yCoord, 4);
+                xyMove(RingAndFieldCoords.getCoord(to).getX()-xCoord, 0, 4);
+                xyMove(0,-2,4);
+            } catch (MotorException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            goToPositionDirectly(to, 8);
+            }
+
         goHome(12);
 
     }
