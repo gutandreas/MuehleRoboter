@@ -19,16 +19,16 @@ public class Connection {
 
     public void move(Position from, Position to, boolean jump){
 
-        goToPositionDirectly(from, 12);
+        goToPositionDirectly(from, 10);
         connectToStone(true);
         wait(1);
 
         if (jump){
             try {
-                xyMove(2,2,4);
-                xyMove(0,RingAndFieldCoords.getCoord(to).getY()+2-yCoord, 4);
-                xyMove(RingAndFieldCoords.getCoord(to).getX()-xCoord, 0, 4);
-                xyMove(0,-2,4);
+                xyMove(2,2,6);
+                xyMove(0,RingAndFieldCoords.getCoord(to).getY()+2-yCoord, 6);
+                xyMove(RingAndFieldCoords.getCoord(to).getX()-xCoord, 0, 6);
+                xyMove(0,-2,6);
             } catch (MotorException e) {
                 e.printStackTrace();
             }
@@ -37,44 +37,70 @@ public class Connection {
             goToPositionDirectly(to, 8);
             }
 
-        goHome(12);
+        goHome(15);
 
     }
 
     public void put(Position position, int playerIndex){
-        Position startPosition = new Position(0-playerIndex, player1PutNumber);
-        player1PutNumber++;
-        goToPositionDirectly(startPosition, 10);
+        Position startPosition;
+        int shift;
+
+        if (playerIndex == 1){
+            shift = 2;
+            startPosition = new Position(0-playerIndex, player1PutNumber);
+            player1PutNumber++;
+        }
+        else {
+            shift = -2;
+            startPosition = new Position(0-playerIndex, player2PutNumber);
+            player2PutNumber++;
+        }
+
+        goToPositionDirectly(startPosition, 15);
         connectToStone(true);
         wait(1);
         try {
-            xyMove(2,0, 4);
+            xyMove(shift,0, 6);
         }
         catch (Exception e){
             e.printStackTrace();
         }
-        goToPositionInLinesBring(position, 4);
-        goHome(10);
+        goToPositionInLinesBring(position, playerIndex,6);
+        goHome(15);
     }
 
     public void kill(Position position, int playerIndex){
 
+        int shift;
+        Position startPosition;
+
         goToPositionDirectly( position, 10);
         connectToStone(true);
         wait(1);
-        Position startPosition = new Position(0-playerIndex, player1KillNumber);
-        player1KillNumber++;
-        goToPositionInLinesBack(position, 4);
+
+        if (playerIndex == 1){
+            shift = 2;
+            startPosition = new Position(0-playerIndex, player1KillNumber);
+            player1KillNumber++;
+        }
+        else {
+            shift = -2;
+            startPosition = new Position(0-playerIndex, player2KillNumber);
+            player2KillNumber++;
+        }
+
+        goToPositionInLinesBack(position, playerIndex,6);
+
         try {
-            xyMove(RingAndFieldCoords.getCoord(startPosition).getX()+2-xCoord,
+            xyMove(RingAndFieldCoords.getCoord(startPosition).getX()+shift-xCoord,
                     RingAndFieldCoords.getCoord(startPosition).getY()-yCoord,
-                    4);
+                    6);
         }
         catch (Exception e){
             e.printStackTrace();
         }
-        goToPositionDirectly(startPosition, 4);
-        goHome(10);
+        goToPositionDirectly(startPosition, 6);
+        goHome(15);
     }
 
 
@@ -129,30 +155,30 @@ public class Connection {
 
     }
 
-    private void goToPositionInLinesBring(Position stonePosition, int speed){
+    private void goToPositionInLinesBring(Position stonePosition, int playerindex, int speed){
 
         if ((stonePosition.getRing() == 0 || stonePosition.getRing() == 1)
                 && (stonePosition.getField() <= 2)){
             System.out.println("B0");
-            goToPositionDirectly(new Position(-10, 0), 10);
+            goToPositionDirectly(new Position(-10-playerindex, 0), 10);
         }
 
         if ((stonePosition.getRing() == 2 && stonePosition.getField() <= 2)
                 && (stonePosition.getField() == 0 || stonePosition.getField() == 1 || stonePosition.getField() == 2)){
             System.out.println("B1");
-            goToPositionDirectly(new Position(-10, 1), 10);
+            goToPositionDirectly(new Position(-10-playerindex, 1), 10);
         }
 
         if ((stonePosition.getField() == 7 || stonePosition.getField() == 3)
                 || (stonePosition.getRing() == 2 && stonePosition.getField() >=4 && stonePosition.getField() <=6)){
             System.out.println("B2");
-            goToPositionDirectly(new Position(-10, 2), 10);
+            goToPositionDirectly(new Position(-10-playerindex, 2), 10);
         }
 
         if ((stonePosition.getRing() == 1 && stonePosition.getField() >= 4 && stonePosition.getField() <= 6)
                 || (stonePosition.getRing() == 0 && stonePosition.getField() >= 4 && stonePosition.getField() <= 6)){
             System.out.println("B3");
-            goToPositionDirectly(new Position(-10, 3), 10);
+            goToPositionDirectly(new Position(-10-playerindex, 3), 10);
         }
 
         int x = RingAndFieldCoords.getCoord(stonePosition).getX();
@@ -166,7 +192,7 @@ public class Connection {
         }
     }
 
-    private void goToPositionInLinesBack(Position stonePosition, int speed) {
+    private void goToPositionInLinesBack(Position stonePosition, int playerindex, int speed) {
 
         goToPositionDirectly(stonePosition, 10);
 
@@ -176,26 +202,26 @@ public class Connection {
         if ((stonePosition.getRing() == 0 || stonePosition.getRing() == 1)
                 && (stonePosition.getField() == 0 || stonePosition.getField() == 1 || stonePosition.getField() == 2)){
             System.out.println("B0");
-            x = RingAndFieldCoords.getCoord(new Position(-10,0)).getX();
-            y = RingAndFieldCoords.getCoord(new Position(-10,0)).getY();
+            x = RingAndFieldCoords.getCoord(new Position(-10-playerindex,0)).getX();
+            y = RingAndFieldCoords.getCoord(new Position(-10-playerindex,0)).getY();
         }
 
         if ((stonePosition.getRing() == 2 && stonePosition.getField() <= 2)
                 && (stonePosition.getField() == 0 || stonePosition.getField() == 1 || stonePosition.getField() == 2)){
-            x = RingAndFieldCoords.getCoord(new Position(-10,1)).getX();
-            y = RingAndFieldCoords.getCoord(new Position(-10,1)).getY();
+            x = RingAndFieldCoords.getCoord(new Position(-10-playerindex,1)).getX();
+            y = RingAndFieldCoords.getCoord(new Position(-10-playerindex,1)).getY();
         }
 
         if ((stonePosition.getField() == 7 || stonePosition.getField() == 3)
                 || (stonePosition.getRing() == 2 && stonePosition.getField() >=4 && stonePosition.getField() <=6)){
-            x = RingAndFieldCoords.getCoord(new Position(-10,2)).getX();
-            y = RingAndFieldCoords.getCoord(new Position(-10,2)).getY();
+            x = RingAndFieldCoords.getCoord(new Position(-10-playerindex,2)).getX();
+            y = RingAndFieldCoords.getCoord(new Position(-10-playerindex,2)).getY();
         }
 
         if ((stonePosition.getRing() == 1 && stonePosition.getField() >= 4 && stonePosition.getField() <= 6)
                 || (stonePosition.getRing() == 0 && stonePosition.getField() >= 4 && stonePosition.getField() <= 6)){
-            x = RingAndFieldCoords.getCoord(new Position(-10,3)).getX();
-            y = RingAndFieldCoords.getCoord(new Position(-10,3)).getY();
+            x = RingAndFieldCoords.getCoord(new Position(-10-playerindex,3)).getX();
+            y = RingAndFieldCoords.getCoord(new Position(-10-playerindex,3)).getY();
         }
 
         try {

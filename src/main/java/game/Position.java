@@ -1,7 +1,7 @@
 package game;
 
 
-public class Position implements Comparable {
+public class Position implements Comparable<Position> {
 
     private int ring, field;
 
@@ -42,8 +42,7 @@ public class Position implements Comparable {
 
 
     @Override
-    public int compareTo(Object o) {
-        Position position = (Position) o;
+    public int compareTo(Position position) {
         if (ring == position.getRing() && field == position.getField()) return 0;
         if (ring == position.getRing() && field > position.getField()) return 1;
         if (ring > position.getRing()) return 1;
