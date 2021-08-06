@@ -26,8 +26,8 @@ public class Connection {
         if (jump){
             try {
                 xyMove(2,2,6);
-                xyMove(0,RingAndFieldCoords.getCoord(to).getY()+2-yCoord, 6);
-                xyMove(RingAndFieldCoords.getCoord(to).getX()-xCoord, 0, 6);
+                xyMove(0, RingAndFieldCoordsCm.getCoord(to).getY()+2-yCoord, 6);
+                xyMove(RingAndFieldCoordsCm.getCoord(to).getX()-xCoord, 0, 6);
                 xyMove(0,-2,6);
             } catch (MotorException e) {
                 e.printStackTrace();
@@ -92,8 +92,8 @@ public class Connection {
         goToPositionInLinesBack(position, playerIndex,6);
 
         try {
-            xyMove(RingAndFieldCoords.getCoord(startPosition).getX()+shift-xCoord,
-                    RingAndFieldCoords.getCoord(startPosition).getY()-yCoord,
+            xyMove(RingAndFieldCoordsCm.getCoord(startPosition).getX()+shift-xCoord,
+                    RingAndFieldCoordsCm.getCoord(startPosition).getY()-yCoord,
                     6);
         }
         catch (Exception e){
@@ -144,8 +144,8 @@ public class Connection {
     }
 
     private void goToPositionDirectly(Position position, int speed){
-        int x = RingAndFieldCoords.getCoord(position).getX();
-        int y = RingAndFieldCoords.getCoord(position).getY();
+        int x = RingAndFieldCoordsCm.getCoord(position).getX();
+        int y = RingAndFieldCoordsCm.getCoord(position).getY();
 
         try {
             xyMove(x-xCoord, y-yCoord, speed);
@@ -181,8 +181,8 @@ public class Connection {
             goToPositionDirectly(new Position(-10-playerindex, 3), 10);
         }
 
-        int x = RingAndFieldCoords.getCoord(stonePosition).getX();
-        int y = RingAndFieldCoords.getCoord(stonePosition).getY();
+        int x = RingAndFieldCoordsCm.getCoord(stonePosition).getX();
+        int y = RingAndFieldCoordsCm.getCoord(stonePosition).getY();
 
         try {
             xyMove(x-xCoord, 0, speed);
@@ -202,26 +202,26 @@ public class Connection {
         if ((stonePosition.getRing() == 0 || stonePosition.getRing() == 1)
                 && (stonePosition.getField() == 0 || stonePosition.getField() == 1 || stonePosition.getField() == 2)){
             System.out.println("B0");
-            x = RingAndFieldCoords.getCoord(new Position(-10-playerindex,0)).getX();
-            y = RingAndFieldCoords.getCoord(new Position(-10-playerindex,0)).getY();
+            x = RingAndFieldCoordsCm.getCoord(new Position(-10-playerindex,0)).getX();
+            y = RingAndFieldCoordsCm.getCoord(new Position(-10-playerindex,0)).getY();
         }
 
         if ((stonePosition.getRing() == 2 && stonePosition.getField() <= 2)
                 && (stonePosition.getField() == 0 || stonePosition.getField() == 1 || stonePosition.getField() == 2)){
-            x = RingAndFieldCoords.getCoord(new Position(-10-playerindex,1)).getX();
-            y = RingAndFieldCoords.getCoord(new Position(-10-playerindex,1)).getY();
+            x = RingAndFieldCoordsCm.getCoord(new Position(-10-playerindex,1)).getX();
+            y = RingAndFieldCoordsCm.getCoord(new Position(-10-playerindex,1)).getY();
         }
 
         if ((stonePosition.getField() == 7 || stonePosition.getField() == 3)
                 || (stonePosition.getRing() == 2 && stonePosition.getField() >=4 && stonePosition.getField() <=6)){
-            x = RingAndFieldCoords.getCoord(new Position(-10-playerindex,2)).getX();
-            y = RingAndFieldCoords.getCoord(new Position(-10-playerindex,2)).getY();
+            x = RingAndFieldCoordsCm.getCoord(new Position(-10-playerindex,2)).getX();
+            y = RingAndFieldCoordsCm.getCoord(new Position(-10-playerindex,2)).getY();
         }
 
         if ((stonePosition.getRing() == 1 && stonePosition.getField() >= 4 && stonePosition.getField() <= 6)
                 || (stonePosition.getRing() == 0 && stonePosition.getField() >= 4 && stonePosition.getField() <= 6)){
-            x = RingAndFieldCoords.getCoord(new Position(-10-playerindex,3)).getX();
-            y = RingAndFieldCoords.getCoord(new Position(-10-playerindex,3)).getY();
+            x = RingAndFieldCoordsCm.getCoord(new Position(-10-playerindex,3)).getX();
+            y = RingAndFieldCoordsCm.getCoord(new Position(-10-playerindex,3)).getY();
         }
 
         try {

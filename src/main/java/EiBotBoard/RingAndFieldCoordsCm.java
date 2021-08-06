@@ -4,14 +4,14 @@ import game.Position;
 
 import java.util.HashMap;
 
-public class RingAndFieldCoords {
+public class RingAndFieldCoordsCm {
 
     private static HashMap<Position, XyCoordsCm> positionMap = new HashMap<>();
 
-    public RingAndFieldCoords() {
+    public RingAndFieldCoordsCm() {
 
-        int xBorder = 1;
-        int yBorder = 1;
+        int xBorder = 2;
+        int yBorder = 2;
 
         //Feldpositionen
         positionMap.put(new Position(0,0), new XyCoordsCm(8+xBorder, 24+yBorder));

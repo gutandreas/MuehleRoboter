@@ -1,18 +1,22 @@
 package EiBotBoard;
 
+import Camera.HoughCirclesRun;
 import game.Position;
+import org.opencv.core.Core;
 
 public class Controller {
     public static void main(String[] args) {
-        Ebb ebb = new Ebb("/dev/cu.usbmodem141101");
-        RingAndFieldCoords ringAndFieldCoords = new RingAndFieldCoords();
+
+        System.out.println("hallo");
+        Ebb ebb = new Ebb("/dev/cu.usbmodem142101");
+        //Ebb ebb = new Ebb("/dev/ttyACM0");
+
+        RingAndFieldCoordsCm ringAndFieldCoordsCm = new RingAndFieldCoordsCm();
         ebb.execute("SC," + 4 + "," + 30000);
 
         Connection connection = new Connection(ebb);
 
-        connection.put(new Position(0,1), 1);
-        connection.move(new Position(0,1), new Position(1,4), true);
-        connection.kill(new Position(1,4), 2);
+        connection.put(new Position(0,0), 1);
 
         /*ebb.enableMotor(0,0);
 

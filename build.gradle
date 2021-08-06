@@ -4,15 +4,33 @@ plugins {
 
 group 'org.example'
 version '1.0-SNAPSHOT'
+targetCompatibility = 16
+sourceCompatibility = 16
 
 repositories {
     mavenCentral()
+    flatDir{
+       dirs '/usr/local/Cellar/opencv/4.5.3_1/share/java/opencv4/'}
 }
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     implementation group: 'org.rxtx', name: 'rxtx', version: '2.1.7'
+    compileOnly group: 'javax.websocket', name: 'javax.websocket-api', version: '1.1'
+    compile group: 'org.json', name: 'json', version: '20201115' //Um JSONObject zu verwenden
+
+
+    //implementation group: 'org.opencv', name: 'opencv', version: '4.5.3_1'
+    //implementation group: 'org.openpnp', name: 'opencv', version: '4.5.2'
+    //compile files('/usr/local/Cellar/opencv/4.5.3_1/share/java/opencv4/opencv-453.jar')
+    compile name: 'opencv-453'
+    //compile group: 'org.openpnp', name: 'opencv', version: '3.4.2-0'
+    //compile group: 'org.openpnp', name: 'opencv', version: '4.5.3_1'
+    //implementation group: 'org.opencv.opencv', name: 'opencv', version: '4.1.1'
+    //compile group: 'org.opencv', name: 'opencv', version: '4.5.2'
+    // https://mvnrepository.com/artifact/org.openpnp/opencv
+    //implementation group: 'org.openpnp', name: 'opencv', version: '4.5.1-2'
 }
 
 test {

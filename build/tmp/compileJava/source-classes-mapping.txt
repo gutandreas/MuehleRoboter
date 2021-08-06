@@ -1,28 +1,28 @@
 EiBotBoard/Ebb.java
  EiBotBoard.Ebb
-EiBotBoard/XyCoordsCm.java
- EiBotBoard.XyCoordsCm
 game/Position.java
  game.Position
-EiBotBoard/Ubw.java
- EiBotBoard.Ubw
- EiBotBoard.Ubw$SerialReader
+EiBotBoard/RingAndFieldCoordsCm.java
+ EiBotBoard.RingAndFieldCoordsCm
 EiBotBoard/EbbCommand.java
  EiBotBoard.EbbCommand
+EiBotBoard/Controller.java
+ EiBotBoard.Controller
+EiBotBoard/Connection.java
+ EiBotBoard.Connection
+EiBotBoard/MotorException.java
+ EiBotBoard.MotorException
+EiBotBoard/UbwException.java
+ EiBotBoard.UbwException
+ EiBotBoard.UbwException$ErrorCode
 EiBotBoard/UbwCommand.java
  EiBotBoard.UbwCommand
  EiBotBoard.UbwCommand$PinDirection
  EiBotBoard.UbwCommand$Port
  EiBotBoard.UbwCommand$TimerListener
  EiBotBoard.UbwCommand$TimerMode
-EiBotBoard/MotorException.java
- EiBotBoard.MotorException
-EiBotBoard/UbwException.java
- EiBotBoard.UbwException
- EiBotBoard.UbwException$ErrorCode
-EiBotBoard/RingAndFieldCoords.java
- EiBotBoard.RingAndFieldCoords
-EiBotBoard/AxidrawMethods.java
- EiBotBoard.AxidrawMethods
-EiBotBoard/Controller.java
- EiBotBoard.Controller
+EiBotBoard/Ubw.java
+ EiBotBoard.Ubw
+ EiBotBoard.Ubw$SerialReader
+EiBotBoard/XyCoordsCm.java
+ EiBotBoard.XyCoordsCm
