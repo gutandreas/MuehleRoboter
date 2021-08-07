@@ -1,4 +1,3 @@
-
 //Schritt damit es funktionierte: libopencv_java453.dylib von /usr/local/Cellar/opencv/4.5.3_1/share/java/opencv4 kopiert und in /Library/Java/Extensions/ eingefügt
 package Camera;// https://docs.opencv.org/4.5.3/d4/d70/tutorial_hough_circle.html 30.7.2021
 

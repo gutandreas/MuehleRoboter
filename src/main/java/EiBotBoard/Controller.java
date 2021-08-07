@@ -2,13 +2,18 @@ package EiBotBoard;
 
 import Camera.HoughCirclesRun;
 import game.Position;
+import gnu.io.CommPortIdentifier;
 import org.opencv.core.Core;
+
+import java.util.Enumeration;
 
 public class Controller {
     public static void main(String[] args) {
 
         System.out.println("hallo");
-        Ebb ebb = new Ebb("/dev/cu.usbmodem142101");
+        String usbDevice = getUSBDevice();
+        Ebb ebb = new Ebb(usbDevice);
+        //Ebb ebb = new Ebb("/dev/cu.usbmodem142101");
         //Ebb ebb = new Ebb("/dev/ttyACM0");
 
         RingAndFieldCoordsCm ringAndFieldCoordsCm = new RingAndFieldCoordsCm();
@@ -29,5 +34,16 @@ public class Controller {
             }*/
 
 
+    }
+
+    static private String getUSBDevice(){
+        Enumeration e = CommPortIdentifier.getPortIdentifiers();
+        while(e.hasMoreElements()) {
+            CommPortIdentifier com = (CommPortIdentifier) e.nextElement();
+            if (com.getName().contains("cu.usbmodem")){
+                return (com.getName());
+            };
+        }
+        return null;
     }
 }
