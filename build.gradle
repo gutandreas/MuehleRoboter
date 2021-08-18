@@ -4,8 +4,8 @@ plugins {
 
 group 'org.example'
 version '1.0-SNAPSHOT'
-targetCompatibility = 16
-sourceCompatibility = 16
+targetCompatibility = 1.8
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -19,6 +19,8 @@ dependencies {
     implementation group: 'org.rxtx', name: 'rxtx', version: '2.1.7'
     implementation group: 'javax.websocket', name: 'javax.websocket-api', version: '1.1'
     implementation group: 'org.json', name: 'json', version: '20201115' //Um JSONObject zu verwenden
+    implementation "org.java-websocket:Java-WebSocket:1.5.1"
+    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
 
 
     //implementation group: 'org.opencv', name: 'opencv', version: '4.5.3_1'

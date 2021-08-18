@@ -2,19 +2,15 @@
 <project version="4">
   <component name="RemoteTargetsManager">
     <targets>
-      <target name="pi@raspberrypi:22" type="ssh/sftp">
+      <target name="pi@192.168.0.18:22" type="ssh/sftp">
         <config>
           <option name="projectRootOnTarget" value="/home/pi/MuehleRoboter" />
-          <option name="serverName" value="pi@raspberrypi:22 password" />
-          <option name="useRsync" value="true" />
+          <option name="serverName" value="pi@192.168.0.18:22 password" />
         </config>
         <ContributedStateBase type="JavaLanguageRuntime">
           <config>
-            <option name="javaVersionString" value="11.0.11" />
+            <option name="javaVersionString" value="11.0.12" />
           </config>
-        </ContributedStateBase>
-        <ContributedStateBase type="JavaLanguageRuntime">
-          <config />
         </ContributedStateBase>
       </target>
     </targets>

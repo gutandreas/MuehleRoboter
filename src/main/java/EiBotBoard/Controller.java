@@ -3,6 +3,8 @@ package EiBotBoard;
 import Camera.HoughCirclesRun;
 import game.Position;
 import gnu.io.CommPortIdentifier;
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.handshake.ServerHandshake;
 import org.opencv.core.Core;
 
 import java.util.Enumeration;
@@ -21,12 +23,12 @@ public class Controller {
 
         Connection connection = new Connection(ebb);
 
-        connection.put(new Position(0,0), 1);
+        //connection.put(new Position(0,0), 1);
 
-        /*ebb.enableMotor(0,0);
+        ebb.enableMotor(0,0);
 
 
-            for (int j = 0; j<1; j++){
+            /*for (int j = 0; j<1; j++){
                 Position testPosition = new Position(0, j);
                 connection.put(testPosition, 1);
                 connection.move(testPosition, new Position(testPosition.getRing(), (testPosition.getField()+1)%8), false);
@@ -36,7 +38,7 @@ public class Controller {
 
     }
 
-    static private String getUSBDevice(){
+    static public String getUSBDevice(){
         Enumeration e = CommPortIdentifier.getPortIdentifiers();
         while(e.hasMoreElements()) {
             CommPortIdentifier com = (CommPortIdentifier) e.nextElement();
