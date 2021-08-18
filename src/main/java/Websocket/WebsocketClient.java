@@ -15,20 +15,15 @@ public class WebsocketClient extends WebSocketClient {
 
     Connection connection;
 
-    public WebsocketClient(URI serverUri) {
+    public WebsocketClient(URI serverUri, Connection connection) {
         super(serverUri);
+        this.connection = connection;
+
     }
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
         System.out.println("Verbunden mit Server");
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("command", "watch");
-        jsonObject.put("gameCode", "aaa");
-        send(jsonObject.toString());
-        String usbDevice = Controller.getUSBDevice();
-        Ebb ebb = new Ebb(usbDevice);
-        connection = new Connection(ebb);
         //Ebb ebb = new Ebb("/dev/cu.usbmodem142101");
         //Ebb ebb = new Ebb("/dev/ttyACM0");
     }
@@ -43,18 +38,38 @@ public class WebsocketClient extends WebSocketClient {
             case "join":
                 System.out.println("Spiel beigetreten");
             case "update":
+
                 if (jsonObject.getString("action").equals("put")){
 
                     int ring = jsonObject.getInt("ring");
                     int field = jsonObject.getInt("field");
+                    int playerIndex = jsonObject.getInt("playerIndex");
 
+                    Position position = new Position(ring, field);
+                    System.out.println(position);
 
-                    RingAndFieldCoordsCm ringAndFieldCoordsCm = new RingAndFieldCoordsCm();
-                    //ebb.execute("SC," + 4 + "," + 30000);
+                    connection.put(position, playerIndex+1);
+                }
 
+                if (jsonObject.getString("action").equals("move")){
 
+                    int moveFromRing = jsonObject.getInt("moveFromRing");
+                    int moveFromField = jsonObject.getInt("moveFromField");
+                    int moveToRing = jsonObject.getInt("moveToRing");
+                    int moveToField = jsonObject.getInt("moveToField");
+                    int playerIndex = jsonObject.getInt("playerIndex");
+                    boolean allowedToJump = false; // kann noch angepasst werden. Würde direktere Wege fahren.
 
-                    connection.put(new Position(ring,field), 1);
+                    connection.move(new Position(moveFromRing, moveFromField), new Position(moveToRing, moveToField), false);
+                }
+
+                if (jsonObject.getString("action").equals("kill")){
+
+                    int ring = jsonObject.getInt("ring");
+                    int field = jsonObject.getInt("field");
+                    int playerIndex = jsonObject.getInt("playerIndex"); // muss aus dem Feld gelesen werden
+
+                    connection.kill(new Position(ring,field), 1);
                 }
 
         }
@@ -69,5 +84,12 @@ public class WebsocketClient extends WebSocketClient {
     @Override
     public void onError(Exception ex) {
 
+    }
+
+    public void watchGame(String gameCode){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("command", "watch");
+        jsonObject.put("gameCode", gameCode);
+        send(jsonObject.toString());
     }
 }

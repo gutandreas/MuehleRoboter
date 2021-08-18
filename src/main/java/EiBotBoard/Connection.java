@@ -15,6 +15,7 @@ public class Connection {
 
     public Connection(Ebb ebb) {
         this.ebb = ebb;
+        RingAndFieldCoordsCm ringAndFieldCoordsCm = new RingAndFieldCoordsCm();
     }
 
     public void move(Position from, Position to, boolean jump){
@@ -143,7 +144,7 @@ public class Connection {
         ebb.stepperMotorMove(duration, tempX2, tempY2);}
     }
 
-    private void goToPositionDirectly(Position position, int speed){
+    private void  goToPositionDirectly(Position position, int speed){
         int x = RingAndFieldCoordsCm.getCoord(position).getX();
         int y = RingAndFieldCoordsCm.getCoord(position).getY();
 

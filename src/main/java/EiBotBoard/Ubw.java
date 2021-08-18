@@ -235,7 +235,7 @@ public class Ubw implements UbwCommand {
 			throw new IllegalArgumentException("Value '" + value + "' must be between " + l + " and " + m + ".");
 		
 	}
-	protected void execute(String command) {
+	public void execute(String command) {
 		try {
 		    System.out.println(command);
 			out.write(command.getBytes(Charset.forName("US-ASCII")));
