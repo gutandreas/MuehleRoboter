@@ -23,9 +23,9 @@ public class Controller {
 
         Connection connection = new Connection(ebb);
 
-        connection.put(new Position(2,0), 1);
+        //connection.put(new Position(2,0), 1);
 
-        //ebb.enableMotor(0,0);
+        ebb.enableMotor(0,0);
 
 
             /*for (int j = 0; j<1; j++){

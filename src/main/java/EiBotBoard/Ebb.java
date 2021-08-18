@@ -108,8 +108,8 @@ public class Ebb extends Ubw implements EbbCommand {
 
 
 		validateRange(duration, 0, 65535);
-		validateRange(axis1, -50000, 50000);
-		validateRange(axis2, -50000, 50000);
+		validateRange(axis1, -60000, 60000);
+		validateRange(axis2, -60000, 60000);
 		execute("SM," + duration + "," + axis1 + "," + axis2);
 		//readResponse();
 		//TODO: readResponse führt bei Kill zu einem invalid parameter
