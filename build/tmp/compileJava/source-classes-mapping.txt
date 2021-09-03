@@ -1,20 +1,42 @@
-EiBotBoard/Ebb.java
- EiBotBoard.Ebb
+Websocket/WebsocketClient.java
+ Websocket.WebsocketClient
+Camera/InvalidBoardException.java
+ Camera.InvalidBoardException
 game/Position.java
  game.Position
+Camera/RingAndFieldCoordsPx.java
+ Camera.RingAndFieldCoordsPx
+EiBotBoard/Controller.java
+ EiBotBoard.Controller
+game/Move.java
+ game.Move
+game/Board.java
+ game.Board
+EiBotBoard/Connection.java
+ EiBotBoard.Connection
+Camera/XyCoordsPx.java
+ Camera.XyCoordsPx
+Camera/Board.java
+ Camera.Board
+Camera/Position.java
+ Camera.Position
+EiBotBoard/XyCoordsCm.java
+ EiBotBoard.XyCoordsCm
+Camera/HoughCirclesRun.java
+ Camera.HoughCirclesRun
+EiBotBoard/Ebb.java
+ EiBotBoard.Ebb
 EiBotBoard/RingAndFieldCoordsCm.java
  EiBotBoard.RingAndFieldCoordsCm
 EiBotBoard/EbbCommand.java
  EiBotBoard.EbbCommand
-EiBotBoard/Controller.java
- EiBotBoard.Controller
-EiBotBoard/Connection.java
- EiBotBoard.Connection
-EiBotBoard/MotorException.java
- EiBotBoard.MotorException
 EiBotBoard/UbwException.java
  EiBotBoard.UbwException
  EiBotBoard.UbwException$ErrorCode
+EiBotBoard/MotorException.java
+ EiBotBoard.MotorException
+Websocket/RunWebsocket.java
+ Websocket.RunWebsocket
 EiBotBoard/UbwCommand.java
  EiBotBoard.UbwCommand
  EiBotBoard.UbwCommand$PinDirection
@@ -24,5 +46,5 @@ EiBotBoard/UbwCommand.java
 EiBotBoard/Ubw.java
  EiBotBoard.Ubw
  EiBotBoard.Ubw$SerialReader
-EiBotBoard/XyCoordsCm.java
- EiBotBoard.XyCoordsCm
+Camera/HoughCircles.java
+ Camera.HoughCircles

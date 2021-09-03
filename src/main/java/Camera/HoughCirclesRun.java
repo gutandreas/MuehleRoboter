@@ -1,6 +1,8 @@
 //Schritt damit es funktionierte: libopencv_java453.dylib von /usr/local/Cellar/opencv/4.5.3_1/share/java/opencv4 kopiert und in /Library/Java/Extensions/ eingefügt
 package Camera;// https://docs.opencv.org/4.5.3/d4/d70/tutorial_hough_circle.html 30.7.2021
 
+import Camera.jrpicam.RPiCamera;
+import Camera.jrpicam.exceptions.FailedToRunRaspistillException;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
@@ -8,6 +10,8 @@ import org.opencv.core.Size;
 import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+
+import java.io.IOException;
 
 public class HoughCirclesRun {
 
@@ -20,7 +24,8 @@ public class HoughCirclesRun {
 
     public void run(String[] args) {
 
-        String default_file = "/Users/andreasgut/Documents/EigenesProjekt/MuehleRoboter/Bilder/11.png";
+        /*//String default_file = "/Users/andreasgut/Documents/EigenesProjekt/MuehleRoboter/Bilder/11.png";
+        String default_file = "/Bilder/11.png";
         String filename = ((args.length > 0) ? args[0] : default_file);
         // Load an image
         Mat src = Imgcodecs.imread(filename, Imgcodecs.IMREAD_COLOR);
@@ -32,8 +37,26 @@ public class HoughCirclesRun {
             System.exit(-1);
         }
 
+        */
+
+        RPiCamera rPiCamera = null;
+        Mat src = null;
+
+        try {
+             rPiCamera = new RPiCamera("/home/pi/");
+            rPiCamera.takeStill("test");
+            src = Imgcodecs.imread("/home/pi/test.png");
+        } catch (FailedToRunRaspistillException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         detectCircles(src);
         getChanges(board, oldBoard);
+
 
         Size size = new Size(1000, 751);
         Mat resizeImage = new Mat();

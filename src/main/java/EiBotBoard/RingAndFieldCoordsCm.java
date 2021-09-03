@@ -15,7 +15,7 @@ public class RingAndFieldCoordsCm {
 
         //Feldpositionen
         positionMap.put(new Position(0,0), new XyCoordsCm(8+xBorder, 24+yBorder));
-        positionMap.put(new Position(0,1), new XyCoordsCm(16+xBorder, 24+yBorder));
+        positionMap.put(new Position(0,1), new XyCoordsCm(20+xBorder, 24+yBorder));
         positionMap.put(new Position(0,2), new XyCoordsCm(32+xBorder, 24+yBorder));
         positionMap.put(new Position(0,3), new XyCoordsCm(32+xBorder, 12+yBorder));
         positionMap.put(new Position(0,4), new XyCoordsCm(32+xBorder, 0+yBorder));

@@ -68,10 +68,11 @@ public class WebsocketClient extends WebSocketClient {
                     int moveFromField = jsonObject.getInt("moveFromField");
                     int moveToRing = jsonObject.getInt("moveToRing");
                     int moveToField = jsonObject.getInt("moveToField");
+                    int playerIndex = jsonObject.getInt("playerIndex");
 
                     Move move = new Move(new Position(moveFromRing, moveFromField), new Position(moveToRing, moveToField));
                     boolean jump = board.countPlayersStones(0) == 3;
-                    int playerIndex = board.getNumberOnPosition(moveFromRing, moveFromField);
+
 
                     if (board.checkMove(move, jump)){
                         board.move(move, playerIndex);
@@ -114,7 +115,7 @@ public class WebsocketClient extends WebSocketClient {
 
     @Override
     public void onError(Exception ex) {
-
+        // Websocket wieder neu aufbauen
     }
 
     public void watchGame(String gameCode){
