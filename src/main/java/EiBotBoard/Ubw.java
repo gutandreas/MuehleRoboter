@@ -7,6 +7,7 @@ import gnu.io.*;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.Enumeration;
@@ -17,29 +18,31 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class Ubw implements UbwCommand {
 	private static final Charset ASCII = Charset.forName("US-ASCII");
-	private SerialPort serialPort = null;
+	protected com.fazecast.jSerialComm.SerialPort serialPort = null;
 	private BufferedOutputStream out;
 	private SerialReader reader;
 	private UbwCommand.TimerListener timerListener;
 
 	public Ubw() {
-        Enumeration thePorts = CommPortIdentifier.getPortIdentifiers();
+		connectJSerialCom();
+        /*Enumeration thePorts = CommPortIdentifier.getPortIdentifiers();
         while (thePorts.hasMoreElements()) {
             CommPortIdentifier com = (CommPortIdentifier) thePorts.nextElement();
             if (com.getPortType() == CommPortIdentifier.PORT_SERIAL) {
             	try {
-            		connect(com);
+            		connect(com); // Wurde von RaspberryPi nicht unterstützt...
         		} catch (Exception e) {
         			throw new UbwException("Error opening port: " + com.getName(), e, UbwException.ErrorCode.COMM_ERROR);
         		}
             }
-        }
+        }*/
         if (serialPort == null)
         	throw new UbwException("No serial port found to open", UbwException.ErrorCode.COMM_ERROR);
 	}
 	public Ubw(String port) {
 		try {
-			connect(CommPortIdentifier.getPortIdentifier(port));
+			//connectJSerialCom();
+			//connect(CommPortIdentifier.getPortIdentifier(port)); // Wurde von RaspberryPi nicht unterstützt...
 		} catch (UbwException e) {
 			throw e;
 		} catch (Exception e) {
@@ -47,7 +50,29 @@ public class Ubw implements UbwCommand {
 		}
 	}
 
-	private void connect(CommPortIdentifier portIdentifier) throws NoSuchPortException,
+
+	//Versuch zum Ausprobieren: Bei jedem Command zuerst Prüfung, ob Port offen ist mit .isOpen und falls nicht, Verbindung wieder aufbauen
+	public void connectJSerialCom(){
+		serialPort = com.fazecast.jSerialComm.SerialPort.getCommPorts()[0];
+		serialPort.openPort();
+		serialPort.setBaudRate(9600);
+		serialPort.setNumStopBits(com.fazecast.jSerialComm.SerialPort.ONE_STOP_BIT);
+		serialPort.setParity(com.fazecast.jSerialComm.SerialPort.NO_PARITY);
+		reader = new SerialReader(new InputStreamReader(serialPort.getInputStream()));
+		out = new BufferedOutputStream(serialPort.getOutputStream());
+	}
+
+	public void closeJSerialCOM(){
+		try {
+			reader.close();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	/*private void connect(CommPortIdentifier portIdentifier) throws NoSuchPortException,
 			PortInUseException, UnsupportedCommOperationException, IOException, TooManyListenersException {
 		CommPort commPort = portIdentifier.open(this.getClass().getName(), 2000);
 		if (commPort instanceof SerialPort) {
@@ -62,9 +87,9 @@ public class Ubw implements UbwCommand {
 		} else {
 			throw new UbwException("Port " + portIdentifier.getName() + " is not a serial port", UbwException.ErrorCode.COMM_ERROR);
 		}
-	}
+	}*/
 	
-	public void close() {
+	/*public void close() {
         serialPort.notifyOnDataAvailable(false);
         serialPort.removeEventListener();
 		try {
@@ -74,7 +99,7 @@ public class Ubw implements UbwCommand {
 			out.close();
 		} catch (IOException ex) {}
 		serialPort.close();
-	}
+	}*/
 
 	@Override
 	public void configure(int dirA, int dirB, int dirC, int analogEnableCount) {

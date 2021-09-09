@@ -2,6 +2,8 @@
 
 package EiBotBoard;
 
+import com.fazecast.jSerialComm.SerialPort;
+
 public class Ebb extends Ubw implements EbbCommand {
 
 	public Ebb() {
@@ -104,8 +106,6 @@ public class Ebb extends Ubw implements EbbCommand {
 
 	@Override
 	public void stepperMotorMove(int duration, int axis1, int axis2) {
-
-
 
 		validateRange(duration, 0, 65535);
 		validateRange(axis1, -60000, 60000);

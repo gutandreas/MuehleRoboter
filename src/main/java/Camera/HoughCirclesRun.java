@@ -11,9 +11,12 @@ import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class HoughCirclesRun {
+
+
 
 
 
@@ -22,7 +25,11 @@ public class HoughCirclesRun {
     Position[] changes = new Position[2];
 
 
+
+
     public void run(String[] args) {
+
+
 
         /*//String default_file = "/Users/andreasgut/Documents/EigenesProjekt/MuehleRoboter/Bilder/11.png";
         String default_file = "/Bilder/11.png";
@@ -43,8 +50,10 @@ public class HoughCirclesRun {
         Mat src = null;
 
         try {
-             rPiCamera = new RPiCamera("/home/pi/");
-            rPiCamera.takeStill("test");
+            rPiCamera = new RPiCamera("/home/pi/");
+            rPiCamera.setContrast(0);
+            rPiCamera.takeStill("test.png", 3280, 2464);
+            //BufferedImage bufferedImage = rPiCamera.takeBufferedStill();
             src = Imgcodecs.imread("/home/pi/test.png");
         } catch (FailedToRunRaspistillException e) {
             e.printStackTrace();
@@ -58,12 +67,12 @@ public class HoughCirclesRun {
         getChanges(board, oldBoard);
 
 
-        Size size = new Size(1000, 751);
+        Size size = new Size(1000, 500);
         Mat resizeImage = new Mat();
         Imgproc.resize(src, resizeImage, size);
         HighGui.imshow("detected circles", resizeImage);
         HighGui.waitKey();
-        //System.exit(0);
+        System.exit(0);
     }
 
     private void detectCircles(Mat src){

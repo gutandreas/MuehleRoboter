@@ -19,10 +19,12 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     implementation group: 'org.rxtx', name: 'rxtx', version: '2.1.7'
+    //implementation group: 'org.rxtx', name: 'rxtx', version: '2.2pre2'
     implementation group: 'javax.websocket', name: 'javax.websocket-api', version: '1.1'
     implementation group: 'org.json', name: 'json', version: '20201115' //Um JSONObject zu verwenden
     implementation "org.java-websocket:Java-WebSocket:1.5.1"
     implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+    implementation 'com.fazecast:jSerialComm:[2.0.0,3.0.0)'
 
     implementation name: 'opencv-453'
     //implementation name: 'opencv-3414'
@@ -42,8 +44,8 @@ dependencies {
 
 task fatJar(type: Jar) {
     manifest {
-        attributes 'Main-Class': 'Camera.HoughCircles'
-        //attributes 'Main-Class': 'EiBotBoard.Controller'
+        //attributes 'Main-Class': 'Camera.HoughCircles'
+        attributes 'Main-Class': 'EiBotBoard.Controller'
     }
     archiveBaseName = project.name + '-opencv-all'
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }

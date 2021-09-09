@@ -13,7 +13,7 @@ public class RunWebsocket {
 
     public static void main(String[] args) throws InterruptedException, URISyntaxException{
 
-        String usbDevice = Controller.getUSBDevice();
+        String usbDevice = " "; //Controller.getUSBDevice();
         Ebb ebb = new Ebb(usbDevice);
         Connection connection = new Connection(ebb);
         ebb.execute("SC," + 4 + "," + 30000);

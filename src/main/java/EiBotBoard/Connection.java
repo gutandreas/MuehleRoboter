@@ -22,7 +22,7 @@ public class Connection {
 
         goToPositionDirectly(from, 10);
         connectToStone(true);
-        wait(1);
+        //wait(1);
 
         if (jump){
             try {
@@ -43,6 +43,8 @@ public class Connection {
     }
 
     public void put(Position position, int playerIndex){
+
+
         Position startPosition;
         int shift;
 
@@ -68,6 +70,7 @@ public class Connection {
         }
         goToPositionInLinesBring(position, playerIndex,6);
         goHome(15);
+
     }
 
     public void kill(Position position, int playerIndex){
@@ -106,7 +109,7 @@ public class Connection {
 
 
 
-    private void xyMove(int x, int y, int speed) throws MotorException{
+    public void xyMove(int x, int y, int speed) throws MotorException{
 
         xCoord += x;
         yCoord += y;
