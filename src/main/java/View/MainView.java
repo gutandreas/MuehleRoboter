@@ -8,6 +8,8 @@ import org.opencv.core.Core;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Enumeration;
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
@@ -15,7 +17,7 @@ import javax.swing.plaf.FontUIResource;
 // Damit Objekte der Klasse BeispielListener
 // zum ActionListener werden kann, muss das Interface
 // ActionListener implementiert werden
-public class MainView extends JFrame implements ActionListener
+public class MainView extends JFrame implements ActionListener, MouseListener
 {
     JButton button1;
     JButton button2;
@@ -26,6 +28,7 @@ public class MainView extends JFrame implements ActionListener
     JPanel radioButtonPanel, mainPanel, panelTop, panelCenter, panelBottom;
     JRadioButton gameModeRadioButtonStart, gameModeRadioButtonJoin, gameModeRadioButtonWatch;
 
+    Keyboard keyboard;
     Color aliceblue = new Color(161, 210, 255);
     Color background = new Color(60,60,60);
 
@@ -57,10 +60,12 @@ public class MainView extends JFrame implements ActionListener
         nameLabel = new JLabel("Name:");
         nameLabel.setForeground(aliceblue);
         nameTextfield = new JTextField();
+        nameTextfield.addMouseListener(this);
         nameTextfield.setColumns(10);
         gameCodeLabel = new JLabel("Gamecode:");
         gameCodeLabel.setForeground(aliceblue);
         gamecodeTextfield = new JTextField();
+        gamecodeTextfield.addMouseListener(this);
         gamecodeTextfield.setColumns(10);
 
         panelTop.add(nameLabel);
@@ -90,7 +95,7 @@ public class MainView extends JFrame implements ActionListener
         panelCenter.setOpaque(false);
 
         //panelBottom
-        Keyboard keyboard = new Keyboard();
+        keyboard = new Keyboard(nameTextfield);
         panelBottom.add(keyboard.getKeyboard());
         panelBottom.setOpaque(false);
 
@@ -125,8 +130,10 @@ public class MainView extends JFrame implements ActionListener
         //panelTop
         nameLabel = new JLabel("Name:");
         nameTextfield = new JTextField();
+        nameTextfield.addActionListener(this);
         gameCodeLabel = new JLabel("Gamecode:");
         gamecodeTextfield = new JTextField();
+        gamecodeTextfield.addActionListener(this);
 
         panelTop.add(nameLabel);
         panelTop.add(nameTextfield);
@@ -198,6 +205,42 @@ public class MainView extends JFrame implements ActionListener
         else if (ae.getSource() == this.button3){
             label.setText(("Button 3 wurde betätigt"));
         }
+        else if (ae.getSource() == this.gamecodeTextfield){
+            keyboard.setActiveTextfield(gamecodeTextfield);
+        }
+        else if (ae.getSource() == this.nameTextfield){
+            keyboard.setActiveTextfield(nameTextfield);
+        }
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getSource() == this.gamecodeTextfield){
+            keyboard.setActiveTextfield(gamecodeTextfield);
+        }
+        else if (e.getSource() == this.nameTextfield){
+            keyboard.setActiveTextfield(nameTextfield);
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
 
     }
 }
