@@ -44,8 +44,8 @@ dependencies {
 
 task fatJar(type: Jar) {
     manifest {
-        //attributes 'Main-Class': 'Camera.HoughCircles'
-        attributes 'Main-Class': 'EiBotBoard.Controller'
+        attributes 'Main-Class': 'View.Run'
+        //attributes 'Main-Class': 'EiBotBoard.Controller'
     }
     archiveBaseName = project.name + '-opencv-all'
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }

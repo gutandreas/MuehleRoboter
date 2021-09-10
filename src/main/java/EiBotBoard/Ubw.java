@@ -2,6 +2,7 @@
 
 package EiBotBoard;
 
+import com.fazecast.jSerialComm.SerialPortDataListener;
 import gnu.io.*;
 
 
@@ -53,7 +54,16 @@ public class Ubw implements UbwCommand {
 
 	//Versuch zum Ausprobieren: Bei jedem Command zuerst Prüfung, ob Port offen ist mit .isOpen und falls nicht, Verbindung wieder aufbauen
 	public void connectJSerialCom(){
-		serialPort = com.fazecast.jSerialComm.SerialPort.getCommPorts()[0];
+
+		for (com.fazecast.jSerialComm.SerialPort s : com.fazecast.jSerialComm.SerialPort.getCommPorts()){
+			System.out.println("Angeschlossene USB-Devices: " + s);
+			if (s.toString().contains("EiBot")){
+				serialPort = s;
+				System.out.println("Verbunden mit: " + s);
+				break;
+			}
+		}
+
 		serialPort.openPort();
 		serialPort.setBaudRate(9600);
 		serialPort.setNumStopBits(com.fazecast.jSerialComm.SerialPort.ONE_STOP_BIT);

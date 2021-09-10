@@ -58,26 +58,32 @@ Camera/jrpicam/enums/ImageEffect.java
  Camera.jrpicam.enums.ImageEffect
 Camera/jrpicam/examples/ShootBufferedStill.java
  Camera.jrpicam.examples.ShootBufferedStill
-Websocket/RunWebsocket.java
- Websocket.RunWebsocket
-Camera/HoughCircles.java
- Camera.HoughCircles
-EiBotBoard/TestAxidrawConnection.java
- EiBotBoard.TestAxidrawConnection
 Camera/HoughCirclesRun.java
  Camera.HoughCirclesRun
 EiBotBoard/TwoWaysSerialCommunication.java
  EiBotBoard.TwoWaysSerialCommunication
  EiBotBoard.TwoWaysSerialCommunication$SerialReader
  EiBotBoard.TwoWaysSerialCommunication$SerialWriter
+EiBotBoard/TestAxidrawConnection.java
+ EiBotBoard.TestAxidrawConnection
 Websocket/WebsocketClient.java
  Websocket.WebsocketClient
 EiBotBoard/Ebb.java
  EiBotBoard.Ebb
+Camera/HoughCircles.java
+ Camera.HoughCircles
+EiBotBoard/Connection.java
+ EiBotBoard.Connection
+Websocket/RunWebsocket.java
+ Websocket.RunWebsocket
 EiBotBoard/Ubw.java
  EiBotBoard.Ubw
  EiBotBoard.Ubw$SerialReader
-EiBotBoard/Connection.java
- EiBotBoard.Connection
 EiBotBoard/Controller.java
  EiBotBoard.Controller
+View/Run.java
+ View.Run
+View/MainView.java
+ View.MainView
+View/Keyboard.java
+ View.Keyboard

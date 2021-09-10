@@ -22,7 +22,7 @@ public class Connection {
 
         goToPositionDirectly(from, 10);
         connectToStone(true);
-        //wait(1);
+        wait(1);
 
         if (jump){
             try {
