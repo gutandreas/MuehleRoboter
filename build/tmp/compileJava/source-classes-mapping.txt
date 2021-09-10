@@ -66,24 +66,24 @@ EiBotBoard/TwoWaysSerialCommunication.java
  EiBotBoard.TwoWaysSerialCommunication$SerialWriter
 EiBotBoard/TestAxidrawConnection.java
  EiBotBoard.TestAxidrawConnection
-Websocket/WebsocketClient.java
- Websocket.WebsocketClient
+Websocket/RunWebsocket.java
+ Websocket.RunWebsocket
 EiBotBoard/Ebb.java
  EiBotBoard.Ebb
 Camera/HoughCircles.java
  Camera.HoughCircles
 EiBotBoard/Connection.java
  EiBotBoard.Connection
-Websocket/RunWebsocket.java
- Websocket.RunWebsocket
+View/Keyboard.java
+ View.Keyboard
 EiBotBoard/Ubw.java
  EiBotBoard.Ubw
  EiBotBoard.Ubw$SerialReader
 EiBotBoard/Controller.java
  EiBotBoard.Controller
-View/Run.java
- View.Run
+Websocket/WebsocketClient.java
+ Websocket.WebsocketClient
 View/MainView.java
  View.MainView
-View/Keyboard.java
- View.Keyboard
+View/Run.java
+ View.Run

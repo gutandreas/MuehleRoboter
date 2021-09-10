@@ -42,6 +42,12 @@ public class WebsocketClient extends WebSocketClient {
         switch (command){
             case "join":
                 System.out.println("Spiel beigetreten");
+                break;
+
+            case "chat":
+                System.out.println(message);
+                break;
+
             case "update":
 
                 if (jsonObject.getString("action").equals("put")){
