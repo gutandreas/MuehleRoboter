@@ -3,6 +3,8 @@ package Camera;// https://docs.opencv.org/4.5.3/d4/d70/tutorial_hough_circle.htm
 
 import Camera.jrpicam.RPiCamera;
 import Camera.jrpicam.exceptions.FailedToRunRaspistillException;
+import game.Board;
+import game.Position;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
@@ -13,6 +15,7 @@ import org.opencv.imgproc.Imgproc;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.LinkedList;
 
 public class HoughCirclesRun {
 
@@ -25,9 +28,20 @@ public class HoughCirclesRun {
     Position[] changes = new Position[2];
 
 
+    public Position detectPut(String[] args, Board board, int playerIndex){
+        Mat src = takePhoto(args);
+        Position[] positions = detectCircles(src);
+        Position[] changes = getChanges(board, positions);
+        if (changes[0] == null){
+            System.out.println("Kein Stein gesetzt");
+            throw new InvalidBoardException("Es wurde kein Stein hinzugefügt");
+        }
+        board.checkPut(changes[0]);
+        return changes[0];
+    }
 
 
-    public void run(String[] args) {
+    public Mat takePhoto(String[] args) {
 
 
 
@@ -63,19 +77,21 @@ public class HoughCirclesRun {
             e.printStackTrace();
         }
 
-        detectCircles(src);
+        return src;
+
+        /*detectCircles(src);
         getChanges(board, oldBoard);
 
 
         Size size = new Size(1000, 500);
         Mat resizeImage = new Mat();
         Imgproc.resize(src, resizeImage, size);
-        HighGui.imshow("detected circles", resizeImage);
-        HighGui.waitKey();
-        System.exit(0);
+        //HighGui.imshow("detected circles", resizeImage);
+        //HighGui.waitKey();
+        //System.exit(0);*/
     }
 
-    private void detectCircles(Mat src){
+    private Position[] detectCircles(Mat src){
         Mat gray = new Mat();
         Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
         Imgproc.medianBlur(gray, gray, 5);
@@ -122,6 +138,8 @@ public class HoughCirclesRun {
         for (Position pos : positions){
             System.out.println(pos);
         }
+
+        return positions;
     }
 
     private Position getPosition(double x, double y, double tolerance, int playerIndex) {
@@ -147,7 +165,8 @@ public class HoughCirclesRun {
         return null;
     }
 
-    private void getChanges(Board board, Board oldBoard) {
+    private Position[] getChanges(Board board, Position[] positions) {
+
         for (int ring = 0; ring < 3; ring++) {
             for (int field = 0; field < 8; field++) {
                 Position tempPosition = new Position(ring, field);
@@ -167,11 +186,9 @@ public class HoughCirclesRun {
                         throw new InvalidBoardException("Es wurde mehr als 1 Stein entfernt");
                     }
                 }
-
             }
-
         }
-        oldBoard = board;
+        return positions;
     }
 
 

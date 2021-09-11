@@ -18,12 +18,11 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Enumeration;
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 
 
-public class MenuView extends JFrame implements ActionListener, MouseListener
+public class MenuView extends View implements ActionListener, MouseListener
 {
     JButton startButton;
     JButton joinButton;
@@ -51,7 +50,6 @@ public class MenuView extends JFrame implements ActionListener, MouseListener
 
         mainPanel = new JPanel();
 
-        this.setTitle("ActionListener Beispiel");
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setUndecorated(true);
         //GraphicsDevice dev = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice(); //Taskleiste ausblenden
@@ -64,14 +62,13 @@ public class MenuView extends JFrame implements ActionListener, MouseListener
 
         //panelInformation
         informationLabel = new JLabel(" ");
+        informationLabel.setForeground(Color.RED);
         panelInformation.add(informationLabel);
         panelInformation.setOpaque(false);
 
 
 
         //panelTop
-
-
         nameLabel = new JLabel("Name:");
         nameLabel.setForeground(aliceblue);
         nameTextfield = new JTextField();
@@ -91,23 +88,19 @@ public class MenuView extends JFrame implements ActionListener, MouseListener
         //panelTop.setBackground(background);
 
 
-        //Drei Buttons werden erstellt
+        //panelCenter
         startButton = new JButton( "Spiel starten");
         joinButton = new JButton ("Einem Spiel beitreten");
         watchButton = new JButton ("Spiel beobachten");
-
-
-        //Buttons werden dem Listener zugeordnet
-        startButton.addActionListener(this);
-        joinButton.addActionListener(this);
-        watchButton.addActionListener(this);
-
-        //Buttons werden dem JPanel hinzugefügt
-
         panelCenter.add(startButton);
         panelCenter.add(joinButton);
         panelCenter.add(watchButton);
         panelCenter.setOpaque(false);
+        startButton.addActionListener(this);
+        joinButton.addActionListener(this);
+        watchButton.addActionListener(this);
+
+
 
         //panelBottom
         keyboard = new Keyboard(nameTextfield);
@@ -135,18 +128,7 @@ public class MenuView extends JFrame implements ActionListener, MouseListener
 
 
 
-    public static void setUIFont(FontUIResource f) {
-        Enumeration keys = UIManager.getDefaults().keys();
-        while (keys.hasMoreElements()) {
-            Object key = keys.nextElement();
-            Object value = UIManager.get(key);
-            if (value instanceof FontUIResource) {
-                FontUIResource orig = (FontUIResource) value;
-                Font font = new Font(f.getFontName(), orig.getStyle(), f.getSize());
-                UIManager.put(key, new FontUIResource(font));
-            }
-        }
-    }
+
 
 
 
@@ -163,7 +145,7 @@ public class MenuView extends JFrame implements ActionListener, MouseListener
         else if(ae.getSource() == this.joinButton){
             label.setText("Button 2 wurde betätigt");
             System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-            new HoughCirclesRun().run(args);
+            new HoughCirclesRun().takePhoto(args);
         }
         else if (ae.getSource() == this.watchButton){
             label.setText(("Button 3 wurde betätigt"));
@@ -180,11 +162,15 @@ public class MenuView extends JFrame implements ActionListener, MouseListener
     private void sendStartHTTPRequest(){
         String urlAsString = "http://" + ipAdress + ":8080/index/controller/menschVsMensch/start";
 
+        String gameCode = gamecodeTextfield.getText();
+        String name = nameTextfield.getText();
+        STONECOLOR stonecolor = STONECOLOR.BLACK;
+
         HttpClient client = HttpClient.newBuilder().build();
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("gameCode", gamecodeTextfield.getText());
-        jsonObject.put("player1Name", nameTextfield.getText());
-        jsonObject.put("player1Color", "BLACK");
+        jsonObject.put("gameCode", gameCode);
+        jsonObject.put("player1Name", name);
+        jsonObject.put("player1Color", STONECOLOR.valueOf("BLACK"));
 
         if (gamecodeTextfield.getText().length() == 0){
             informationLabel.setText("Geben Sie einen Spielernamen ein");
@@ -226,11 +212,14 @@ public class MenuView extends JFrame implements ActionListener, MouseListener
         if (response.statusCode() == 200){
             try {
                 URI uri = new URI("ws://" + ipAdress + ":8080/board");
-                GameView gameView = new GameView();
+                GameView gameView = new GameView(args, gameCode, connection);
                 Game game = new Game(gameView, new HumanPlayer(gameView, nameTextfield.getText(), uuid, STONECOLOR.BLACK),
                         new OnlinePlayer(gameView, " "), gamecodeTextfield.getText());
                 WebsocketClient websocketClient = new WebsocketClient(uri, connection, game);
+                gameView.setGame(game);
                 websocketClient.connect();
+                gameView.setVisible(true);
+                this.setVisible(false);
 
             } catch (URISyntaxException e) {
                 e.printStackTrace();

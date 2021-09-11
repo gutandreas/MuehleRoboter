@@ -3,14 +3,12 @@ package Camera;
 
 import org.opencv.core.Core;
 
-import javax.swing.*;
-
 public class HoughCircles {
     public static void main(String[] args) {
 
         // Load the native library.
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-        new HoughCirclesRun().run(args);
+        new HoughCirclesRun().takePhoto(args);
 
 
     }

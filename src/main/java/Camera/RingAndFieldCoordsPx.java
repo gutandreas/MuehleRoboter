@@ -1,5 +1,7 @@
 package Camera;
 
+import game.Position;
+
 import java.util.HashMap;
 
 public class RingAndFieldCoordsPx {

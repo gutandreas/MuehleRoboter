@@ -20,10 +20,10 @@ public class Game {
     private final int NUMBEROFSTONES = 9;
     private Player currentPlayer;
     private final Board board;
-    boolean putPhase = true;
-    boolean movePhase = false;
-    boolean movePhaseTake = true;
-    boolean movePhaseRelase = false;
+    private boolean putPhase = true;
+    private boolean movePhase = false;
+    private boolean movePhaseTake = true;
+    private boolean movePhaseRelase = false;
     private boolean killPhase = false;
     private boolean player2starts;
     private boolean clickOkay = true;
@@ -94,6 +94,18 @@ public class Game {
 
     public String getGameCode() {
         return gameCode;
+    }
+
+    public boolean isPutPhase() {
+        return putPhase;
+    }
+
+    public boolean isMovePhase() {
+        return movePhase;
+    }
+
+    public boolean isKillPhase() {
+        return killPhase;
     }
 
     public int getCurrentPlayerIndex(){
