@@ -3,8 +3,7 @@ package View;
 import Camera.HoughCirclesRun;
 import EiBotBoard.Connection;
 import Websocket.WebsocketClient;
-import game.Board;
-import game.Position;
+import game.*;
 import org.json.JSONObject;
 import org.opencv.core.Core;
 
@@ -23,10 +22,8 @@ import java.util.Enumeration;
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 
-// Damit Objekte der Klasse BeispielListener
-// zum ActionListener werden kann, muss das Interface
-// ActionListener implementiert werden
-public class MainView extends JFrame implements ActionListener, MouseListener
+
+public class MenuView extends JFrame implements ActionListener, MouseListener
 {
     JButton startButton;
     JButton joinButton;
@@ -46,7 +43,7 @@ public class MainView extends JFrame implements ActionListener, MouseListener
     String[] args;
     String ipAdress = "192.168.0.11";
 
-    public MainView(String[] args, Connection connection){
+    public MenuView(String[] args, Connection connection){
 
 
         setUIFont(new FontUIResource(new Font("Roboto", 0, 20)));
@@ -154,9 +151,7 @@ public class MainView extends JFrame implements ActionListener, MouseListener
 
 
     public void actionPerformed (ActionEvent ae){
-        // Die Quelle wird mit getSource() abgefragt und mit den
-        // Buttons abgeglichen. Wenn die Quelle des ActionEvents einer
-        // der Buttons ist, wird der Text des JLabels entsprechend geändert
+
         if(ae.getSource() == this.startButton){
 
 
@@ -209,6 +204,7 @@ public class MainView extends JFrame implements ActionListener, MouseListener
                 .build();
 
         HttpResponse<?> response = null;
+        String uuid = "";
 
 
         try {
@@ -216,7 +212,7 @@ public class MainView extends JFrame implements ActionListener, MouseListener
 
             String body = (String) response.body();
             JSONObject jsonResponseObject = new JSONObject(body);
-            String uuid = jsonResponseObject.getString("player1Uuid");
+            uuid = jsonResponseObject.getString("player1Uuid");
             System.out.println(uuid);
 
 
@@ -230,8 +226,12 @@ public class MainView extends JFrame implements ActionListener, MouseListener
         if (response.statusCode() == 200){
             try {
                 URI uri = new URI("ws://" + ipAdress + ":8080/board");
-                WebsocketClient websocketClient = new WebsocketClient(uri, connection, new Board());
+                GameView gameView = new GameView();
+                Game game = new Game(gameView, new HumanPlayer(gameView, nameTextfield.getText(), uuid, STONECOLOR.BLACK),
+                        new OnlinePlayer(gameView, " "), gamecodeTextfield.getText());
+                WebsocketClient websocketClient = new WebsocketClient(uri, connection, game);
                 websocketClient.connect();
+
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }

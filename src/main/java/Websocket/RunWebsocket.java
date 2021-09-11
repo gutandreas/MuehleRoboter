@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class RunWebsocket {
 
-    public static void main(String[] args) throws InterruptedException, URISyntaxException{
+    /*public static void main(String[] args) throws InterruptedException, URISyntaxException{
 
         String usbDevice = " "; //Controller.getUSBDevice();
         Ebb ebb = new Ebb(usbDevice);
@@ -31,5 +31,5 @@ public class RunWebsocket {
 
 
 
-    }
+    }*/
 }

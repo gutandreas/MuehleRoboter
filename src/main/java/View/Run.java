@@ -12,8 +12,8 @@ public class Run {
         Connection connection = new Connection(ebb);
         // Ein neues Objekt der Klasse BeispielListener wird erzeugt
         // und sichtbar gemacht
-        MainView mainView = new MainView(args, connection);
-        //MainView mainView = new MainView(args, connection);
-        mainView.setVisible(true);
+        MenuView menuView = new MenuView(args, connection);
+        //MenuView menuView = new MenuView(args, connection);
+        menuView.setVisible(true);
     }
 }

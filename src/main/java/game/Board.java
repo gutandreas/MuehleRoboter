@@ -10,6 +10,7 @@ public class Board {
             for (int j = 0; j < 8; j++){
                 array[i][j] = 9;}
         }
+
     }
 
 

@@ -5,6 +5,7 @@ import EiBotBoard.Controller;
 import EiBotBoard.Ebb;
 import EiBotBoard.RingAndFieldCoordsCm;
 import game.Board;
+import game.Game;
 import game.Move;
 import game.Position;
 import org.java_websocket.client.WebSocketClient;
@@ -16,12 +17,12 @@ import java.net.URI;
 public class WebsocketClient extends WebSocketClient {
 
     final private Connection connection;
-    final private Board board;
+    final private Game game;
 
-    public WebsocketClient(URI serverUri, Connection connection, Board board) {
+    public WebsocketClient(URI serverUri, Connection connection, Game game) {
         super(serverUri);
         this.connection = connection;
-        this.board = board;
+        this.game = game;
 
 
     }
@@ -29,6 +30,12 @@ public class WebsocketClient extends WebSocketClient {
     @Override
     public void onOpen(ServerHandshake handshakedata) {
         System.out.println("Verbunden mit Server");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("gameCode", game.getGameCode());
+        jsonObject.put("command", "start");
+        send(jsonObject.toString());
+
+
         //Ebb ebb = new Ebb("/dev/cu.usbmodem142101");
         //Ebb ebb = new Ebb("/dev/ttyACM0");
     }
@@ -38,6 +45,7 @@ public class WebsocketClient extends WebSocketClient {
         System.out.println(message);
         JSONObject jsonObject = new JSONObject(message);
         String command = jsonObject.getString("command");
+        Board board = game.getBoard();
 
         switch (command){
             case "join":
