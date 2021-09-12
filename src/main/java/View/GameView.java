@@ -9,6 +9,8 @@ import org.opencv.core.Core;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,8 +20,8 @@ import java.io.IOException;
 
 public class GameView extends View implements ActionListener {
 
-    JPanel mainPanel, panelInformation, panelCenter, panelCenterLeft, panelCenterRight;
-    JLabel informationLabel, gamcodeTitleLabel, gamecodeLabel;
+    JPanel mainPanel, panelInformation, panelInformationTop, panelInformationCenter, panelInformationBottom, panelCenter, panelCenterLeft, panelCenterRight;
+    JLabel informationLabel, gamcodeTitleLabel, gamecodeLabel, nameTitleLabel, nameLabel;
     JButton scanButton, putButton;
     Color aliceblue = new Color(161, 210, 255);
     Color background = new Color(60,60,60);
@@ -29,14 +31,14 @@ public class GameView extends View implements ActionListener {
     Connection connection;
 
     public static void main(String[] args) {
-        GameView gameView = new GameView(args, "000", null);
+        GameView gameView = new GameView(args, "000", "Peter", null);
         gameView.setVisible(true);
     }
 
 
 
 
-    public GameView(String[] args, String gameCode, Connection connection) throws HeadlessException {
+    public GameView(String[] args, String gameCode, String name, Connection connection) throws HeadlessException {
 
         this.args = args;
         this.connection = connection;
@@ -47,15 +49,43 @@ public class GameView extends View implements ActionListener {
 
         //panelInformation
         panelInformation = new JPanel();
-        informationLabel = new JLabel("Test");
-        informationLabel.setForeground(Color.RED);
-        gamcodeTitleLabel = new JLabel("Game:");
-        gamcodeTitleLabel.setForeground(aliceblue);
-        gamecodeLabel = new JLabel(gameCode);
-        gamecodeLabel.setForeground(aliceblue);
-        panelInformation.add(gamcodeTitleLabel);
-        panelInformation.add(gamecodeLabel);
-        panelInformation.add(informationLabel);
+        panelInformation.setLayout(new BoxLayout(panelInformation, BoxLayout.Y_AXIS));
+
+            //panelInformationTop
+            panelInformationTop = new JPanel();
+            panelInformationTop.setLayout(new BoxLayout(panelInformationTop, BoxLayout.X_AXIS));
+            informationLabel = new JLabel("Test");
+            informationLabel.setForeground(Color.RED);
+            panelInformationTop.add(informationLabel);
+            panelInformationTop.setOpaque(false);
+
+
+            //panelInformationCenter
+            panelInformationCenter = new JPanel();
+            panelInformationCenter.setLayout(new BoxLayout(panelInformationCenter, BoxLayout.X_AXIS));
+            gamcodeTitleLabel = new JLabel("Game: ");
+            gamcodeTitleLabel.setForeground(aliceblue);
+            gamecodeLabel = new JLabel(gameCode);
+            gamecodeLabel.setForeground(aliceblue);
+            panelInformationCenter.add(gamcodeTitleLabel);
+            panelInformationCenter.add(gamecodeLabel);
+            panelInformationCenter.setOpaque(false);
+
+            //panelInformation Bottom
+            panelInformationBottom = new JPanel();
+            panelInformationBottom.setLayout(new BoxLayout(panelInformationBottom, BoxLayout.X_AXIS));
+            nameTitleLabel = new JLabel("Name: ");
+            nameTitleLabel.setForeground(aliceblue);
+            nameLabel = new JLabel(name);
+            nameLabel.setForeground(aliceblue);
+            panelInformationBottom.add(nameTitleLabel);
+            panelInformationBottom.add(nameLabel);
+            panelInformationBottom.setOpaque(false);
+
+
+        panelInformation.add(panelInformationTop);
+        panelInformation.add(panelInformationCenter);
+        panelInformation.add(panelInformationBottom);
         panelInformation.setOpaque(false);
 
 
@@ -65,10 +95,32 @@ public class GameView extends View implements ActionListener {
             //left
             panelCenterLeft = new JPanel();
             panelCenterLeft.setOpaque(false);
-            JLabel imageLabel = new JLabel();
-            ImageIcon imageIcon = new ImageIcon("/Users/andreasgut/Documents/EigenesProjekt/MuehleRoboter/src/main/resources/Spielfeld.png");
-            imageLabel.setIcon(imageIcon);
-            panelCenterLeft.add(imageLabel);
+
+            DefaultTableModel model = new DefaultTableModel(11 , 11);
+            JTable board = new JTable(model);
+
+            for (int i = 0; i < 11; i++){
+                model.setValueAt(0, 0, i);
+            }
+
+
+            board.setBackground(aliceblue);
+            for (int i = 0; i < 11; i++){
+                board.getColumnModel().getColumn(i).setPreferredWidth(27);
+                board.setRowHeight(27);
+
+            }
+            //board.getColumnModel().getColumn(0).setCellRenderer(new BoardRenderer());
+
+
+
+
+
+
+
+
+
+            panelCenterLeft.add(board);
 
 
             //

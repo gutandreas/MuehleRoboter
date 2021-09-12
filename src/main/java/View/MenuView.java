@@ -212,7 +212,7 @@ public class MenuView extends View implements ActionListener, MouseListener
         if (response.statusCode() == 200){
             try {
                 URI uri = new URI("ws://" + ipAdress + ":8080/board");
-                GameView gameView = new GameView(args, gameCode, connection);
+                GameView gameView = new GameView(args, gameCode, name, connection);
                 Game game = new Game(gameView, new HumanPlayer(gameView, nameTextfield.getText(), uuid, STONECOLOR.BLACK),
                         new OnlinePlayer(gameView, " "), gamecodeTextfield.getText());
                 WebsocketClient websocketClient = new WebsocketClient(uri, connection, game);

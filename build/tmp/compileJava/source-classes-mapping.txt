@@ -6,8 +6,8 @@ game/Position.java
  game.Position
 Websocket/RunWebsocket.java
  Websocket.RunWebsocket
-Camera/jrpicam/RPiCamera.java
- Camera.jrpicam.RPiCamera
+Camera/RingAndFieldCoordsPx.java
+ Camera.RingAndFieldCoordsPx
 game/Move.java
  game.Move
 EiBotBoard/Controller.java
@@ -45,19 +45,16 @@ EiBotBoard/UbwCommand.java
  EiBotBoard.UbwCommand$TimerMode
 Camera/jrpicam/examples/ShootTimelapse.java
  Camera.jrpicam.examples.ShootTimelapse
-Camera/jrpicam/examples/ShootStill.java
- Camera.jrpicam.examples.ShootStill
+View/BoardImage.java
+ View.BoardImage
 Camera/jrpicam/enums/MeteringMode.java
  Camera.jrpicam.enums.MeteringMode
-Camera/jrpicam/examples/DemoView.java
- Camera.jrpicam.examples.DemoView
- Camera.jrpicam.examples.DemoView$1
- Camera.jrpicam.examples.DemoView$2
- Camera.jrpicam.examples.DemoView$3
+EiBotBoard/Connection.java
+ EiBotBoard.Connection
 Camera/jrpicam/enums/ImageEffect.java
  Camera.jrpicam.enums.ImageEffect
-Camera/jrpicam/examples/ShootBufferedStill.java
- Camera.jrpicam.examples.ShootBufferedStill
+View/View.java
+ View.View
 game/Board.java
  game.Board
 EiBotBoard/TwoWaysSerialCommunication.java
@@ -71,29 +68,36 @@ EiBotBoard/Ubw.java
  EiBotBoard.Ubw$SerialReader
 EiBotBoard/Ebb.java
  EiBotBoard.Ebb
-View/View.java
- View.View
-EiBotBoard/Connection.java
- EiBotBoard.Connection
-View/Run.java
- View.Run
-Camera/RingAndFieldCoordsPx.java
- Camera.RingAndFieldCoordsPx
-game/HumanPlayer.java
- game.HumanPlayer
-Websocket/WebsocketClient.java
- Websocket.WebsocketClient
-game/Game.java
- game.Game
-game/Player.java
- game.Player
-game/OnlinePlayer.java
- game.OnlinePlayer
-View/GameView.java
- View.GameView
-View/MenuView.java
- View.MenuView
-Camera/HoughCircles.java
- Camera.HoughCircles
 Camera/HoughCirclesRun.java
  Camera.HoughCirclesRun
+Camera/HoughCircles.java
+ Camera.HoughCircles
+Camera/jrpicam/examples/DemoView.java
+ Camera.jrpicam.examples.DemoView
+ Camera.jrpicam.examples.DemoView$1
+ Camera.jrpicam.examples.DemoView$2
+ Camera.jrpicam.examples.DemoView$3
+Camera/jrpicam/RPiCamera.java
+ Camera.jrpicam.RPiCamera
+Camera/jrpicam/examples/ShootStill.java
+ Camera.jrpicam.examples.ShootStill
+Camera/jrpicam/examples/ShootBufferedStill.java
+ Camera.jrpicam.examples.ShootBufferedStill
+View/Run.java
+ View.Run
+Websocket/WebsocketClient.java
+ Websocket.WebsocketClient
+View/BoardRenderer.java
+ View.BoardRenderer
+game/Game.java
+ game.Game
+View/GameView.java
+ View.GameView
+game/OnlinePlayer.java
+ game.OnlinePlayer
+game/HumanPlayer.java
+ game.HumanPlayer
+game/Player.java
+ game.Player
+View/MenuView.java
+ View.MenuView
