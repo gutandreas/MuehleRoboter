@@ -67,7 +67,6 @@ public class HoughCirclesRun {
             rPiCamera = new RPiCamera("/home/pi/");
             rPiCamera.setContrast(0);
             rPiCamera.takeStill("test.png", 3280, 2464);
-            //BufferedImage bufferedImage = rPiCamera.takeBufferedStill();
             src = Imgcodecs.imread("/home/pi/test.png");
         } catch (FailedToRunRaspistillException e) {
             e.printStackTrace();

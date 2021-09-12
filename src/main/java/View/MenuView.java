@@ -172,13 +172,13 @@ public class MenuView extends View implements ActionListener, MouseListener
         jsonObject.put("player1Name", name);
         jsonObject.put("player1Color", STONECOLOR.valueOf("BLACK"));
 
-        if (gamecodeTextfield.getText().length() == 0){
+        if (nameTextfield.getText().length() == 0){
             informationLabel.setText("Geben Sie einen Spielernamen ein");
             return;
         }
 
-        if (nameTextfield.getText().length() == 0){
-            informationLabel.setText("Geben Sie einen Gamcode ein");
+        if (gamecodeTextfield.getText().length() == 0){
+            informationLabel.setText("Geben Sie einen Gamecode ein");
             return;
         }
 
@@ -224,7 +224,9 @@ public class MenuView extends View implements ActionListener, MouseListener
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
-
+        }
+        else {
+            informationLabel.setText("Die Serveranfrage konnte nicht beantwortet werden...");
         }
     }
 

@@ -6,11 +6,15 @@ import game.Game;
 import game.Position;
 import org.opencv.core.Core;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class GameView extends View implements ActionListener {
 
@@ -23,6 +27,11 @@ public class GameView extends View implements ActionListener {
     String[] args;
     Game game;
     Connection connection;
+
+    public static void main(String[] args) {
+        GameView gameView = new GameView(args, "000", null);
+        gameView.setVisible(true);
+    }
 
 
 
@@ -56,6 +65,11 @@ public class GameView extends View implements ActionListener {
             //left
             panelCenterLeft = new JPanel();
             panelCenterLeft.setOpaque(false);
+            JLabel imageLabel = new JLabel();
+            ImageIcon imageIcon = new ImageIcon("/Users/andreasgut/Documents/EigenesProjekt/MuehleRoboter/src/main/resources/Spielfeld.png");
+            imageLabel.setIcon(imageIcon);
+            panelCenterLeft.add(imageLabel);
+
 
             //
             panelCenterRight = new JPanel();
@@ -104,11 +118,11 @@ public class GameView extends View implements ActionListener {
                 System.out.println(position);
             }
 
-            houghCirclesRun.takePhoto(args);
         }
         if (e.getSource() == this.putButton){
             System.out.println("Put wird ausgeführt");
             connection.put(new Position(0,5), 1);
+            connection.move(new Position(0,5), new Position(2,1), false);
 
         }
 
