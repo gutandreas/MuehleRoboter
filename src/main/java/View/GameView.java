@@ -3,26 +3,24 @@ package View;
 import Camera.HoughCirclesRun;
 import EiBotBoard.Connection;
 import game.Game;
+import game.Move;
 import game.Position;
+import game.STONECOLOR;
 import org.opencv.core.Core;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class GameView extends View implements ActionListener {
 
     JPanel mainPanel, panelInformation, panelInformationTop, panelInformationCenter, panelInformationBottom, panelCenter, panelCenterLeft, panelCenterRight;
     JLabel informationLabel, gamcodeTitleLabel, gamecodeLabel, nameTitleLabel, nameLabel;
     JButton scanButton, putButton;
+    BoardImage boardImage;
     Color aliceblue = new Color(161, 210, 255);
     Color background = new Color(60,60,60);
 
@@ -54,7 +52,7 @@ public class GameView extends View implements ActionListener {
             //panelInformationTop
             panelInformationTop = new JPanel();
             panelInformationTop.setLayout(new BoxLayout(panelInformationTop, BoxLayout.X_AXIS));
-            informationLabel = new JLabel("Test");
+            informationLabel = new JLabel("BoardImage");
             informationLabel.setForeground(Color.RED);
             panelInformationTop.add(informationLabel);
             panelInformationTop.setOpaque(false);
@@ -95,22 +93,7 @@ public class GameView extends View implements ActionListener {
             //left
             panelCenterLeft = new JPanel();
             panelCenterLeft.setOpaque(false);
-
-            DefaultTableModel model = new DefaultTableModel(11 , 11);
-            JTable board = new JTable(model);
-
-            for (int i = 0; i < 11; i++){
-                model.setValueAt(0, 0, i);
-            }
-
-
-            board.setBackground(aliceblue);
-            for (int i = 0; i < 11; i++){
-                board.getColumnModel().getColumn(i).setPreferredWidth(27);
-                board.setRowHeight(27);
-
-            }
-            //board.getColumnModel().getColumn(0).setCellRenderer(new BoardRenderer());
+            boardImage = new BoardImage();
 
 
 
@@ -118,9 +101,7 @@ public class GameView extends View implements ActionListener {
 
 
 
-
-
-            panelCenterLeft.add(board);
+            panelCenterLeft.add(boardImage.getMainLabel());
 
 
             //
@@ -151,6 +132,7 @@ public class GameView extends View implements ActionListener {
         mainPanel.setBackground(background);
         this.add(mainPanel);
 
+
     }
 
 
@@ -169,12 +151,22 @@ public class GameView extends View implements ActionListener {
                 Position position = houghCirclesRun.detectPut(args, game.getBoard(), 0);
                 System.out.println(position);
             }
-
         }
+
         if (e.getSource() == this.putButton){
-            System.out.println("Put wird ausgeführt");
+
+            boardImage.put(new Position(0,0), STONECOLOR.WHITE);
+            boardImage.move(new Move(new Position(0,0), new Position(0,1)));
+            boardImage.put(new Position(2,3), STONECOLOR.BLACK);
+            boardImage.put(new Position(2,1), STONECOLOR.BLACK);
+            boardImage.put(new Position(2,2), STONECOLOR.BLACK);
+
+
+            this.getContentPane().validate();
+            this.getContentPane().repaint();
+            /*System.out.println("Put wird ausgeführt");
             connection.put(new Position(0,5), 1);
-            connection.move(new Position(0,5), new Position(2,1), false);
+            connection.move(new Position(0,5), new Position(2,1), false);*/
 
         }
 

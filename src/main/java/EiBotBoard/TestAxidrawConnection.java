@@ -12,7 +12,7 @@ public class TestAxidrawConnection {
         Enumeration e = CommPortIdentifier.getPortIdentifiers();
         while(e.hasMoreElements()) {
             CommPortIdentifier com = (CommPortIdentifier) e.nextElement();
-            System.out.println("Test" + com.getName());
+            System.out.println("BoardImage" + com.getName());
         }
 
         open("/dev/ttyUSB0", 9999);
