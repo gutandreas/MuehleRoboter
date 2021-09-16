@@ -45,8 +45,8 @@ EiBotBoard/UbwCommand.java
  EiBotBoard.UbwCommand$TimerMode
 Camera/jrpicam/examples/ShootTimelapse.java
  Camera.jrpicam.examples.ShootTimelapse
-View/BoardImage.java
- View.BoardImage
+EiBotBoard/TestAxidrawConnection.java
+ EiBotBoard.TestAxidrawConnection
 Camera/jrpicam/enums/MeteringMode.java
  Camera.jrpicam.enums.MeteringMode
 EiBotBoard/Connection.java
@@ -61,8 +61,8 @@ EiBotBoard/TwoWaysSerialCommunication.java
  EiBotBoard.TwoWaysSerialCommunication
  EiBotBoard.TwoWaysSerialCommunication$SerialReader
  EiBotBoard.TwoWaysSerialCommunication$SerialWriter
-EiBotBoard/TestAxidrawConnection.java
- EiBotBoard.TestAxidrawConnection
+Camera/jrpicam/examples/ShootBufferedStill.java
+ Camera.jrpicam.examples.ShootBufferedStill
 EiBotBoard/Ubw.java
  EiBotBoard.Ubw
  EiBotBoard.Ubw$SerialReader
@@ -81,14 +81,14 @@ Camera/jrpicam/RPiCamera.java
  Camera.jrpicam.RPiCamera
 Camera/jrpicam/examples/ShootStill.java
  Camera.jrpicam.examples.ShootStill
-Camera/jrpicam/examples/ShootBufferedStill.java
- Camera.jrpicam.examples.ShootBufferedStill
+View/BoardImage.java
+ View.BoardImage
+ View.BoardImage$1
+ View.BoardImage$Coordinates
 View/Run.java
  View.Run
 Websocket/WebsocketClient.java
  Websocket.WebsocketClient
-View/BoardRenderer.java
- View.BoardRenderer
 game/Game.java
  game.Game
 View/GameView.java

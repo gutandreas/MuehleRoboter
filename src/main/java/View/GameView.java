@@ -2,10 +2,12 @@ package View;
 
 import Camera.HoughCirclesRun;
 import EiBotBoard.Connection;
+import Websocket.WebsocketClient;
 import game.Game;
 import game.Move;
 import game.Position;
 import game.STONECOLOR;
+import org.json.JSONObject;
 import org.opencv.core.Core;
 
 import javax.swing.*;
@@ -20,6 +22,7 @@ public class GameView extends View implements ActionListener {
     JPanel mainPanel, panelInformation, panelInformationTop, panelInformationCenter, panelInformationBottom, panelCenter, panelCenterLeft, panelCenterRight;
     JLabel informationLabel, gamcodeTitleLabel, gamecodeLabel, nameTitleLabel, nameLabel;
     JButton scanButton, putButton;
+    JTextField fieldTextfield, ringTextfield;
     BoardImage boardImage;
     Color aliceblue = new Color(161, 210, 255);
     Color background = new Color(60,60,60);
@@ -27,6 +30,7 @@ public class GameView extends View implements ActionListener {
     String[] args;
     Game game;
     Connection connection;
+    WebsocketClient websocketClient;
 
     public static void main(String[] args) {
         GameView gameView = new GameView(args, "000", "Peter", null);
@@ -113,8 +117,19 @@ public class GameView extends View implements ActionListener {
             putButton = new JButton("put");
             putButton.addActionListener(this);
 
+            ringTextfield = new JTextField();
+            fieldTextfield = new JTextField();
+
+
+            JPanel putPanel = new JPanel();
+            putPanel.setLayout(new BoxLayout(putPanel, BoxLayout.Y_AXIS));
+            putPanel.add(ringTextfield);
+            putPanel.add(fieldTextfield);
+            putPanel.add(putButton);
+
             panelCenterRight.add(scanButton);
-            panelCenterRight.add(putButton);
+            panelCenterRight.add(putPanel);
+
 
         panelCenter.add(panelCenterLeft);
         panelCenter.add(panelCenterRight);
@@ -140,6 +155,10 @@ public class GameView extends View implements ActionListener {
         this.game = game;
     }
 
+    public void setWebsocketClient(WebsocketClient websocketClient) {
+        this.websocketClient = websocketClient;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -155,15 +174,32 @@ public class GameView extends View implements ActionListener {
 
         if (e.getSource() == this.putButton){
 
-            boardImage.put(new Position(0,0), STONECOLOR.WHITE);
+            /*boardImage.put(new Position(0,0), STONECOLOR.WHITE);
             boardImage.move(new Move(new Position(0,0), new Position(0,1)));
             boardImage.put(new Position(2,3), STONECOLOR.BLACK);
             boardImage.put(new Position(2,1), STONECOLOR.BLACK);
-            boardImage.put(new Position(2,2), STONECOLOR.BLACK);
+            boardImage.put(new Position(2,2), STONECOLOR.BLACK);*/
 
 
+
+
+            //connection.put(new Position(Integer.parseInt(ringTextfield.getText()), Integer.parseInt(fieldTextfield.getText())), 1);
+
+            JSONObject jsonObject2 = new JSONObject();
+            jsonObject2.put("playerUuid", game.getPlayer0().getUuid());
+            jsonObject2.put("gameCode", game.getGameCode());
+            jsonObject2.put("command", "update");
+            jsonObject2.put("action", "put");
+            jsonObject2.put("ring", ringTextfield.getText());
+            jsonObject2.put("field", fieldTextfield.getText());
+            jsonObject2.put("callComputer", false);
+            websocketClient.send(jsonObject2.toString());
+
+            boardImage.put(new Position(Integer.parseInt(ringTextfield.getText()), Integer.parseInt(fieldTextfield.getText())), STONECOLOR.BLACK );
             this.getContentPane().validate();
             this.getContentPane().repaint();
+
+
             /*System.out.println("Put wird ausgeführt");
             connection.put(new Position(0,5), 1);
             connection.move(new Position(0,5), new Position(2,1), false);*/

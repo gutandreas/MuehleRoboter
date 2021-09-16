@@ -114,6 +114,7 @@ public class BoardImage extends Label {
         if (stonecolor == STONECOLOR.WHITE){
             imageIcons[coordinates.getX()][coordinates.getY()] = new ImageIcon(getClass().getResource("/StoneWhite.png"));}
 
+
         updateImage();
     }
 
@@ -130,6 +131,7 @@ public class BoardImage extends Label {
     public void kill(Position position){
         Coordinates coordinates = coordinatesMap.get(position);
         imageIcons[coordinates.getX()][coordinates.getY()] = new ImageIcon(getClass().getResource("/FullyTransparent.png"));
+
 
         updateImage();
     }

@@ -4,10 +4,8 @@ import EiBotBoard.Connection;
 import EiBotBoard.Controller;
 import EiBotBoard.Ebb;
 import EiBotBoard.RingAndFieldCoordsCm;
-import game.Board;
-import game.Game;
-import game.Move;
-import game.Position;
+import View.GameView;
+import game.*;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONObject;
@@ -46,6 +44,7 @@ public class WebsocketClient extends WebSocketClient {
         JSONObject jsonObject = new JSONObject(message);
         String command = jsonObject.getString("command");
         Board board = game.getBoard();
+        String uuid = game.getPlayer0().getUuid();
 
         switch (command){
             case "join":
@@ -58,7 +57,7 @@ public class WebsocketClient extends WebSocketClient {
 
             case "update":
 
-                if (jsonObject.getString("action").equals("put")){
+                if (jsonObject.getString("action").equals("put") && !jsonObject.getString("playerUuid").equals(uuid)){
 
                     int ring = jsonObject.getInt("ring");
                     int field = jsonObject.getInt("field");
@@ -70,13 +69,16 @@ public class WebsocketClient extends WebSocketClient {
                     if (board.checkPut(position)){
                         board.putStone(position, playerIndex);
                         connection.put(position, playerIndex+1);
-                        System.out.println(board);}
+                        System.out.println(board);
+
+
+                    }
                     else {
                         System.out.println("Es wurde ein ungültiger Put ausgeführt");
                     }
                 }
 
-                if (jsonObject.getString("action").equals("move")){
+                if (jsonObject.getString("action").equals("move") && !jsonObject.getString("playerUuid").equals(uuid)){
 
                     int moveFromRing = jsonObject.getInt("moveFromRing");
                     int moveFromField = jsonObject.getInt("moveFromField");
@@ -98,7 +100,7 @@ public class WebsocketClient extends WebSocketClient {
 
                 }
 
-                if (jsonObject.getString("action").equals("kill")){
+                if (jsonObject.getString("action").equals("kill") && !jsonObject.getString("playerUuid").equals(uuid)){
 
                     int ring = jsonObject.getInt("ring");
                     int field = jsonObject.getInt("field");
@@ -117,6 +119,10 @@ public class WebsocketClient extends WebSocketClient {
 
 
                 }
+                break;
+
+            case "exception":
+                System.out.println(jsonObject.get("details"));
 
         }
 

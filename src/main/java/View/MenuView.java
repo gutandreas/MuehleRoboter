@@ -41,6 +41,12 @@ public class MenuView extends View implements ActionListener, MouseListener
     Connection connection;
     String[] args;
     String ipAdress = "192.168.0.11";
+    //String ipAdress = "localhost";
+
+    public static void main(String[] args) {
+        new MenuView(args, null).setVisible(true);
+
+    }
 
     public MenuView(String[] args, Connection connection){
 
@@ -216,8 +222,9 @@ public class MenuView extends View implements ActionListener, MouseListener
                 Game game = new Game(gameView, new HumanPlayer(gameView, nameTextfield.getText(), uuid, STONECOLOR.BLACK),
                         new OnlinePlayer(gameView, " "), gamecodeTextfield.getText());
                 WebsocketClient websocketClient = new WebsocketClient(uri, connection, game);
-                gameView.setGame(game);
                 websocketClient.connect();
+                gameView.setGame(game);
+                gameView.setWebsocketClient(websocketClient);
                 gameView.setVisible(true);
                 this.setVisible(false);
 
