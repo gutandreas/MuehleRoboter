@@ -92,8 +92,14 @@ public class HoughCirclesRun {
             Point center = new Point(Math.round(c[0]), Math.round(c[1]));
             System.out.println("Kreis an Position x=" + center.x + " / y=" + center.y + " erkannt");
 
-            positions[counter] = getPosition(center.x, center.y, 100);
-            Scalar scalar;
+
+            Position position = getPosition(center.x, center.y, 100);
+            if (position != null){
+                positions[counter] = position;
+                counter++;
+            }
+
+            /*Scalar scalar;
 
             if (positions[counter] != null){
                 scalar = new Scalar(0,255,0);
@@ -105,14 +111,15 @@ public class HoughCirclesRun {
             }
             else {
                 scalar = new Scalar(0,0,255);
-            }
-            counter++;
+            }*/
 
-            // circle center
+
+
+            /*// circle center
             Imgproc.circle(src, center, 0, new Scalar(255,255,255), 3, 8, 0 );
             // circle outline
             int radius = (int) Math.round(c[2]);
-            Imgproc.circle(src, center, radius, scalar, 2, 8, 0 );
+            Imgproc.circle(src, center, radius, scalar, 2, 8, 0 );*/
 
 
         }
@@ -149,7 +156,8 @@ public class HoughCirclesRun {
         Board tempBoard = new Board();
 
         for (Position p : positions){
-            tempBoard.putStone(p, 3);
+            if (p != null){
+                tempBoard.putStone(p, 3);}
         }
 
         System.out.println("Gescanntes Board: \n" + tempBoard);

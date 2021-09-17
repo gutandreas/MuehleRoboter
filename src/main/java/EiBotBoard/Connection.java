@@ -17,6 +17,7 @@ public class Connection {
     public Connection(Ebb ebb) {
         this.ebb = ebb;
         RingAndFieldCoordsCm ringAndFieldCoordsCm = new RingAndFieldCoordsCm();
+        goHome(5);
     }
 
     public void move(Move move, boolean jump){

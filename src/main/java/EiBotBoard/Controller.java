@@ -26,6 +26,7 @@ public class Controller {
         RingAndFieldCoordsCm ringAndFieldCoordsCm = new RingAndFieldCoordsCm();
         ebb.execute("SC," + 4 + "," + 30000);
 
+
         Connection connection = new Connection(ebb);
 
 
