@@ -231,6 +231,7 @@ public class MenuView extends View implements ActionListener, MouseListener
                 websocketClient.connect();
                 gameView.setGame(game);
                 gameView.setWebsocketClient(websocketClient);
+                viewManager.setCurrentView(gameView);
                 gameView.setVisible(true);
                 this.setVisible(false);
 

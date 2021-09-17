@@ -6,8 +6,8 @@ game/Position.java
  game.Position
 Websocket/RunWebsocket.java
  Websocket.RunWebsocket
-View/MenuView.java
- View.MenuView
+Camera/RingAndFieldCoordsPx.java
+ Camera.RingAndFieldCoordsPx
 game/Move.java
  game.Move
 EiBotBoard/RingAndFieldCoordsCm.java
@@ -83,8 +83,8 @@ Camera/jrpicam/examples/ShootBufferedStill.java
  Camera.jrpicam.examples.ShootBufferedStill
 View/ViewManager.java
  View.ViewManager
-View/Run.java
- View.Run
+Camera/HoughCirclesRun.java
+ Camera.HoughCirclesRun
 Websocket/WebsocketClient.java
  Websocket.WebsocketClient
 game/Game.java
@@ -93,11 +93,11 @@ View/GameView.java
  View.GameView
 game/OnlinePlayer.java
  game.OnlinePlayer
+View/Run.java
+ View.Run
 game/HumanPlayer.java
  game.HumanPlayer
 game/Player.java
  game.Player
-Camera/RingAndFieldCoordsPx.java
- Camera.RingAndFieldCoordsPx
-Camera/HoughCirclesRun.java
- Camera.HoughCirclesRun
+View/MenuView.java
+ View.MenuView
