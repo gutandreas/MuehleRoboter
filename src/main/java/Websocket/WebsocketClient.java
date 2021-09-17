@@ -39,11 +39,13 @@ public class WebsocketClient extends WebSocketClient {
         String command = jsonObject.getString("command");
         Board board = game.getBoard();
         String uuid = game.getPlayer0().getUuid();
+        GameView gameView = ((GameView) viewManager.getCurrentView());
 
         switch (command){
             case "join":
                 System.out.println("Spiel beigetreten");
-                ((GameView) viewManager.getCurrentView()).setEnemyLabel(jsonObject.getString("player2Name"));
+                gameView.setEnemyLabel(jsonObject.getString("player2Name"));
+                gameView.enableScanButton(true);
                 break;
 
             case "chat":
@@ -66,7 +68,7 @@ public class WebsocketClient extends WebSocketClient {
                         connection.put(position, playerIndex+1);
                         System.out.println(board);
 
-                        GameView gameView = ((GameView) viewManager.getCurrentView());
+
                         BoardImage boardImage =  gameView.getBoardImage();
                         STONECOLOR stonecolor = evaluateStonecolor(gameView, playerIndex);
                         boardImage.put(position, stonecolor);
@@ -76,6 +78,14 @@ public class WebsocketClient extends WebSocketClient {
 
                         game.increaseRound();
                         gameView.increaseRoundLabel();
+
+                        if (board.checkMorris(position) && board.isThereStoneToKill(0)){ //Achtung: Playerindex hardcoded
+                            gameView.enableScanButton(false);
+                        }
+                        else {
+                            gameView.enableScanButton(true);
+                        }
+
                     }
                     else {
                         System.out.println("Es wurde ein ungültiger Put ausgeführt");
@@ -99,7 +109,6 @@ public class WebsocketClient extends WebSocketClient {
                         connection.move(move, false);
                         System.out.println(board);
 
-                        GameView gameView = ((GameView) viewManager.getCurrentView());
                         BoardImage boardImage =  gameView.getBoardImage();
                         boardImage.move(move);
 
@@ -125,7 +134,6 @@ public class WebsocketClient extends WebSocketClient {
                         connection.kill(new Position(ring,field), playerIndex+1);
                         System.out.println(board);
 
-                        GameView gameView = ((GameView) viewManager.getCurrentView());
                         BoardImage boardImage =  gameView.getBoardImage();
                         boardImage.kill(position);
 

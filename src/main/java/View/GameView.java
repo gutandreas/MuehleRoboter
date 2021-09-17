@@ -136,6 +136,7 @@ public class GameView extends View implements ActionListener {
             panelCenterRight.setOpaque(false);
             scanButton = new JButton("SCAN");
             scanButton.setPreferredSize(new Dimension(300,300));
+            scanButton.setEnabled(false);
             scanButton.addActionListener(this);
             putButton = new JButton("put");
             putButton.addActionListener(this);
@@ -237,6 +238,12 @@ public class GameView extends View implements ActionListener {
                     game.increaseRound();
                     increaseRoundLabel();
                     setInformationLabel(" ");
+                    if (game.getBoard().checkMorris(position) && game.getBoard().isThereStoneToKill(1)){ //Achtung: PlayerIndex hardcoded
+                        enableScanButton(true);
+                    }
+                    else {
+                        enableScanButton(false);
+                    }
                 }
                 catch (InvalidBoardException ibe){
                     setInformationLabel(ibe.getMessage());
@@ -330,5 +337,9 @@ public class GameView extends View implements ActionListener {
 
     public void setInformationLabel(String information){
         informationLabel.setText(information);
+    }
+
+    public void enableScanButton(boolean enable){
+        scanButton.setEnabled(enable);
     }
 }

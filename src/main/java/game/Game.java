@@ -140,6 +140,13 @@ public class Game {
 
     public void increaseRound(){
         round++;
+        setGamesPhaseBooleans();
+    }
+
+    private void setGamesPhaseBooleans(){
+        if (round >= NUMBEROFSTONES*2){
+            putPhase = false;
+            movePhase = true;}
     }
 
     /*
@@ -457,11 +464,7 @@ public class Game {
     }
 
 
-    private void setGamesPhaseBooleans(){
-        if (round >= NUMBEROFSTONES*2){
-            putPhase = false;
-            movePhase = true;}
-    }
+
 
 
     private void checkWinner(){

@@ -85,6 +85,8 @@ View/ViewManager.java
  View.ViewManager
 View/Run.java
  View.Run
+Camera/HoughCirclesRun.java
+ Camera.HoughCirclesRun
 Websocket/WebsocketClient.java
  Websocket.WebsocketClient
 game/Game.java
@@ -99,5 +101,3 @@ game/Player.java
  game.Player
 View/MenuView.java
  View.MenuView
-Camera/HoughCirclesRun.java
- Camera.HoughCirclesRun
