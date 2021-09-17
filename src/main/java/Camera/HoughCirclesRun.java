@@ -32,10 +32,20 @@ public class HoughCirclesRun {
         Mat src = takePhoto(args);
         Position[] positions = detectCircles(src);
         Position[] changes = getChanges(board, positions);
-        if (changes[0] == null){
+
+        if (changes[0] != null && changes[1] != null){
+            throw new InvalidBoardException("Es wurde unerlaubt ein Stein verschoben");
+        }
+
+        if (changes[0] == null && changes[1] != null){
+            throw new InvalidBoardException("Es wurde unerlaubt ein Stein entfernt");
+        }
+
+        if (changes[0] == null && changes[1] == null){
             System.out.println("Kein Stein gesetzt");
             throw new InvalidBoardException("Es wurde kein Stein hinzugefügt");
         }
+
         board.checkPut(changes[0]);
         return changes[0];
     }

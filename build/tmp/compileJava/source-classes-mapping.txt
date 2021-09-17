@@ -83,8 +83,6 @@ Camera/jrpicam/examples/ShootBufferedStill.java
  Camera.jrpicam.examples.ShootBufferedStill
 View/ViewManager.java
  View.ViewManager
-Camera/HoughCirclesRun.java
- Camera.HoughCirclesRun
 View/Run.java
  View.Run
 Websocket/WebsocketClient.java
@@ -101,3 +99,5 @@ game/Player.java
  game.Player
 View/MenuView.java
  View.MenuView
+Camera/HoughCirclesRun.java
+ Camera.HoughCirclesRun

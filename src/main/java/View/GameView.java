@@ -1,6 +1,7 @@
 package View;
 
 import Camera.HoughCirclesRun;
+import Camera.InvalidBoardException;
 import EiBotBoard.Connection;
 import Websocket.WebsocketClient;
 import game.Game;
@@ -226,13 +227,22 @@ public class GameView extends View implements ActionListener {
                 int playerIndex = 0;
                 STONECOLOR stonecolor = STONECOLOR.BLACK;
 
-                Position position = houghCirclesRun.detectPut(args, game.getBoard());
-                sendPutMessage(position);
-                game.getBoard().putStone(position, playerIndex);
-                putOnBoardImage(position, stonecolor);
 
-                game.increaseRound();
-                increaseRoundLabel();
+                try {
+                    Position position = houghCirclesRun.detectPut(args, game.getBoard());
+                    sendPutMessage(position);
+                    game.getBoard().putStone(position, playerIndex);
+                    putOnBoardImage(position, stonecolor);
+
+                    game.increaseRound();
+                    increaseRoundLabel();
+                    setInformationLabel(" ");
+                }
+                catch (InvalidBoardException ibe){
+                    setInformationLabel(ibe.getMessage());
+                }
+
+
 
             }
         }
@@ -316,5 +326,9 @@ public class GameView extends View implements ActionListener {
 
     public void setEnemyLabel(String enemyName){
         enemyLabel.setText(enemyName);
+    }
+
+    public void setInformationLabel(String information){
+        informationLabel.setText(information);
     }
 }
