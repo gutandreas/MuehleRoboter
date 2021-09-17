@@ -1,5 +1,6 @@
 package EiBotBoard;
 
+import game.Move;
 import game.Position;
 
 public class Connection {
@@ -18,7 +19,10 @@ public class Connection {
         RingAndFieldCoordsCm ringAndFieldCoordsCm = new RingAndFieldCoordsCm();
     }
 
-    public void move(Position from, Position to, boolean jump){
+    public void move(Move move, boolean jump){
+
+        Position from = move.getFrom();
+        Position to = move.getTo();
 
         goToPositionDirectly(from, 10);
         connectToStone(true);
@@ -266,5 +270,9 @@ public class Connection {
         else {
             ebb.setPenState(true);
         }
+    }
+
+    public Ebb getEbb() {
+        return ebb;
     }
 }

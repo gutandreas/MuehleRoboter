@@ -6,12 +6,12 @@ game/Position.java
  game.Position
 Websocket/RunWebsocket.java
  Websocket.RunWebsocket
-Camera/RingAndFieldCoordsPx.java
- Camera.RingAndFieldCoordsPx
+View/MenuView.java
+ View.MenuView
 game/Move.java
  game.Move
-EiBotBoard/Controller.java
- EiBotBoard.Controller
+EiBotBoard/RingAndFieldCoordsCm.java
+ EiBotBoard.RingAndFieldCoordsCm
 Camera/jrpicam/enums/DRC.java
  Camera.jrpicam.enums.DRC
 Camera/XyCoordsPx.java
@@ -26,8 +26,8 @@ Camera/jrpicam/enums/Exposure.java
  Camera.jrpicam.enums.Exposure
 Camera/jrpicam/enums/Encoding.java
  Camera.jrpicam.enums.Encoding
-EiBotBoard/RingAndFieldCoordsCm.java
- EiBotBoard.RingAndFieldCoordsCm
+Camera/jrpicam/examples/ShootStill.java
+ Camera.jrpicam.examples.ShootStill
 EiBotBoard/EbbCommand.java
  EiBotBoard.EbbCommand
 EiBotBoard/UbwException.java
@@ -43,14 +43,16 @@ EiBotBoard/UbwCommand.java
  EiBotBoard.UbwCommand$Port
  EiBotBoard.UbwCommand$TimerListener
  EiBotBoard.UbwCommand$TimerMode
-Camera/jrpicam/examples/ShootTimelapse.java
- Camera.jrpicam.examples.ShootTimelapse
+Camera/jrpicam/RPiCamera.java
+ Camera.jrpicam.RPiCamera
 EiBotBoard/TestAxidrawConnection.java
  EiBotBoard.TestAxidrawConnection
 Camera/jrpicam/enums/MeteringMode.java
  Camera.jrpicam.enums.MeteringMode
-EiBotBoard/Connection.java
- EiBotBoard.Connection
+View/BoardImage.java
+ View.BoardImage
+ View.BoardImage$1
+ View.BoardImage$Coordinates
 Camera/jrpicam/enums/ImageEffect.java
  Camera.jrpicam.enums.ImageEffect
 View/View.java
@@ -61,30 +63,26 @@ EiBotBoard/TwoWaysSerialCommunication.java
  EiBotBoard.TwoWaysSerialCommunication
  EiBotBoard.TwoWaysSerialCommunication$SerialReader
  EiBotBoard.TwoWaysSerialCommunication$SerialWriter
-Camera/jrpicam/examples/ShootBufferedStill.java
- Camera.jrpicam.examples.ShootBufferedStill
-EiBotBoard/Ubw.java
- EiBotBoard.Ubw
- EiBotBoard.Ubw$SerialReader
-EiBotBoard/Ebb.java
- EiBotBoard.Ebb
-Camera/HoughCirclesRun.java
- Camera.HoughCirclesRun
-Camera/HoughCircles.java
- Camera.HoughCircles
 Camera/jrpicam/examples/DemoView.java
  Camera.jrpicam.examples.DemoView
  Camera.jrpicam.examples.DemoView$1
  Camera.jrpicam.examples.DemoView$2
  Camera.jrpicam.examples.DemoView$3
-Camera/jrpicam/RPiCamera.java
- Camera.jrpicam.RPiCamera
-Camera/jrpicam/examples/ShootStill.java
- Camera.jrpicam.examples.ShootStill
-View/BoardImage.java
- View.BoardImage
- View.BoardImage$1
- View.BoardImage$Coordinates
+EiBotBoard/Ubw.java
+ EiBotBoard.Ubw
+ EiBotBoard.Ubw$SerialReader
+EiBotBoard/Ebb.java
+ EiBotBoard.Ebb
+EiBotBoard/Controller.java
+ EiBotBoard.Controller
+EiBotBoard/Connection.java
+ EiBotBoard.Connection
+Camera/jrpicam/examples/ShootTimelapse.java
+ Camera.jrpicam.examples.ShootTimelapse
+Camera/jrpicam/examples/ShootBufferedStill.java
+ Camera.jrpicam.examples.ShootBufferedStill
+View/ViewManager.java
+ View.ViewManager
 View/Run.java
  View.Run
 Websocket/WebsocketClient.java
@@ -99,5 +97,7 @@ game/HumanPlayer.java
  game.HumanPlayer
 game/Player.java
  game.Player
-View/MenuView.java
- View.MenuView
+Camera/RingAndFieldCoordsPx.java
+ Camera.RingAndFieldCoordsPx
+Camera/HoughCirclesRun.java
+ Camera.HoughCirclesRun

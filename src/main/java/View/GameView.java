@@ -19,13 +19,17 @@ import java.awt.event.ActionListener;
 
 public class GameView extends View implements ActionListener {
 
+    ViewManager viewManager;
+
     JPanel mainPanel, panelInformation, panelInformationTop, panelInformationCenter, panelInformationBottom, panelCenter, panelCenterLeft, panelCenterRight;
     JLabel informationLabel, gamcodeTitleLabel, gamecodeLabel, nameTitleLabel, nameLabel;
-    JButton scanButton, putButton;
-    JTextField fieldTextfield, ringTextfield;
+    JButton scanButton, putButton, putButton2, panicButton;
+    JTextField fieldTextfield, ringTextfield, ringTextfield2, fieldTextfield2;
     BoardImage boardImage;
     Color aliceblue = new Color(161, 210, 255);
     Color background = new Color(60,60,60);
+    STONECOLOR player0StoneColor;
+    STONECOLOR player1StoneColor;
 
     String[] args;
     Game game;
@@ -33,17 +37,23 @@ public class GameView extends View implements ActionListener {
     WebsocketClient websocketClient;
 
     public static void main(String[] args) {
-        GameView gameView = new GameView(args, "000", "Peter", null);
+
+        ViewManager viewManager = new ViewManager();
+        GameView gameView = new GameView(viewManager, args, "000", "Peter", null, STONECOLOR.BLACK, STONECOLOR.WHITE);
+        viewManager.setCurrentView(gameView);
         gameView.setVisible(true);
     }
 
 
 
 
-    public GameView(String[] args, String gameCode, String name, Connection connection) throws HeadlessException {
+    public GameView(ViewManager viewManager, String[] args, String gameCode, String name, Connection connection, STONECOLOR player0StoneColor, STONECOLOR player1StoneColor) throws HeadlessException {
 
+        this.viewManager = viewManager;
         this.args = args;
         this.connection = connection;
+        this.player0StoneColor = player0StoneColor;
+        this.player1StoneColor = player1StoneColor;
 
         View.setUIFont(new FontUIResource(new Font("Roboto", 0, 20)));
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -127,8 +137,29 @@ public class GameView extends View implements ActionListener {
             putPanel.add(fieldTextfield);
             putPanel.add(putButton);
 
+            putButton2 = new JButton("put");
+            putButton2.addActionListener(this);
+            ringTextfield2 = new JTextField();
+            fieldTextfield2 = new JTextField();
+
+
+            JPanel putPanel2 = new JPanel();
+            putPanel2.setLayout(new BoxLayout(putPanel2, BoxLayout.Y_AXIS));
+            putPanel2.add(ringTextfield2);
+            putPanel2.add(fieldTextfield2);
+            putPanel2.add(putButton2);
+
+            panicButton = new JButton("Panic");
+            panicButton.addActionListener(this);
+
             panelCenterRight.add(scanButton);
             panelCenterRight.add(putPanel);
+            panelCenterRight.add(putPanel2);
+            panelCenterRight.add(panicButton);
+
+
+
+
 
 
         panelCenter.add(panelCenterLeft);
@@ -159,16 +190,35 @@ public class GameView extends View implements ActionListener {
         this.websocketClient = websocketClient;
     }
 
+    public BoardImage getBoardImage() {
+        return boardImage;
+    }
+
+    public STONECOLOR getPlayer0StoneColor() {
+        return player0StoneColor;
+    }
+
+    public STONECOLOR getPlayer1StoneColor() {
+        return player1StoneColor;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
         if(e.getSource() == this.scanButton){
             System.out.println("Scan des Spielfelds");
             System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-            HoughCirclesRun houghCirclesRun = new HoughCirclesRun();
+            HoughCirclesRun houghCirclesRun = new HoughCirclesRun(game.getBoard());
             if (game.isPutPhase()){
-                Position position = houghCirclesRun.detectPut(args, game.getBoard(), 0);
-                System.out.println(position);
+
+                int playerIndex = 0;
+                STONECOLOR stonecolor = STONECOLOR.BLACK;
+
+                Position position = houghCirclesRun.detectPut(args, game.getBoard());
+                sendPutMessage(position);
+                game.getBoard().putStone(position, playerIndex);
+                putOnBoardImage(position, stonecolor);
+
             }
         }
 
@@ -185,6 +235,9 @@ public class GameView extends View implements ActionListener {
 
             //connection.put(new Position(Integer.parseInt(ringTextfield.getText()), Integer.parseInt(fieldTextfield.getText())), 1);
 
+            int ring = Integer.parseInt(ringTextfield.getText());
+            int field = Integer.parseInt(fieldTextfield.getText());
+
             JSONObject jsonObject2 = new JSONObject();
             jsonObject2.put("playerUuid", game.getPlayer0().getUuid());
             jsonObject2.put("gameCode", game.getGameCode());
@@ -195,7 +248,12 @@ public class GameView extends View implements ActionListener {
             jsonObject2.put("callComputer", false);
             websocketClient.send(jsonObject2.toString());
 
-            boardImage.put(new Position(Integer.parseInt(ringTextfield.getText()), Integer.parseInt(fieldTextfield.getText())), STONECOLOR.BLACK );
+            Position position = new Position(ring,field);
+            int playerIndex = 0;
+
+            game.getBoard().putStone(position, playerIndex);
+
+            boardImage.put(position, STONECOLOR.BLACK);
             this.getContentPane().validate();
             this.getContentPane().repaint();
 
@@ -206,5 +264,34 @@ public class GameView extends View implements ActionListener {
 
         }
 
+        if (e.getSource() == this.putButton2){
+            connection.put(new Position(Integer.parseInt(ringTextfield2.getText()), Integer.parseInt(fieldTextfield2.getText())),1);
+        }
+
+        if (e.getSource() == this.panicButton){
+            connection.getEbb().enableMotor(0,0);
+        }
+
+    }
+
+    private void sendPutMessage(Position position){
+
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject2.put("playerUuid", game.getPlayer0().getUuid());
+        jsonObject2.put("gameCode", game.getGameCode());
+        jsonObject2.put("command", "update");
+        jsonObject2.put("action", "put");
+        jsonObject2.put("ring", position.getRing());
+        jsonObject2.put("field", position.getField());
+        jsonObject2.put("callComputer", false);
+        websocketClient.send(jsonObject2.toString());
+        System.out.println(jsonObject2);
+    }
+
+    private void putOnBoardImage(Position position, STONECOLOR stonecolor){
+
+        boardImage.put(position, stonecolor);
+        this.getContentPane().validate();
+        this.getContentPane().repaint();
     }
 }

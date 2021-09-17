@@ -20,15 +20,15 @@ import java.util.LinkedList;
 public class HoughCirclesRun {
 
 
+    Board board;
+
+    public HoughCirclesRun(Board board) {
+        this.board = board;
+    }
 
 
 
-    private Board board = new Board();
-    private Board oldBoard = new Board();
-    Position[] changes = new Position[2];
-
-
-    public Position detectPut(String[] args, Board board, int playerIndex){
+    public Position detectPut(String[] args, Board board){
         Mat src = takePhoto(args);
         Position[] positions = detectCircles(src);
         Position[] changes = getChanges(board, positions);
@@ -42,23 +42,6 @@ public class HoughCirclesRun {
 
 
     public Mat takePhoto(String[] args) {
-
-
-
-        /*//String default_file = "/Users/andreasgut/Documents/EigenesProjekt/MuehleRoboter/Bilder/11.png";
-        String default_file = "/Bilder/11.png";
-        String filename = ((args.length > 0) ? args[0] : default_file);
-        // Load an image
-        Mat src = Imgcodecs.imread(filename, Imgcodecs.IMREAD_COLOR);
-        // Check if image is loaded fine
-        if( src.empty() ) {
-            System.out.println("Error opening image!");
-            System.out.println("Program Arguments: [image_name -- default "
-                    + default_file +"] \n");
-            System.exit(-1);
-        }
-
-        */
 
         RPiCamera rPiCamera = null;
         Mat src = null;
@@ -78,16 +61,6 @@ public class HoughCirclesRun {
 
         return src;
 
-        /*detectCircles(src);
-        getChanges(board, oldBoard);
-
-
-        Size size = new Size(1000, 500);
-        Mat resizeImage = new Mat();
-        Imgproc.resize(src, resizeImage, size);
-        //HighGui.imshow("detected circles", resizeImage);
-        //HighGui.waitKey();
-        //System.exit(0);*/
     }
 
     private Position[] detectCircles(Mat src){
@@ -109,7 +82,7 @@ public class HoughCirclesRun {
             Point center = new Point(Math.round(c[0]), Math.round(c[1]));
             System.out.println("Kreis an Position x=" + center.x + " / y=" + center.y + " erkannt");
 
-            positions[counter] = getPosition(center.x, center.y, 100, 1);
+            positions[counter] = getPosition(center.x, center.y, 100);
             Scalar scalar;
 
             if (positions[counter] != null){
@@ -141,7 +114,7 @@ public class HoughCirclesRun {
         return positions;
     }
 
-    private Position getPosition(double x, double y, double tolerance, int playerIndex) {
+    private Position getPosition(double x, double y, double tolerance) {
 
         RingAndFieldCoordsPx pxMap = new RingAndFieldCoordsPx();
 
@@ -153,9 +126,6 @@ public class HoughCirclesRun {
                 int yPos = xyCoordsPx.getY();
                 double delta = Math.sqrt((x-xPos)*(x-xPos) + (y-yPos)*(y-yPos));
                 if (delta <= tolerance){
-                    board.putStone(position, playerIndex);
-                    System.out.println(board);
-                    board.putStone(position, playerIndex);
                     return position;
                 }
             }
@@ -166,10 +136,19 @@ public class HoughCirclesRun {
 
     private Position[] getChanges(Board board, Position[] positions) {
 
+        Board tempBoard = new Board();
+
+        for (Position p : positions){
+            tempBoard.putStone(p, 3);
+        }
+
+        System.out.println("Gescanntes Board: \n" + tempBoard);
+        Position[] changes = new Position[2];
+
         for (int ring = 0; ring < 3; ring++) {
             for (int field = 0; field < 8; field++) {
                 Position tempPosition = new Position(ring, field);
-                if (oldBoard.isFieldFree(tempPosition) && !board.isFieldFree(tempPosition) && changes[0] == null) {
+                if (board.isFieldFree(tempPosition) && !tempBoard.isFieldFree(tempPosition)) {
                     if (changes[0] == null){
                         changes[0] = tempPosition;
                         System.out.println("Stein hinzugefügt auf " + tempPosition);}
@@ -177,7 +156,7 @@ public class HoughCirclesRun {
                         throw new InvalidBoardException("Es wurde mehr als 1 Stein hinzugefügt");
                     }
                 }
-                if (!oldBoard.isFieldFree(tempPosition) && board.isFieldFree(tempPosition)) {
+                if (!board.isFieldFree(tempPosition) && tempBoard.isFieldFree(tempPosition)) {
                     if (changes[1] == null){
                         changes[1] = tempPosition;
                         System.out.println("Stein entfernt auf " + tempPosition);}
@@ -187,7 +166,7 @@ public class HoughCirclesRun {
                 }
             }
         }
-        return positions;
+        return changes;
     }
 
 

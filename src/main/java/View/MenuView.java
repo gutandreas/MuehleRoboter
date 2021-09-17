@@ -24,6 +24,8 @@ import javax.swing.plaf.FontUIResource;
 
 public class MenuView extends View implements ActionListener, MouseListener
 {
+    ViewManager viewManager;
+
     JButton startButton;
     JButton joinButton;
     JButton watchButton;
@@ -44,12 +46,17 @@ public class MenuView extends View implements ActionListener, MouseListener
     //String ipAdress = "localhost";
 
     public static void main(String[] args) {
-        new MenuView(args, null).setVisible(true);
+        ViewManager viewManager = new ViewManager();
+        MenuView menuView = new MenuView(viewManager, args, null);
+        viewManager.setCurrentView(menuView);
+        menuView.setVisible(true);
+
 
     }
 
-    public MenuView(String[] args, Connection connection){
+    public MenuView(ViewManager viewManager, String[] args, Connection connection){
 
+        this.viewManager = viewManager;
 
         setUIFont(new FontUIResource(new Font("Roboto", 0, 20)));
         this.setBackground(background);
@@ -149,9 +156,8 @@ public class MenuView extends View implements ActionListener, MouseListener
             connection.put(new Position(1,1),1);*/
         }
         else if(ae.getSource() == this.joinButton){
-            label.setText("Button 2 wurde betätigt");
-            System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-            new HoughCirclesRun().takePhoto(args);
+
+
         }
         else if (ae.getSource() == this.watchButton){
             label.setText(("Button 3 wurde betätigt"));
@@ -218,10 +224,10 @@ public class MenuView extends View implements ActionListener, MouseListener
         if (response.statusCode() == 200){
             try {
                 URI uri = new URI("ws://" + ipAdress + ":8080/board");
-                GameView gameView = new GameView(args, gameCode, name, connection);
+                GameView gameView = new GameView(viewManager, args, gameCode, name, connection, STONECOLOR.BLACK, STONECOLOR.WHITE);
                 Game game = new Game(gameView, new HumanPlayer(gameView, nameTextfield.getText(), uuid, STONECOLOR.BLACK),
                         new OnlinePlayer(gameView, " "), gamecodeTextfield.getText());
-                WebsocketClient websocketClient = new WebsocketClient(uri, connection, game);
+                WebsocketClient websocketClient = new WebsocketClient(viewManager,uri, connection, game);
                 websocketClient.connect();
                 gameView.setGame(game);
                 gameView.setWebsocketClient(websocketClient);

@@ -1,28 +1,26 @@
 package Websocket;
 
 import EiBotBoard.Connection;
-import EiBotBoard.Controller;
-import EiBotBoard.Ebb;
-import EiBotBoard.RingAndFieldCoordsCm;
+import View.BoardImage;
 import View.GameView;
+import View.ViewManager;
 import game.*;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONObject;
-
 import java.net.URI;
 
 public class WebsocketClient extends WebSocketClient {
 
+    ViewManager viewManager;
     final private Connection connection;
     final private Game game;
 
-    public WebsocketClient(URI serverUri, Connection connection, Game game) {
+    public WebsocketClient(ViewManager viewManager, URI serverUri, Connection connection, Game game) {
         super(serverUri);
         this.connection = connection;
         this.game = game;
-
-
+        this.viewManager = viewManager;
     }
 
     @Override
@@ -32,10 +30,6 @@ public class WebsocketClient extends WebSocketClient {
         jsonObject.put("gameCode", game.getGameCode());
         jsonObject.put("command", "start");
         send(jsonObject.toString());
-
-
-        //Ebb ebb = new Ebb("/dev/cu.usbmodem142101");
-        //Ebb ebb = new Ebb("/dev/ttyACM0");
     }
 
     @Override
@@ -71,7 +65,13 @@ public class WebsocketClient extends WebSocketClient {
                         connection.put(position, playerIndex+1);
                         System.out.println(board);
 
+                        GameView gameView = ((GameView) viewManager.getCurrentView());
+                        BoardImage boardImage =  gameView.getBoardImage();
+                        STONECOLOR stonecolor = evaluateStonecolor(gameView, playerIndex);
+                        boardImage.put(position, stonecolor);
 
+                        gameView.getContentPane().validate();
+                        gameView.getContentPane().repaint();
                     }
                     else {
                         System.out.println("Es wurde ein ungültiger Put ausgeführt");
@@ -92,8 +92,16 @@ public class WebsocketClient extends WebSocketClient {
 
                     if (board.checkMove(move, jump)){
                         board.move(move, playerIndex);
-                        connection.move(new Position(moveFromRing, moveFromField), new Position(moveToRing, moveToField), false);
-                        System.out.println(board);}
+                        connection.move(move, false);
+                        System.out.println(board);
+
+                        GameView gameView = ((GameView) viewManager.getCurrentView());
+                        BoardImage boardImage =  gameView.getBoardImage();
+                        boardImage.move(move);
+
+                        gameView.getContentPane().validate();
+                        gameView.getContentPane().repaint();
+                    }
                     else {
                         System.out.println("Es wurde ein ungültiger Move ausgeführt");
                     }
@@ -112,20 +120,23 @@ public class WebsocketClient extends WebSocketClient {
                         board.clearStone(position);
                         connection.kill(new Position(ring,field), playerIndex+1);
                         System.out.println(board);
+
+                        GameView gameView = ((GameView) viewManager.getCurrentView());
+                        BoardImage boardImage =  gameView.getBoardImage();
+                        boardImage.kill(position);
+
+                        gameView.getContentPane().validate();
+                        gameView.getContentPane().repaint();
                     }
                     else {
                         System.out.println("Es wurde ein ungültiger Kill ausgeführt");
                     }
-
-
                 }
                 break;
 
             case "exception":
                 System.out.println(jsonObject.get("details"));
-
         }
-
     }
 
     @Override
@@ -143,5 +154,14 @@ public class WebsocketClient extends WebSocketClient {
         jsonObject.put("command", "watch");
         jsonObject.put("gameCode", gameCode);
         send(jsonObject.toString());
+    }
+
+    private STONECOLOR evaluateStonecolor(GameView gameView, int index){
+        if (index == 0){
+            return gameView.getPlayer0StoneColor();
+        }
+        else {
+            return gameView.getPlayer1StoneColor();
+        }
     }
 }

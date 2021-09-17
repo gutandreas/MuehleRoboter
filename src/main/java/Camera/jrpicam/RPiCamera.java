@@ -121,8 +121,8 @@ public class RPiCamera {
 		List<String> command = new ArrayList<>();
 		command.add("raspistill");
 		command.add("-o");
-		command.add("-n"); //Keine Vorschau
-		command.add("-t 600"); // 600 Milliskunden delay (Minimum liegt bei 500)
+		//command.add("-n"); //Keine Vorschau
+		//command.add("-t 600"); // 600 Milliskunden delay (Minimum liegt bei 500)
 		command.add(saveDir + File.separator + pictureName);
 		command.add("-w");
 		command.add("" + width);

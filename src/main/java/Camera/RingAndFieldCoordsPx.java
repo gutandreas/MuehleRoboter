@@ -15,7 +15,7 @@ public class RingAndFieldCoordsPx {
 
         //Feldpositionen
         positionMap.put(new Position(0,0), new XyCoordsPx(2703+xBorder, 85+yBorder));
-        positionMap.put(new Position(0,1), new XyCoordsPx(1940+xBorder, 94+yBorder));
+        positionMap.put(new Position(0,1), new XyCoordsPx(1560+xBorder, 94+yBorder));
         positionMap.put(new Position(0,2), new XyCoordsPx(475+xBorder, 112+yBorder));
         positionMap.put(new Position(0,3), new XyCoordsPx(448+xBorder, 1209+yBorder));
         positionMap.put(new Position(0,4), new XyCoordsPx(427+xBorder, 2312+yBorder));
@@ -23,7 +23,7 @@ public class RingAndFieldCoordsPx {
         positionMap.put(new Position(0,6), new XyCoordsPx(2718+xBorder, 2373+yBorder));
         positionMap.put(new Position(0,7), new XyCoordsPx(2710+xBorder, 1227+yBorder));
 
-        positionMap.put(new Position(1,0), new XyCoordsPx(2125+xBorder, 438+yBorder));
+        positionMap.put(new Position(1,0), new XyCoordsPx(2325+xBorder, 438+yBorder));
         positionMap.put(new Position(1,1), new XyCoordsPx(1561+xBorder, 448+yBorder));
         positionMap.put(new Position(1,2), new XyCoordsPx(829+xBorder, 442+yBorder));
         positionMap.put(new Position(1,3), new XyCoordsPx(824+xBorder, 1206+yBorder));
