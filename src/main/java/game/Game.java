@@ -87,6 +87,9 @@ public class Game {
         return player0;
     }
 
+    public int getRound() {
+        return round;
+    }
 
     public Player getPlayer1() {
         return player1;
@@ -135,10 +138,11 @@ public class Game {
         this.gameCode = gameCode;
     }
 
-    /*public void increaseRound(){
+    public void increaseRound(){
         round++;
-        viewManager.getScoreView().increaseRound();
     }
+
+    /*
 
 
 

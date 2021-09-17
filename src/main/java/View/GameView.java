@@ -22,7 +22,7 @@ public class GameView extends View implements ActionListener {
     ViewManager viewManager;
 
     JPanel mainPanel, panelInformation, panelInformationTop, panelInformationCenter, panelInformationBottom, panelCenter, panelCenterLeft, panelCenterRight;
-    JLabel informationLabel, gamcodeTitleLabel, gamecodeLabel, nameTitleLabel, nameLabel;
+    JLabel informationLabel, gamcodeTitleLabel, gamecodeLabel, nameTitleLabel, nameLabel, roundTitleLabel, roundLabel, enemyTitleLabel, enemyLabel;
     JButton scanButton, putButton, putButton2, panicButton;
     JTextField fieldTextfield, ringTextfield, ringTextfield2, fieldTextfield2;
     BoardImage boardImage;
@@ -79,8 +79,16 @@ public class GameView extends View implements ActionListener {
             gamcodeTitleLabel.setForeground(aliceblue);
             gamecodeLabel = new JLabel(gameCode);
             gamecodeLabel.setForeground(aliceblue);
+            roundTitleLabel = new JLabel(" / Runde: ");
+            roundTitleLabel.setForeground(aliceblue);
+            roundLabel = new JLabel("0");
+            roundLabel.setForeground(aliceblue);
+
+
             panelInformationCenter.add(gamcodeTitleLabel);
             panelInformationCenter.add(gamecodeLabel);
+            panelInformationCenter.add(roundTitleLabel);
+            panelInformationCenter.add(roundLabel);
             panelInformationCenter.setOpaque(false);
 
             //panelInformation Bottom
@@ -90,8 +98,15 @@ public class GameView extends View implements ActionListener {
             nameTitleLabel.setForeground(aliceblue);
             nameLabel = new JLabel(name);
             nameLabel.setForeground(aliceblue);
+            enemyTitleLabel = new JLabel(" / Gegner: ");
+            enemyTitleLabel.setForeground(aliceblue);
+            enemyLabel = new JLabel("---");
+            enemyLabel.setForeground(aliceblue);
+
             panelInformationBottom.add(nameTitleLabel);
             panelInformationBottom.add(nameLabel);
+            panelInformationBottom.add(enemyTitleLabel);
+            panelInformationBottom.add(enemyLabel);
             panelInformationBottom.setOpaque(false);
 
 
@@ -104,18 +119,15 @@ public class GameView extends View implements ActionListener {
         //panelCenter
         panelCenter = new JPanel();
         panelCenter.setLayout(new BoxLayout(panelCenter, BoxLayout.X_AXIS));
+
             //left
+
             panelCenterLeft = new JPanel();
             panelCenterLeft.setOpaque(false);
             boardImage = new BoardImage();
 
-
-
-
-
-
-
             panelCenterLeft.add(boardImage.getMainLabel());
+
 
 
             //
@@ -219,6 +231,9 @@ public class GameView extends View implements ActionListener {
                 game.getBoard().putStone(position, playerIndex);
                 putOnBoardImage(position, stonecolor);
 
+                game.increaseRound();
+                increaseRoundLabel();
+
             }
         }
 
@@ -293,5 +308,13 @@ public class GameView extends View implements ActionListener {
         boardImage.put(position, stonecolor);
         this.getContentPane().validate();
         this.getContentPane().repaint();
+    }
+
+    public void increaseRoundLabel(){
+        roundLabel.setText(String.valueOf(game.getRound()));
+    }
+
+    public void setEnemyLabel(String enemyName){
+        enemyLabel.setText(enemyName);
     }
 }

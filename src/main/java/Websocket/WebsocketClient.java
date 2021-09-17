@@ -43,6 +43,7 @@ public class WebsocketClient extends WebSocketClient {
         switch (command){
             case "join":
                 System.out.println("Spiel beigetreten");
+                ((GameView) viewManager.getCurrentView()).setEnemyLabel(jsonObject.getString("player2Name"));
                 break;
 
             case "chat":
@@ -72,6 +73,9 @@ public class WebsocketClient extends WebSocketClient {
 
                         gameView.getContentPane().validate();
                         gameView.getContentPane().repaint();
+
+                        game.increaseRound();
+                        gameView.increaseRoundLabel();
                     }
                     else {
                         System.out.println("Es wurde ein ungültiger Put ausgeführt");
