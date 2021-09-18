@@ -18,6 +18,7 @@ public class Connection {
         this.ebb = ebb;
         RingAndFieldCoordsCm ringAndFieldCoordsCm = new RingAndFieldCoordsCm();
         goHome(5);
+        ebb.execute("SC," + 4 + "," + 30000);
     }
 
     public void move(Move move, boolean jump){

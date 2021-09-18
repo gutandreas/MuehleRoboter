@@ -26,8 +26,8 @@ Camera/jrpicam/enums/Exposure.java
  Camera.jrpicam.enums.Exposure
 Camera/jrpicam/enums/Encoding.java
  Camera.jrpicam.enums.Encoding
-Camera/jrpicam/examples/ShootStill.java
- Camera.jrpicam.examples.ShootStill
+Camera/jrpicam/examples/ShootTimelapse.java
+ Camera.jrpicam.examples.ShootTimelapse
 EiBotBoard/EbbCommand.java
  EiBotBoard.EbbCommand
 EiBotBoard/UbwException.java
@@ -43,8 +43,8 @@ EiBotBoard/UbwCommand.java
  EiBotBoard.UbwCommand$Port
  EiBotBoard.UbwCommand$TimerListener
  EiBotBoard.UbwCommand$TimerMode
-Camera/jrpicam/RPiCamera.java
- Camera.jrpicam.RPiCamera
+Camera/jrpicam/examples/ShootStill.java
+ Camera.jrpicam.examples.ShootStill
 EiBotBoard/TestAxidrawConnection.java
  EiBotBoard.TestAxidrawConnection
 Camera/jrpicam/enums/MeteringMode.java
@@ -63,30 +63,30 @@ EiBotBoard/TwoWaysSerialCommunication.java
  EiBotBoard.TwoWaysSerialCommunication
  EiBotBoard.TwoWaysSerialCommunication$SerialReader
  EiBotBoard.TwoWaysSerialCommunication$SerialWriter
-Camera/jrpicam/examples/DemoView.java
- Camera.jrpicam.examples.DemoView
- Camera.jrpicam.examples.DemoView$1
- Camera.jrpicam.examples.DemoView$2
- Camera.jrpicam.examples.DemoView$3
+Camera/jrpicam/RPiCamera.java
+ Camera.jrpicam.RPiCamera
 EiBotBoard/Ubw.java
  EiBotBoard.Ubw
  EiBotBoard.Ubw$SerialReader
 EiBotBoard/Ebb.java
  EiBotBoard.Ebb
-EiBotBoard/Controller.java
- EiBotBoard.Controller
-EiBotBoard/Connection.java
- EiBotBoard.Connection
-Camera/jrpicam/examples/ShootTimelapse.java
- Camera.jrpicam.examples.ShootTimelapse
-Camera/jrpicam/examples/ShootBufferedStill.java
- Camera.jrpicam.examples.ShootBufferedStill
 View/ViewManager.java
  View.ViewManager
-View/Run.java
- View.Run
+EiBotBoard/Connection.java
+ EiBotBoard.Connection
+Camera/jrpicam/examples/ShootBufferedStill.java
+ Camera.jrpicam.examples.ShootBufferedStill
 Camera/HoughCirclesRun.java
  Camera.HoughCirclesRun
+View/Run.java
+ View.Run
+EiBotBoard/Controller.java
+ EiBotBoard.Controller
+Camera/jrpicam/examples/DemoView.java
+ Camera.jrpicam.examples.DemoView
+ Camera.jrpicam.examples.DemoView$1
+ Camera.jrpicam.examples.DemoView$2
+ Camera.jrpicam.examples.DemoView$3
 Websocket/WebsocketClient.java
  Websocket.WebsocketClient
 game/Game.java

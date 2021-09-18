@@ -100,7 +100,7 @@ public class BoardImage extends Label {
         coordinatesMap.put(new Position(2,4), new Coordinates(8,8));
         coordinatesMap.put(new Position(2,5), new Coordinates(6,8));
         coordinatesMap.put(new Position(2,6), new Coordinates(4,8));
-        coordinatesMap.put(new Position(2,7), new Coordinates(4,8));
+        coordinatesMap.put(new Position(2,7), new Coordinates(4,6));
 
 
 

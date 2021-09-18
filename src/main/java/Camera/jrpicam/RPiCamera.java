@@ -122,7 +122,7 @@ public class RPiCamera {
 		command.add("raspistill");
 		command.add("-o");
 		//command.add("-n"); //Keine Vorschau
-		//command.add("-t 600"); // 600 Milliskunden delay (Minimum liegt bei 500)
+		//command.add("-t 1000"); // 600 Milliskunden delay (Minimum liegt bei 500)
 		command.add(saveDir + File.separator + pictureName);
 		command.add("-w");
 		command.add("" + width);

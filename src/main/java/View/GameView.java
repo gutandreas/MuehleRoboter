@@ -23,7 +23,7 @@ public class GameView extends View implements ActionListener {
     ViewManager viewManager;
 
     JPanel mainPanel, panelInformation, panelInformationTop, panelInformationCenter, panelInformationBottom, panelCenter, panelCenterLeft, panelCenterRight;
-    JLabel informationLabel, gamcodeTitleLabel, gamecodeLabel, nameTitleLabel, nameLabel, roundTitleLabel, roundLabel, enemyTitleLabel, enemyLabel;
+    JLabel informationLabel, gamcodeTitleLabel, gamecodeLabel, nameTitleLabel, nameLabel, roundTitleLabel, roundLabel, enemyTitleLabel, enemyLabel, nextStepLabel;
     JButton scanButton, putButton, putButton2, panicButton;
     JTextField fieldTextfield, ringTextfield, ringTextfield2, fieldTextfield2;
     BoardImage boardImage;
@@ -124,10 +124,14 @@ public class GameView extends View implements ActionListener {
             //left
 
             panelCenterLeft = new JPanel();
+            panelCenterLeft.setLayout(new BoxLayout(panelCenterLeft, BoxLayout.Y_AXIS));
             panelCenterLeft.setOpaque(false);
             boardImage = new BoardImage();
+            nextStepLabel = new JLabel("Auf Gegenspieler warten");
+            nextStepLabel.setForeground(aliceblue);
 
             panelCenterLeft.add(boardImage.getMainLabel());
+            panelCenterLeft.add(nextStepLabel);
 
 
 
@@ -220,38 +224,21 @@ public class GameView extends View implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if(e.getSource() == this.scanButton){
-            System.out.println("Scan des Spielfelds");
-            System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-            HoughCirclesRun houghCirclesRun = new HoughCirclesRun(game.getBoard());
-            if (game.isPutPhase()){
 
-                int playerIndex = 0;
-                STONECOLOR stonecolor = STONECOLOR.BLACK;
-
-
-                try {
-                    Position position = houghCirclesRun.detectPut(args, game.getBoard());
-                    sendPutMessage(position);
-                    game.getBoard().putStone(position, playerIndex);
-                    putOnBoardImage(position, stonecolor);
-
-                    game.increaseRound();
-                    increaseRoundLabel();
-                    setInformationLabel(" ");
-                    if (game.getBoard().checkMorris(position) && game.getBoard().isThereStoneToKill(1)){ //Achtung: PlayerIndex hardcoded
-                        enableScanButton(true);
-                    }
-                    else {
-                        enableScanButton(false);
-                    }
-                }
-                catch (InvalidBoardException ibe){
-                    setInformationLabel(ibe.getMessage());
-                }
-
-
-
+            if (game.isKillPhase()){
+                killScan();
+                return;
             }
+
+            if (game.isPutPhase() && !game.isKillPhase()){
+                putScan();
+                return;
+            }
+            if (game.isMovePhase() && !game.isKillPhase()){
+                moveScan();
+                return;
+            }
+
         }
 
         if (e.getSource() == this.putButton){
@@ -272,6 +259,7 @@ public class GameView extends View implements ActionListener {
 
             JSONObject jsonObject2 = new JSONObject();
             jsonObject2.put("playerUuid", game.getPlayer0().getUuid());
+
             jsonObject2.put("gameCode", game.getGameCode());
             jsonObject2.put("command", "update");
             jsonObject2.put("action", "put");
@@ -308,16 +296,49 @@ public class GameView extends View implements ActionListener {
 
     private void sendPutMessage(Position position){
 
-        JSONObject jsonObject2 = new JSONObject();
-        jsonObject2.put("playerUuid", game.getPlayer0().getUuid());
-        jsonObject2.put("gameCode", game.getGameCode());
-        jsonObject2.put("command", "update");
-        jsonObject2.put("action", "put");
-        jsonObject2.put("ring", position.getRing());
-        jsonObject2.put("field", position.getField());
-        jsonObject2.put("callComputer", false);
-        websocketClient.send(jsonObject2.toString());
-        System.out.println(jsonObject2);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("playerUuid", game.getPlayer0().getUuid());
+        jsonObject.put("playerIndex", 0); //Achtung: PlayerIndex hardcoded!
+        jsonObject.put("gameCode", game.getGameCode());
+        jsonObject.put("command", "update");
+        jsonObject.put("action", "put");
+        jsonObject.put("ring", position.getRing());
+        jsonObject.put("field", position.getField());
+        jsonObject.put("callComputer", false);
+        websocketClient.send(jsonObject.toString());
+        System.out.println(jsonObject);
+    }
+
+    private void sendMoveMessage(Move move){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("playerUuid", game.getPlayer0().getUuid());
+        jsonObject.put("playerIndex", 0); //Achtung: PlayerIndex hardcoded!
+        jsonObject.put("gameCode", game.getGameCode());
+        jsonObject.put("command", "update");
+        jsonObject.put("action", "move");
+        jsonObject.put("moveFromRing", move.getFrom().getRing());
+        jsonObject.put("moveFromField", move.getFrom().getField());
+        jsonObject.put("moveToRing", move.getTo().getRing());
+        jsonObject.put("moveToField", move.getTo().getField());
+        jsonObject.put("callComputer", false);
+        websocketClient.send(jsonObject.toString());
+        System.out.println(jsonObject);
+
+    }
+
+    private void sendKillMessage(Position position){
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("playerUuid", game.getPlayer0().getUuid());
+        jsonObject.put("playerIndex", 0); //Achtung: PlayerIndex hardcoded!
+        jsonObject.put("gameCode", game.getGameCode());
+        jsonObject.put("command", "update");
+        jsonObject.put("action", "kill");
+        jsonObject.put("ring", position.getRing());
+        jsonObject.put("field", position.getField());
+        jsonObject.put("callComputer", false);
+        websocketClient.send(jsonObject.toString());
+        System.out.println(jsonObject);
     }
 
     private void putOnBoardImage(Position position, STONECOLOR stonecolor){
@@ -325,6 +346,132 @@ public class GameView extends View implements ActionListener {
         boardImage.put(position, stonecolor);
         this.getContentPane().validate();
         this.getContentPane().repaint();
+    }
+
+    private void moveOnBoardImage(Move move){
+
+        boardImage.move(move);
+        this.getContentPane().validate();
+        this.getContentPane().repaint();
+    }
+
+    private void killOnBoardImage(Position position){
+
+        boardImage.kill(position);
+        this.getContentPane().validate();
+        this.getContentPane().repaint();
+    }
+
+    private void putScan(){
+
+        System.out.println("Scan des Spielfelds");
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        HoughCirclesRun houghCirclesRun = new HoughCirclesRun(game.getBoard());
+
+        int playerIndex = 0;
+        STONECOLOR stonecolor = STONECOLOR.BLACK;
+
+
+        try {
+            Position position = houghCirclesRun.detectPut(args, game.getBoard());
+            sendPutMessage(position);
+            game.getBoard().putStone(position, playerIndex);
+            putOnBoardImage(position, stonecolor);
+
+            game.increaseRound();
+            increaseRoundLabel();
+            setInformationLabel(" ");
+            if (game.getBoard().checkMorris(position) && game.getBoard().isThereStoneToKill(1)){ //Achtung: PlayerIndex hardcoded
+                game.setKillPhase(true);
+                enableScanButton(true);
+                setNextStepLabelKill(true);
+            }
+            else {
+                enableScanButton(false);
+
+                if (game.getRound() > 18){
+                    game.changeToMovePhase();
+                    setNextStepLabelMove(false);
+                }
+                else {
+                    setNextStepLabelPut(false);
+                }
+            }
+
+
+        }
+        catch (InvalidBoardException ibe){
+            setInformationLabel(ibe.getMessage());
+        }
+    }
+
+    private void moveScan(){
+
+        System.out.println("Scan des Spielfelds");
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        HoughCirclesRun houghCirclesRun = new HoughCirclesRun(game.getBoard());
+
+        int playerIndex = 0;
+
+
+        try {
+            Move move = houghCirclesRun.detectMove(args, game.getBoard());
+            sendMoveMessage(move);
+            game.getBoard().move(move, playerIndex); // Achtung: PlayerIndex hardcoded
+            moveOnBoardImage(move);
+
+            game.increaseRound();
+            increaseRoundLabel();
+            setInformationLabel(" ");
+            if (game.getBoard().checkMorris(move.getTo()) && game.getBoard().isThereStoneToKill(1)){ //Achtung: PlayerIndex hardcoded
+                game.setKillPhase(true);
+                enableScanButton(true);
+                setNextStepLabelKill(true);
+            }
+            else {
+                enableScanButton(false);
+                setNextStepLabelMove(false);
+            }
+        }
+        catch (InvalidBoardException ibe){
+            setInformationLabel(ibe.getMessage());
+        }
+    }
+
+    private void killScan(){
+
+        System.out.println("Scan des Spielfelds");
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        HoughCirclesRun houghCirclesRun = new HoughCirclesRun(game.getBoard());
+
+
+        try {
+            Position position = houghCirclesRun.detectKill(args, game.getBoard());
+            sendKillMessage(position);
+            game.getBoard().clearStone(position);
+            killOnBoardImage(position);
+
+            setInformationLabel(" ");
+            game.setKillPhase(false);
+            enableScanButton(false);
+
+            if (game.getRound() <= 18){
+                setNextStepLabelPut(false);
+            }
+            else {
+                setNextStepLabelMove(false);
+            }
+
+
+            if (game.getBoard().countPlayersStones(1) < 3 && game.getRound() > 18) { // Achtung: playerIndex hardcoded
+                setInformationLabel("Sie haben das Spiel gewonnen!");
+                System.out.println("Spiel gewonnen");
+            }
+
+        }
+        catch (InvalidBoardException ibe){
+            setInformationLabel(ibe.getMessage());
+        }
     }
 
     public void increaseRoundLabel(){
@@ -337,6 +484,33 @@ public class GameView extends View implements ActionListener {
 
     public void setInformationLabel(String information){
         informationLabel.setText(information);
+    }
+
+    public void setNextStepLabelPut(boolean localPlayer) {
+        if (localPlayer){
+            nextStepLabel.setText(nameLabel.getText() + " darf einen Stein setzen");
+        }
+        else {
+            nextStepLabel.setText(enemyLabel.getText() + " darf einen Stein setzen");
+        }
+    }
+
+    public void setNextStepLabelMove(boolean localPlayer) {
+        if (localPlayer){
+        nextStepLabel.setText(nameLabel.getText() + " darf einen Stein verschieben");
+        }
+        else {
+            nextStepLabel.setText(enemyLabel.getText() + " darf einen Stein verschieben");
+        }
+    }
+
+    public void setNextStepLabelKill(boolean localPlayer) {
+        if (localPlayer){
+            nextStepLabel.setText(nameLabel.getText() + " darf einen Stein entfernen");
+        }
+        else {
+            nextStepLabel.setText(enemyLabel.getText() + " darf einen Stein entfernen");
+        }
     }
 
     public void enableScanButton(boolean enable){

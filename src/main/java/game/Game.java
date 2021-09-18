@@ -111,6 +111,10 @@ public class Game {
         return killPhase;
     }
 
+    public void setKillPhase(boolean killPhase) {
+        this.killPhase = killPhase;
+    }
+
     public int getCurrentPlayerIndex(){
         return currentPlayer.equals(playerArrayList.get(0)) ? 0 : 1;
     }
@@ -147,6 +151,10 @@ public class Game {
         if (round >= NUMBEROFSTONES*2){
             putPhase = false;
             movePhase = true;}
+    }
+
+    public void changeToMovePhase(){
+        movePhase = true;
     }
 
     /*

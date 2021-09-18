@@ -4,6 +4,7 @@ package Camera;// https://docs.opencv.org/4.5.3/d4/d70/tutorial_hough_circle.htm
 import Camera.jrpicam.RPiCamera;
 import Camera.jrpicam.exceptions.FailedToRunRaspistillException;
 import game.Board;
+import game.Move;
 import game.Position;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -46,9 +47,67 @@ public class HoughCirclesRun {
             throw new InvalidBoardException("Es wurde kein Stein hinzugefügt");
         }
 
-        board.checkPut(changes[0]);
+        if (!board.checkPut(changes[0])){
+            throw new InvalidBoardException("Es wurde ein unerlaubter Stein gesetzt");
+        }
+
         return changes[0];
     }
+
+    public Move detectMove(String[] args, Board board){
+        Mat src = takePhoto(args);
+        Position[] positions = detectCircles(src);
+        Position[] changes = getChanges(board, positions);
+
+        if (changes[0] != null && changes[1] == null){
+            throw new InvalidBoardException("Es wurde unerlaubt ein Stein gesetzt");
+        }
+
+        if (changes[0] == null && changes[1] != null){
+            throw new InvalidBoardException("Es wurde unerlaubt ein Stein entfernt");
+        }
+
+        if (changes[0] == null && changes[1] == null){
+            throw new InvalidBoardException("Es wurde kein Stein verschoben");
+        }
+
+        Move move = new Move(changes[1], changes[0]);
+
+        boolean allowedToJump = board.countPlayersStones(0) == 3; // Achtung: PlayerIndex hardcoded
+        if (!board.checkMove(move, allowedToJump)){
+            throw new InvalidBoardException("Es wurde ein unerlaubter Zug gemacht");
+        }
+
+        return move;
+
+    }
+
+    public Position detectKill(String[] args, Board board){
+        Mat src = takePhoto(args);
+        Position[] positions = detectCircles(src);
+        Position[] changes = getChanges(board, positions);
+
+        if (changes[0] != null && changes[1] != null){
+            throw new InvalidBoardException("Es wurde unerlaubt ein Stein verschoben");
+        }
+
+        if (changes[0] != null && changes[1] == null){
+            throw new InvalidBoardException("Es wurde unerlaubt ein Stein hinzugefügt");
+        }
+
+        if (changes[0] == null && changes[1] == null){
+            throw new InvalidBoardException("Es wurde kein Stein entfernt");
+        }
+
+        if (!board.checkKill(changes[1], 1)){ // Achtung: PlayerIndex harcoded
+            throw new InvalidBoardException("Es wurde ein unerlaubter Stein entfernt");
+        }
+
+        return changes[1];
+    }
+
+
+
 
 
     public Mat takePhoto(String[] args) {

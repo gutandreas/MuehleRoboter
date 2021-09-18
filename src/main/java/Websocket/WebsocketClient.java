@@ -81,9 +81,16 @@ public class WebsocketClient extends WebSocketClient {
 
                         if (board.checkMorris(position) && board.isThereStoneToKill(0)){ //Achtung: Playerindex hardcoded
                             gameView.enableScanButton(false);
+                            gameView.setNextStepLabelKill(false);
                         }
                         else {
                             gameView.enableScanButton(true);
+                            if (game.getRound() <= 18){
+                                gameView.setNextStepLabelPut(true);
+                            }
+                            else {
+                                gameView.setNextStepLabelMove(true);
+                            }
                         }
 
                     }
@@ -114,6 +121,15 @@ public class WebsocketClient extends WebSocketClient {
 
                         gameView.getContentPane().validate();
                         gameView.getContentPane().repaint();
+
+                        if (board.checkMorris(move.getTo()) && board.isThereStoneToKill(0)){ //Achtung: Playerindex hardcoded
+                            gameView.enableScanButton(false);
+                            gameView.setNextStepLabelKill(false);
+                        }
+                        else {
+                            gameView.enableScanButton(true);
+                            gameView.setNextStepLabelMove(true);
+                        }
                     }
                     else {
                         System.out.println("Es wurde ein ungültiger Move ausgeführt");
@@ -139,6 +155,25 @@ public class WebsocketClient extends WebSocketClient {
 
                         gameView.getContentPane().validate();
                         gameView.getContentPane().repaint();
+                        gameView.enableScanButton(true);
+
+                        if (board.countPlayersStones(1-playerIndex) < 3 && game.getRound() > 18){
+                            gameView.setInformationLabel("Sie haben das Spiel verloren!");
+                            System.out.println("Spiel verloren");
+                            gameView.enableScanButton(false);
+                        }
+                        else {
+                            gameView.enableScanButton(true);
+                            if (game.getRound() > 18)
+                            {
+                                gameView.setNextStepLabelPut(true);
+                            }
+                            else {
+                                gameView.setNextStepLabelMove(true);
+                            }
+                        }
+
+
                     }
                     else {
                         System.out.println("Es wurde ein ungültiger Kill ausgeführt");
