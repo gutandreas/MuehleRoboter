@@ -67,7 +67,7 @@ public class GameView extends View implements ActionListener {
             //panelInformationTop
             panelInformationTop = new JPanel();
             panelInformationTop.setLayout(new BoxLayout(panelInformationTop, BoxLayout.X_AXIS));
-            informationLabel = new JLabel("BoardImage");
+            informationLabel = new JLabel("");
             informationLabel.setForeground(Color.RED);
             panelInformationTop.add(informationLabel);
             panelInformationTop.setOpaque(false);
@@ -129,6 +129,7 @@ public class GameView extends View implements ActionListener {
             boardImage = new BoardImage();
             nextStepLabel = new JLabel("Auf Gegenspieler warten");
             nextStepLabel.setForeground(aliceblue);
+            nextStepLabel.setFont(new Font("Roboto", 0, 13));
 
             panelCenterLeft.add(boardImage.getMainLabel());
             panelCenterLeft.add(nextStepLabel);
@@ -155,7 +156,7 @@ public class GameView extends View implements ActionListener {
             putPanel.add(fieldTextfield);
             putPanel.add(putButton);
 
-            putButton2 = new JButton("put");
+            putButton2 = new JButton("move");
             putButton2.addActionListener(this);
             ringTextfield2 = new JTextField();
             fieldTextfield2 = new JTextField();
@@ -171,7 +172,7 @@ public class GameView extends View implements ActionListener {
             panicButton.addActionListener(this);
 
             panelCenterRight.add(scanButton);
-            panelCenterRight.add(putPanel);
+            //panelCenterRight.add(putPanel);
             panelCenterRight.add(putPanel2);
             panelCenterRight.add(panicButton);
 
@@ -285,7 +286,18 @@ public class GameView extends View implements ActionListener {
         }
 
         if (e.getSource() == this.putButton2){
-            connection.put(new Position(Integer.parseInt(ringTextfield2.getText()), Integer.parseInt(fieldTextfield2.getText())),1);
+
+            Position from = new Position(0,2);
+            Position to = new Position(Integer.parseInt(ringTextfield2.getText()), Integer.parseInt(fieldTextfield2.getText()));
+            Move move = new Move(from, to);
+            if (game.getBoard().checkMove(move, true)){
+                connection.move(move,true);
+            }
+            else {
+                System.out.println("Unerlaubter Zug");
+            }
+
+
         }
 
         if (e.getSource() == this.panicButton){
@@ -455,7 +467,7 @@ public class GameView extends View implements ActionListener {
             game.setKillPhase(false);
             enableScanButton(false);
 
-            if (game.getRound() <= 18){
+            if (game.getRound() < 18){
                 setNextStepLabelPut(false);
             }
             else {

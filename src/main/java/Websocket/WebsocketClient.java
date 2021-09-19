@@ -108,12 +108,12 @@ public class WebsocketClient extends WebSocketClient {
                     int playerIndex = jsonObject.getInt("playerIndex");
 
                     Move move = new Move(new Position(moveFromRing, moveFromField), new Position(moveToRing, moveToField));
-                    boolean jump = board.countPlayersStones(0) == 3;
+                    boolean jump = board.countPlayersStones(1) == 3;
 
 
                     if (board.checkMove(move, jump)){
                         board.move(move, playerIndex);
-                        connection.move(move, false);
+                        connection.move(move, jump);
                         System.out.println(board);
 
                         BoardImage boardImage =  gameView.getBoardImage();
