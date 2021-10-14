@@ -202,7 +202,20 @@ public class MenuView extends View implements ActionListener, MouseListener
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("gameCode", gameCode);
         jsonObject.put("player1Name", name);
-        jsonObject.put("player1Color", STONECOLOR.valueOf("BLACK"));
+
+        STONECOLOR player1Color;
+        STONECOLOR player2Color;
+        if (colorSwitchButton.isSelected()){
+            player1Color = STONECOLOR.WHITE;
+            player2Color = STONECOLOR.BLACK;
+        }
+        else {
+            player1Color = STONECOLOR.WHITE;
+            player2Color = STONECOLOR.BLACK;
+        }
+
+        jsonObject.put("player1Color", player1Color.toString());
+
 
         if (nameTextfield.getText().length() == 0){
             informationLabel.setText("Geben Sie einen Spielernamen ein");
@@ -244,8 +257,8 @@ public class MenuView extends View implements ActionListener, MouseListener
         if (response.statusCode() == 200){
             try {
                 URI uri = new URI("ws://" + ipAdress + ":8080/board");
-                GameView gameView = new GameView(viewManager, args, gameCode, name, connection, STONECOLOR.BLACK, STONECOLOR.WHITE);
-                Game game = new Game(gameView, new HumanPlayer(gameView, nameTextfield.getText(), uuid, STONECOLOR.BLACK),
+                GameView gameView = new GameView(viewManager, args, gameCode, name, connection, player1Color, player2Color);
+                Game game = new Game(gameView, new HumanPlayer(gameView, nameTextfield.getText(), uuid, player1Color),
                         new OnlinePlayer(gameView, " "), gamecodeTextfield.getText());
                 WebsocketClient websocketClient = new WebsocketClient(viewManager,uri, connection, game);
                 websocketClient.connect();

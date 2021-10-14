@@ -116,7 +116,7 @@ public class WebsocketClient extends WebSocketClient {
                         connection.move(move, jump);
                         System.out.println(board);
 
-                        BoardImage boardImage =  gameView.getBoardImage();
+                        BoardImage boardImage = gameView.getBoardImage();
                         boardImage.move(move);
 
                         gameView.getContentPane().validate();

@@ -75,34 +75,34 @@ EiBotBoard/Ebb.java
  EiBotBoard.Ebb
 View/ViewManager.java
  View.ViewManager
-game/Player.java
- game.Player
-Camera/jrpicam/examples/ShootBufferedStill.java
- Camera.jrpicam.examples.ShootBufferedStill
-Websocket/WebsocketClient.java
- Websocket.WebsocketClient
-game/Game.java
- game.Game
-EiBotBoard/RingAndFieldCoordsCm.java
- EiBotBoard.RingAndFieldCoordsCm
-View/GameView.java
- View.GameView
-game/OnlinePlayer.java
- game.OnlinePlayer
 EiBotBoard/Controller.java
  EiBotBoard.Controller
+Camera/jrpicam/examples/ShootBufferedStill.java
+ Camera.jrpicam.examples.ShootBufferedStill
 EiBotBoard/Connection.java
  EiBotBoard.Connection
 Camera/HoughCirclesRun.java
  Camera.HoughCirclesRun
-game/HumanPlayer.java
- game.HumanPlayer
-View/Run.java
- View.Run
+EiBotBoard/RingAndFieldCoordsCm.java
+ EiBotBoard.RingAndFieldCoordsCm
 View/SwitchButton.java
  View.SwitchButton
  View.SwitchButton$1
  View.SwitchButton$2
  View.SwitchButton$EventSwitchSelected
+Websocket/WebsocketClient.java
+ Websocket.WebsocketClient
+game/Game.java
+ game.Game
+View/GameView.java
+ View.GameView
+game/OnlinePlayer.java
+ game.OnlinePlayer
+View/Run.java
+ View.Run
+game/HumanPlayer.java
+ game.HumanPlayer
+game/Player.java
+ game.Player
 View/MenuView.java
  View.MenuView

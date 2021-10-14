@@ -381,7 +381,7 @@ public class GameView extends View implements ActionListener {
         HoughCirclesRun houghCirclesRun = new HoughCirclesRun(game.getBoard());
 
         int playerIndex = 0;
-        STONECOLOR stonecolor = STONECOLOR.BLACK;
+        STONECOLOR stonecolor = player0StoneColor;
 
 
         try {
