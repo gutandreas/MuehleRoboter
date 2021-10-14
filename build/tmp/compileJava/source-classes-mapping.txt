@@ -6,8 +6,8 @@ game/Position.java
  game.Position
 Websocket/RunWebsocket.java
  Websocket.RunWebsocket
-View/MenuView.java
- View.MenuView
+Camera/RingAndFieldCoordsPx.java
+ Camera.RingAndFieldCoordsPx
 game/Move.java
  game.Move
 Camera/jrpicam/examples/DemoView.java
@@ -93,11 +93,16 @@ EiBotBoard/Controller.java
  EiBotBoard.Controller
 EiBotBoard/Connection.java
  EiBotBoard.Connection
-View/Run.java
- View.Run
-game/HumanPlayer.java
- game.HumanPlayer
-Camera/RingAndFieldCoordsPx.java
- Camera.RingAndFieldCoordsPx
 Camera/HoughCirclesRun.java
  Camera.HoughCirclesRun
+game/HumanPlayer.java
+ game.HumanPlayer
+View/Run.java
+ View.Run
+View/SwitchButton.java
+ View.SwitchButton
+ View.SwitchButton$1
+ View.SwitchButton$2
+ View.SwitchButton$EventSwitchSelected
+View/MenuView.java
+ View.MenuView

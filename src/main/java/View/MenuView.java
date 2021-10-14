@@ -29,9 +29,10 @@ public class MenuView extends View implements ActionListener, MouseListener
     JButton startButton;
     JButton joinButton;
     JButton watchButton;
+    SwitchButton colorSwitchButton;
     JTextField gamecodeTextfield, nameTextfield;
-    JLabel informationLabel, gameCodeLabel, nameLabel, label;
-    JPanel mainPanel, panelInformation, panelTop, panelCenter, panelBottom;
+    JLabel informationLabel, gameCodeLabel, nameLabel, colorLabel, label;
+    JPanel mainPanel, panelInformation, panelTop, panelCenter, panelBottom, panelStartGame, panelColor;
     JRadioButton gameModeRadioButtonStart, gameModeRadioButtonJoin, gameModeRadioButtonWatch;
 
     Keyboard keyboard;
@@ -58,7 +59,7 @@ public class MenuView extends View implements ActionListener, MouseListener
 
         this.viewManager = viewManager;
 
-        setUIFont(new FontUIResource(new Font("Roboto", 0, 20)));
+        setUIFont(new FontUIResource(new Font("Roboto", 0, 16)));
         this.setBackground(background);
 
         mainPanel = new JPanel();
@@ -102,13 +103,33 @@ public class MenuView extends View implements ActionListener, MouseListener
 
 
         //panelCenter
-        startButton = new JButton( "Spiel starten");
+        startButton = new JButton("Spiel starten");
+        colorSwitchButton = new SwitchButton();
+        colorSwitchButton.addMouseListener(this);
+        colorLabel = new JLabel("Farbe: ");
+        colorLabel.setForeground(aliceblue);
+        panelColor = new JPanel();
+        panelColor.add(colorLabel);
+        panelColor.add(colorSwitchButton);
+        panelColor.setOpaque(false);
+        panelStartGame = new JPanel();
+        panelStartGame.add(panelColor);
+        panelStartGame.add(startButton);
+        panelStartGame.setLayout(new BoxLayout(panelStartGame, BoxLayout.X_AXIS));
+        panelStartGame.setOpaque(false);
         joinButton = new JButton ("Einem Spiel beitreten");
         watchButton = new JButton ("Spiel beobachten");
-        panelCenter.add(startButton);
+        panelCenter.setOpaque(false);
+        panelCenter.add(panelStartGame);
+        panelCenter.add(Box.createHorizontalStrut(25));
         panelCenter.add(joinButton);
         panelCenter.add(watchButton);
-        panelCenter.setOpaque(false);
+
+
+
+
+
+
         startButton.addActionListener(this);
         joinButton.addActionListener(this);
         watchButton.addActionListener(this);
@@ -245,10 +266,9 @@ public class MenuView extends View implements ActionListener, MouseListener
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == this.gamecodeTextfield){
+        if (e.getSource() == this.gamecodeTextfield) {
             keyboard.setActiveTextfield(gamecodeTextfield);
-        }
-        else if (e.getSource() == this.nameTextfield){
+        } else if (e.getSource() == this.nameTextfield) {
             keyboard.setActiveTextfield(nameTextfield);
         }
     }
