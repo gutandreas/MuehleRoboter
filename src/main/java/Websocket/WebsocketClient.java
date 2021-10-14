@@ -108,7 +108,7 @@ public class WebsocketClient extends WebSocketClient {
                     int playerIndex = jsonObject.getInt("playerIndex");
 
                     Move move = new Move(new Position(moveFromRing, moveFromField), new Position(moveToRing, moveToField));
-                    boolean jump = board.countPlayersStones(1) == 3;
+                    boolean jump = board.countPlayersStones(0) == 3; //Achtung: Playerindex hardcoded
 
 
                     if (board.checkMove(move, jump)){

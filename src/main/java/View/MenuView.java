@@ -149,7 +149,6 @@ public class MenuView extends View implements ActionListener, MouseListener
 
         if(ae.getSource() == this.startButton){
 
-
             sendStartHTTPRequest();
 
             /*label.setText(("Button 1 wurde betätigt"));
