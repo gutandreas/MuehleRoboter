@@ -31,6 +31,7 @@ public class GameView extends View implements ActionListener {
     Color background = new Color(60,60,60);
     STONECOLOR player0StoneColor;
     STONECOLOR player1StoneColor;
+    private int ownIndex;
 
     String[] args;
     Game game;
@@ -40,7 +41,7 @@ public class GameView extends View implements ActionListener {
     public static void main(String[] args) {
 
         ViewManager viewManager = new ViewManager();
-        GameView gameView = new GameView(viewManager, args, "000", "Peter", null, STONECOLOR.BLACK, STONECOLOR.WHITE);
+        GameView gameView = new GameView(viewManager, args, "000", "Peter", null, STONECOLOR.BLACK, STONECOLOR.WHITE, 0);
         viewManager.setCurrentView(gameView);
         gameView.setVisible(true);
     }
@@ -48,13 +49,14 @@ public class GameView extends View implements ActionListener {
 
 
 
-    public GameView(ViewManager viewManager, String[] args, String gameCode, String name, Connection connection, STONECOLOR player0StoneColor, STONECOLOR player1StoneColor) throws HeadlessException {
+    public GameView(ViewManager viewManager, String[] args, String gameCode, String name, Connection connection, STONECOLOR player0StoneColor, STONECOLOR player1StoneColor, int ownIndex) throws HeadlessException {
 
         this.viewManager = viewManager;
         this.args = args;
         this.connection = connection;
         this.player0StoneColor = player0StoneColor;
         this.player1StoneColor = player1StoneColor;
+        this.ownIndex = ownIndex;
 
         View.setUIFont(new FontUIResource(new Font("Roboto", 0, 20)));
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -309,8 +311,8 @@ public class GameView extends View implements ActionListener {
     private void sendPutMessage(Position position){
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("playerUuid", game.getPlayer0().getUuid());
-        jsonObject.put("playerIndex", 0); //Achtung: PlayerIndex hardcoded!
+        jsonObject.put("playerUuid", game.getPlayerByIndex(game.getOwnIndex()).getUuid());
+        jsonObject.put("playerIndex", ownIndex);
         jsonObject.put("gameCode", game.getGameCode());
         jsonObject.put("command", "update");
         jsonObject.put("action", "put");
@@ -323,8 +325,8 @@ public class GameView extends View implements ActionListener {
 
     private void sendMoveMessage(Move move){
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("playerUuid", game.getPlayer0().getUuid());
-        jsonObject.put("playerIndex", 0); //Achtung: PlayerIndex hardcoded!
+        jsonObject.put("playerUuid", game.getPlayerByIndex(game.getOwnIndex()).getUuid());
+        jsonObject.put("playerIndex", ownIndex);
         jsonObject.put("gameCode", game.getGameCode());
         jsonObject.put("command", "update");
         jsonObject.put("action", "move");
@@ -341,8 +343,8 @@ public class GameView extends View implements ActionListener {
     private void sendKillMessage(Position position){
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("playerUuid", game.getPlayer0().getUuid());
-        jsonObject.put("playerIndex", 0); //Achtung: PlayerIndex hardcoded!
+        jsonObject.put("playerUuid", game.getPlayerByIndex(game.getOwnIndex()).getUuid());
+        jsonObject.put("playerIndex", ownIndex);
         jsonObject.put("gameCode", game.getGameCode());
         jsonObject.put("command", "update");
         jsonObject.put("action", "kill");
@@ -380,20 +382,27 @@ public class GameView extends View implements ActionListener {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         HoughCirclesRun houghCirclesRun = new HoughCirclesRun(game.getBoard());
 
-        int playerIndex = 0;
-        STONECOLOR stonecolor = player0StoneColor;
+        STONECOLOR stonecolor;
+
+        if (ownIndex == 0 ){
+            stonecolor = player0StoneColor;
+        }
+        else {
+            stonecolor = player1StoneColor;
+        }
+
 
 
         try {
             Position position = houghCirclesRun.detectPut(args, game.getBoard());
             sendPutMessage(position);
-            game.getBoard().putStone(position, playerIndex);
+            game.getBoard().putStone(position, ownIndex);
             putOnBoardImage(position, stonecolor);
 
             game.increaseRound();
             increaseRoundLabel();
             setInformationLabel(" ");
-            if (game.getBoard().checkMorris(position) && game.getBoard().isThereStoneToKill(1)){ //Achtung: PlayerIndex hardcoded
+            if (game.getBoard().checkMorris(position) && game.getBoard().isThereStoneToKill(1-ownIndex)){
                 game.setKillPhase(true);
                 enableScanButton(true);
                 setNextStepLabelKill(true);
@@ -423,19 +432,18 @@ public class GameView extends View implements ActionListener {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         HoughCirclesRun houghCirclesRun = new HoughCirclesRun(game.getBoard());
 
-        int playerIndex = 0;
 
 
         try {
             Move move = houghCirclesRun.detectMove(args, game.getBoard());
             sendMoveMessage(move);
-            game.getBoard().move(move, playerIndex); // Achtung: PlayerIndex hardcoded
+            game.getBoard().move(move, ownIndex);
             moveOnBoardImage(move);
 
             game.increaseRound();
             increaseRoundLabel();
             setInformationLabel(" ");
-            if (game.getBoard().checkMorris(move.getTo()) && game.getBoard().isThereStoneToKill(1)){ //Achtung: PlayerIndex hardcoded
+            if (game.getBoard().checkMorris(move.getTo()) && game.getBoard().isThereStoneToKill(1-ownIndex)){
                 game.setKillPhase(true);
                 enableScanButton(true);
                 setNextStepLabelKill(true);
@@ -475,7 +483,7 @@ public class GameView extends View implements ActionListener {
             }
 
 
-            if (game.getBoard().countPlayersStones(1) < 3 && game.getRound() > 18) { // Achtung: playerIndex hardcoded
+            if (game.getBoard().countPlayersStones(1-ownIndex) < 3 && game.getRound() > 18) {
                 setInformationLabel("Sie haben das Spiel gewonnen!");
                 System.out.println("Spiel gewonnen");
             }

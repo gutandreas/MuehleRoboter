@@ -1,11 +1,9 @@
 package View;
 
-import Camera.HoughCirclesRun;
 import EiBotBoard.Connection;
 import Websocket.WebsocketClient;
 import game.*;
 import org.json.JSONObject;
-import org.opencv.core.Core;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -170,14 +168,11 @@ public class MenuView extends View implements ActionListener, MouseListener
 
         if(ae.getSource() == this.startButton){
 
-            sendStartHTTPRequest();
-
-            /*label.setText(("Button 1 wurde betätigt"));
-            connection.put(new Position(1,1),1);*/
+            sendHTTPRequest(0);
         }
         else if(ae.getSource() == this.joinButton){
 
-
+            sendHTTPRequest(1);
         }
         else if (ae.getSource() == this.watchButton){
             label.setText(("Button 3 wurde betätigt"));
@@ -191,17 +186,10 @@ public class MenuView extends View implements ActionListener, MouseListener
 
     }
 
-    private void sendStartHTTPRequest(){
-        String urlAsString = "http://" + ipAdress + ":8080/index/controller/menschVsMensch/start";
+    private void sendHTTPRequest(int modus){
 
         String gameCode = gamecodeTextfield.getText();
         String name = nameTextfield.getText();
-        STONECOLOR stonecolor = STONECOLOR.BLACK;
-
-        HttpClient client = HttpClient.newBuilder().build();
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("gameCode", gameCode);
-        jsonObject.put("player1Name", name);
 
         STONECOLOR player1Color;
         STONECOLOR player2Color;
@@ -210,14 +198,34 @@ public class MenuView extends View implements ActionListener, MouseListener
             player2Color = STONECOLOR.BLACK;
         }
         else {
-            player1Color = STONECOLOR.WHITE;
-            player2Color = STONECOLOR.BLACK;
+            player1Color = STONECOLOR.BLACK;
+            player2Color = STONECOLOR.WHITE;
         }
 
-        jsonObject.put("player1Color", player1Color.toString());
+        HttpClient client = HttpClient.newBuilder().build();
+        JSONObject jsonObject = new JSONObject();
+
+        String urlAsString = "";
+
+        switch (modus){
+            case 0:
+                urlAsString = "http://" + ipAdress + ":8080/index/controller/menschVsMensch/start";
+                jsonObject.put("player1Name", name);
+                jsonObject.put("player1Color", player1Color.toString());
+                break;
+            case 1:
+                urlAsString = "http://" + ipAdress + ":8080/index/controller/menschVsMensch/join";
+                jsonObject.put("player2Name", name);
+                break;
+            case 2:
+                urlAsString = "http://" + ipAdress + ":8080/index/controller/menschVsMensch/watch";
+                break;
+        }
 
 
-        if (nameTextfield.getText().length() == 0){
+        jsonObject.put("gameCode", gameCode);
+
+        if (modus != 2 && nameTextfield.getText().length() == 0){
             informationLabel.setText("Geben Sie einen Spielernamen ein");
             return;
         }
@@ -237,30 +245,64 @@ public class MenuView extends View implements ActionListener, MouseListener
         HttpResponse<?> response = null;
         String uuid = "";
 
+        JSONObject jsonResponseObject = null;
 
         try {
             response = client.send(request,HttpResponse.BodyHandlers.ofString());
 
             String body = (String) response.body();
-            JSONObject jsonResponseObject = new JSONObject(body);
-            uuid = jsonResponseObject.getString("player1Uuid");
-            System.out.println(uuid);
+            jsonResponseObject = new JSONObject(body);
 
+
+            switch (modus){
+                case 0: uuid = jsonResponseObject.getString("player1Uuid");
+                    break;
+
+                case 1: uuid = jsonResponseObject.getString("player2Uuid");
+                    break;
+            }
+
+            System.out.println(uuid);
 
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println(response.statusCode());
 
         if (response.statusCode() == 200){
             try {
                 URI uri = new URI("ws://" + ipAdress + ":8080/board");
-                GameView gameView = new GameView(viewManager, args, gameCode, name, connection, player1Color, player2Color);
-                Game game = new Game(gameView, new HumanPlayer(gameView, nameTextfield.getText(), uuid, player1Color),
-                        new OnlinePlayer(gameView, " "), gamecodeTextfield.getText());
-                WebsocketClient websocketClient = new WebsocketClient(viewManager,uri, connection, game);
+
+                GameView gameView = null;
+                Game game = null;
+
+                switch (modus){
+                    case 0:
+                        game = new Game(gameView, new HumanPlayer(gameView, nameTextfield.getText(), uuid, player1Color),
+                            new OnlinePlayer(gameView, " "), gamecodeTextfield.getText(), false);
+                        gameView = new GameView(viewManager, args, gameCode, name, connection, player1Color, player2Color, 0);
+                        break;
+                    case 1:
+                        game = new Game(gameView, new OnlinePlayer(gameView, jsonResponseObject.getString("player1Name")),
+                                new HumanPlayer(gameView, nameTextfield.getText(), uuid, player2Color), gamecodeTextfield.getText(), true);
+                        if (jsonResponseObject.getString("player2Color").equals("BLACK")){
+                            player1Color = STONECOLOR.WHITE;
+                            player2Color = STONECOLOR.BLACK;
+                        }
+                        else {
+                            player1Color = STONECOLOR.BLACK;
+                            player2Color = STONECOLOR.WHITE;
+                        }
+                        gameView = new GameView(viewManager, args, gameCode, name, connection, player1Color, player2Color, 1);
+                        gameView.setEnemyLabel(jsonResponseObject.getString("player1Name"));
+                        break;
+
+
+                }
+
+
+                WebsocketClient websocketClient = new WebsocketClient(viewManager, uri, connection, game);
                 websocketClient.connect();
                 gameView.setGame(game);
                 gameView.setWebsocketClient(websocketClient);

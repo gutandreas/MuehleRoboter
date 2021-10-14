@@ -27,8 +27,19 @@ public class WebsocketClient extends WebSocketClient {
     public void onOpen(ServerHandshake handshakedata) {
         System.out.println("Verbunden mit Server");
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("gameCode", game.getGameCode());
-        jsonObject.put("command", "start");
+
+        if (game.isJoiningToExistingGame()){
+            System.out.println("join");
+            jsonObject.put("gameCode", game.getGameCode());
+            jsonObject.put("command", "join");
+            jsonObject.put("player2Name", game.getPlayer1().getName());
+        }
+        else {
+            System.out.println("start");
+            jsonObject.put("gameCode", game.getGameCode());
+            jsonObject.put("command", "start");
+        }
+
         send(jsonObject.toString());
     }
 
@@ -38,14 +49,15 @@ public class WebsocketClient extends WebSocketClient {
         JSONObject jsonObject = new JSONObject(message);
         String command = jsonObject.getString("command");
         Board board = game.getBoard();
-        String uuid = game.getPlayer0().getUuid();
+        String ownUuid = game.getPlayerByIndex(game.getOwnIndex()).getUuid();
         GameView gameView = ((GameView) viewManager.getCurrentView());
 
         switch (command){
             case "join":
-                System.out.println("Spiel beigetreten");
-                gameView.setEnemyLabel(jsonObject.getString("player2Name"));
-                gameView.enableScanButton(true);
+                if (!jsonObject.getString("playerUuid").equals(ownUuid)){
+                    System.out.println("Spiel beigetreten");
+                    gameView.setEnemyLabel(jsonObject.getString("player2Name"));
+                    gameView.enableScanButton(true);}
                 break;
 
             case "chat":
@@ -54,7 +66,7 @@ public class WebsocketClient extends WebSocketClient {
 
             case "update":
 
-                if (jsonObject.getString("action").equals("put") && !jsonObject.getString("playerUuid").equals(uuid)){
+                if (jsonObject.getString("action").equals("put") && !jsonObject.getString("playerUuid").equals(ownUuid)){
 
                     int ring = jsonObject.getInt("ring");
                     int field = jsonObject.getInt("field");
@@ -99,7 +111,7 @@ public class WebsocketClient extends WebSocketClient {
                     }
                 }
 
-                if (jsonObject.getString("action").equals("move") && !jsonObject.getString("playerUuid").equals(uuid)){
+                if (jsonObject.getString("action").equals("move") && !jsonObject.getString("playerUuid").equals(ownUuid)){
 
                     int moveFromRing = jsonObject.getInt("moveFromRing");
                     int moveFromField = jsonObject.getInt("moveFromField");
@@ -137,7 +149,7 @@ public class WebsocketClient extends WebSocketClient {
 
                 }
 
-                if (jsonObject.getString("action").equals("kill") && !jsonObject.getString("playerUuid").equals(uuid)){
+                if (jsonObject.getString("action").equals("kill") && !jsonObject.getString("playerUuid").equals(ownUuid)){
 
                     int ring = jsonObject.getInt("ring");
                     int field = jsonObject.getInt("field");

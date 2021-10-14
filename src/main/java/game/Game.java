@@ -27,8 +27,10 @@ public class Game {
     private boolean killPhase = false;
     private boolean player2starts;
     private boolean clickOkay = true;
+    private boolean joiningToExistingGame;
     private String gameCode;
     private GameView gameView;
+    private int ownIndex;
 
 
     ArrayList<Player> playerArrayList = new ArrayList<>();
@@ -45,7 +47,7 @@ public class Game {
 
     }
 
-    public Game(GameView gameView, Player player0, Player player1, String gameCode) {
+    public Game(GameView gameView, Player player0, Player player1, String gameCode, boolean joiningToExistingGame) {
         this.gameView = gameView;
         this.player0 = player0;
         this.player1 = player1;
@@ -54,7 +56,14 @@ public class Game {
         round = 0;
         currentPlayer=playerArrayList.get(0);
         this.gameCode = gameCode;
+        this.joiningToExistingGame = joiningToExistingGame;
         board = new Board();
+        if (joiningToExistingGame){
+            ownIndex = 1;
+        }
+        else {
+            ownIndex = 0;
+        }
     }
 
 
@@ -82,6 +91,9 @@ public class Game {
         return playerArrayList.get(getOtherPlayerIndex());
     }
 
+    public boolean isJoiningToExistingGame() {
+        return joiningToExistingGame;
+    }
 
     public Player getPlayer0() {
         return player0;
@@ -93,6 +105,20 @@ public class Game {
 
     public Player getPlayer1() {
         return player1;
+    }
+
+    public Player getPlayerByIndex(int index){
+        if (index == 0){
+            return player0;
+        }
+        if (index == 1){
+            return player1;
+        }
+        return null;
+    }
+
+    public int getOwnIndex() {
+        return ownIndex;
     }
 
     public String getGameCode() {

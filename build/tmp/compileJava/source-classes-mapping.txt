@@ -90,6 +90,8 @@ View/SwitchButton.java
  View.SwitchButton$1
  View.SwitchButton$2
  View.SwitchButton$EventSwitchSelected
+game/Player.java
+ game.Player
 Websocket/WebsocketClient.java
  Websocket.WebsocketClient
 game/Game.java
@@ -98,11 +100,9 @@ View/GameView.java
  View.GameView
 game/OnlinePlayer.java
  game.OnlinePlayer
-View/Run.java
- View.Run
 game/HumanPlayer.java
  game.HumanPlayer
-game/Player.java
- game.Player
+View/Run.java
+ View.Run
 View/MenuView.java
  View.MenuView
