@@ -55,12 +55,12 @@ public class Connection {
         int shift;
 
         if (playerIndex == 1){
-            shift = 2;
+            shift = -2;
             startPosition = new Position(0-playerIndex, player1PutNumber);
             player1PutNumber++;
         }
         else {
-            shift = -2;
+            shift = 2;
             startPosition = new Position(0-playerIndex, player2PutNumber);
             player2PutNumber++;
         }
@@ -89,12 +89,12 @@ public class Connection {
         wait(1);
 
         if (playerIndex == 1){
-            shift = 2;
+            shift = -2;
             startPosition = new Position(0-playerIndex, player1KillNumber);
             player1KillNumber++;
         }
         else {
-            shift = -2;
+            shift = 2;
             startPosition = new Position(0-playerIndex, player2KillNumber);
             player2KillNumber++;
         }
