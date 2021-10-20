@@ -14,9 +14,9 @@ public class Run {
         // und sichtbar gemacht
 
         ViewManager viewManager = new ViewManager();
-        MenuView menuView = new MenuView(viewManager, args, connection);
+        StartMenuView startMenuView = new StartMenuView(viewManager, args, connection);
 
-        viewManager.setCurrentView(menuView);
+        viewManager.setCurrentView(startMenuView);
         viewManager.getCurrentView().setVisible(true);
 
     }

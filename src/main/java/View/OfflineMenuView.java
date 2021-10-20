@@ -2,9 +2,14 @@ package View;
 
 import EiBotBoard.Connection;
 import Websocket.WebsocketClient;
-import game.*;
+import game.Game;
+import game.HumanPlayer;
+import game.OnlinePlayer;
+import game.STONECOLOR;
 import org.json.JSONObject;
 
+import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,22 +21,21 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
 
 
-public class MenuView extends View implements ActionListener, MouseListener
+public class OfflineMenuView extends View implements ActionListener, MouseListener
 {
     ViewManager viewManager;
 
     JButton startButton;
     JButton joinButton;
     JButton watchButton;
-    SwitchButton colorSwitchButton;
+    SwitchButton colorSwitchButton, startSwitchButton;
     JTextField gamecodeTextfield, nameTextfield;
-    JLabel informationLabel, gameCodeLabel, nameLabel, colorLabel, label;
+    JLabel informationLabel, nameLabel, colorLabel, label, computerLevelLabel, startLabelHuman, startLabelComputer;
     JPanel mainPanel, panelInformation, panelTop, panelCenter, panelBottom, panelStartGame, panelColor;
-    JRadioButton gameModeRadioButtonStart, gameModeRadioButtonJoin, gameModeRadioButtonWatch;
+    JRadioButton computerLevelRadioButton;
+
 
     Keyboard keyboard;
     Color aliceblue = new Color(161, 210, 255);
@@ -46,14 +50,14 @@ public class MenuView extends View implements ActionListener, MouseListener
 
     public static void main(String[] args) {
         ViewManager viewManager = new ViewManager();
-        MenuView menuView = new MenuView(viewManager, args, null);
-        viewManager.setCurrentView(menuView);
-        menuView.setVisible(true);
+        OfflineMenuView onlineMenuView = new OfflineMenuView(viewManager, args, null);
+        viewManager.setCurrentView(onlineMenuView);
+        onlineMenuView.setVisible(true);
 
 
     }
 
-    public MenuView(ViewManager viewManager, String[] args, Connection connection){
+    public OfflineMenuView(ViewManager viewManager, String[] args, Connection connection){
 
         this.viewManager = viewManager;
 
@@ -86,23 +90,8 @@ public class MenuView extends View implements ActionListener, MouseListener
         nameTextfield = new JTextField();
         nameTextfield.addMouseListener(this);
         nameTextfield.setColumns(10);
-        gameCodeLabel = new JLabel("Gamecode:");
-        gameCodeLabel.setForeground(aliceblue);
-        gamecodeTextfield = new JTextField();
-        gamecodeTextfield.addMouseListener(this);
-        gamecodeTextfield.setColumns(10);
 
-        panelTop.add(nameLabel);
-        panelTop.add(nameTextfield);
-        panelTop.add(gameCodeLabel);
-        panelTop.add(gamecodeTextfield);
-        panelTop.setOpaque(false);
-        //panelTop.setBackground(background);
-
-
-        //panelCenter
-        startButton = new JButton("Spiel starten");
-        colorSwitchButton = new SwitchButton();
+        colorSwitchButton = new SwitchButton(Color.BLACK, Color.WHITE, aliceblue);
         colorSwitchButton.addMouseListener(this);
         colorLabel = new JLabel("Farbe: ");
         colorLabel.setForeground(aliceblue);
@@ -110,15 +99,42 @@ public class MenuView extends View implements ActionListener, MouseListener
         panelColor.add(colorLabel);
         panelColor.add(colorSwitchButton);
         panelColor.setOpaque(false);
+
+        startSwitchButton = new SwitchButton(new Color(180, 255, 150), new Color(255, 180, 140), Color.BLACK);
+        startSwitchButton.addMouseListener(this);
+        startLabelHuman = new JLabel("Beginnen:  Ja");
+        startLabelHuman.setForeground(aliceblue);
+        startLabelComputer = new JLabel("Nein");
+        startLabelComputer.setForeground(aliceblue);
         panelStartGame = new JPanel();
-        panelStartGame.add(panelColor);
-        panelStartGame.add(startButton);
-        panelStartGame.setLayout(new BoxLayout(panelStartGame, BoxLayout.X_AXIS));
         panelStartGame.setOpaque(false);
+        panelStartGame.add(startLabelHuman);
+        panelStartGame.add(startSwitchButton);
+        panelStartGame.add(startLabelComputer);
+
+
+
+        computerLevelLabel = new JLabel("Spielstärke Computer:");
+        computerLevelRadioButton = new JRadioButton();
+        computerLevelRadioButton.setText("Schwach");
+
+        panelTop.add(nameLabel);
+        panelTop.add(nameTextfield);
+        panelTop.add(panelColor);
+        panelTop.add(panelStartGame);
+
+        panelTop.setOpaque(false);
+        //panelTop.setBackground(background);
+
+
+        //panelCenter
+        startButton = new JButton("Spiel starten");
+
+
+
         joinButton = new JButton ("Einem Spiel beitreten");
         watchButton = new JButton ("Spiel beobachten");
         panelCenter.setOpaque(false);
-        panelCenter.add(panelStartGame);
         panelCenter.add(Box.createHorizontalStrut(25));
         panelCenter.add(joinButton);
         panelCenter.add(watchButton);

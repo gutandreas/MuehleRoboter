@@ -138,17 +138,18 @@ public class GameView extends View implements ActionListener {
 
 
 
-            //
+            //right
             panelCenterRight = new JPanel();
             panelCenterRight.setOpaque(false);
             scanButton = new JButton("SCAN");
             scanButton.setPreferredSize(new Dimension(300,300));
             scanButton.setEnabled(false);
             scanButton.addActionListener(this);
+
             putButton = new JButton("put");
             putButton.addActionListener(this);
 
-            ringTextfield = new JTextField();
+            /*ringTextfield = new JTextField();
             fieldTextfield = new JTextField();
 
 
@@ -156,27 +157,27 @@ public class GameView extends View implements ActionListener {
             putPanel.setLayout(new BoxLayout(putPanel, BoxLayout.Y_AXIS));
             putPanel.add(ringTextfield);
             putPanel.add(fieldTextfield);
-            putPanel.add(putButton);
+            putPanel.add(putButton);*/
 
-            putButton2 = new JButton("move");
+           /* putButton2 = new JButton("move");
             putButton2.addActionListener(this);
             ringTextfield2 = new JTextField();
-            fieldTextfield2 = new JTextField();
+            fieldTextfield2 = new JTextField();*/
 
 
-            JPanel putPanel2 = new JPanel();
+            /*JPanel putPanel2 = new JPanel();
             putPanel2.setLayout(new BoxLayout(putPanel2, BoxLayout.Y_AXIS));
             putPanel2.add(ringTextfield2);
             putPanel2.add(fieldTextfield2);
-            putPanel2.add(putButton2);
+            putPanel2.add(putButton2);*/
 
-            panicButton = new JButton("Panic");
-            panicButton.addActionListener(this);
+            /*panicButton = new JButton("Panic");
+            panicButton.addActionListener(this);*/
 
             panelCenterRight.add(scanButton);
             //panelCenterRight.add(putPanel);
-            panelCenterRight.add(putPanel2);
-            panelCenterRight.add(panicButton);
+            //panelCenterRight.add(putPanel2);
+            //panelCenterRight.add(panicButton);
 
 
 

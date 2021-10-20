@@ -39,11 +39,15 @@ public class SwitchButton extends Component {
     private boolean mouseOver;
     private float speed = 0.3f;
     private List<EventSwitchSelected> events;
+    private Color onColor;
+    private Color offColor;
 
-    public SwitchButton() {
-        setBackground(new Color(255, 255, 255));
+    public SwitchButton(Color offColor, Color onColor, Color toggleColor) {
+        this.onColor = onColor;
+        this.offColor = offColor;
+        setBackground(onColor);
         setPreferredSize(new Dimension(50, 25));
-        setForeground(aliceblue);
+        setForeground(toggleColor);
         events = new ArrayList<>();
         location = 2;
         timer = new Timer(0, new ActionListener() {
@@ -104,7 +108,7 @@ public class SwitchButton extends Component {
         int height = getHeight();
         float alpha = getAlpha();
         if (alpha < 1) {
-            g2.setColor(Color.BLACK);
+            g2.setColor(offColor);
             g2.fillRoundRect(0, 0, width, height, 25, 25);
         }
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
