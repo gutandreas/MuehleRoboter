@@ -129,24 +129,10 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
 
         //panelCenter
         startButton = new JButton("Spiel starten");
-
-
-
-        joinButton = new JButton ("Einem Spiel beitreten");
-        watchButton = new JButton ("Spiel beobachten");
         panelCenter.setOpaque(false);
         panelCenter.add(Box.createHorizontalStrut(25));
-        panelCenter.add(joinButton);
-        panelCenter.add(watchButton);
-
-
-
-
-
-
+        panelCenter.add(startButton);
         startButton.addActionListener(this);
-        joinButton.addActionListener(this);
-        watchButton.addActionListener(this);
 
 
 
