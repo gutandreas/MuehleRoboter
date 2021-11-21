@@ -145,7 +145,8 @@ public class RPiCamera {
 // 						"Desktop" + File.separator + "RPiCamera.out"));
 		
 		p = pb.start();
-		p.waitFor();
+		p.waitFor(); //Schauen wie lange das wartet! gibt int zurück, um zu schauen, ob fertig (0=ok)
+		// Thread.sleep(); //Hack, um Speichern abzuwarten
 		return new File(saveDir + File.separator + pictureName);
 	}
 	

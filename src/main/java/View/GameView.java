@@ -47,8 +47,31 @@ public class GameView extends View implements ActionListener {
     }
 
 
+    //offline
+    public GameView(ViewManager viewManager, String[] args, String name, STONECOLOR player0StoneColor, STONECOLOR player1StoneColor, int ownIndex){
+
+        this.viewManager = viewManager;
+        this.args = args;
+        this.player0StoneColor = player0StoneColor;
+        this.player1StoneColor = player1StoneColor;
+        this.ownIndex = ownIndex;
+        setupView(name, "Offlinegame");
+        enemyLabel.setText("Computer");
+
+        if (ownIndex == 0) {
+            scanButton.setEnabled(true);
+            nextStepLabel.setText("Beginnen Sie das Spiel");
+
+        } else {
+            scanButton.setEnabled(false);
+        }
 
 
+
+    }
+
+
+    //online
     public GameView(ViewManager viewManager, String[] args, String gameCode, String name, Connection connection, STONECOLOR player0StoneColor, STONECOLOR player1StoneColor, int ownIndex) throws HeadlessException {
 
         this.viewManager = viewManager;
@@ -58,6 +81,14 @@ public class GameView extends View implements ActionListener {
         this.player1StoneColor = player1StoneColor;
         this.ownIndex = ownIndex;
 
+        setupView(name, gameCode);
+
+
+
+
+    }
+
+    public void setupView(String name, String gameCode){
         View.setUIFont(new FontUIResource(new Font("Roboto", 0, 20)));
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setUndecorated(false);
@@ -66,51 +97,51 @@ public class GameView extends View implements ActionListener {
         panelInformation = new JPanel();
         panelInformation.setLayout(new BoxLayout(panelInformation, BoxLayout.Y_AXIS));
 
-            //panelInformationTop
-            panelInformationTop = new JPanel();
-            panelInformationTop.setLayout(new BoxLayout(panelInformationTop, BoxLayout.X_AXIS));
-            informationLabel = new JLabel("");
-            informationLabel.setForeground(Color.RED);
-            panelInformationTop.add(informationLabel);
-            panelInformationTop.setOpaque(false);
+        //panelInformationTop
+        panelInformationTop = new JPanel();
+        panelInformationTop.setLayout(new BoxLayout(panelInformationTop, BoxLayout.X_AXIS));
+        informationLabel = new JLabel("");
+        informationLabel.setForeground(Color.RED);
+        panelInformationTop.add(informationLabel);
+        panelInformationTop.setOpaque(false);
 
 
-            //panelInformationCenter
-            panelInformationCenter = new JPanel();
-            panelInformationCenter.setLayout(new BoxLayout(panelInformationCenter, BoxLayout.X_AXIS));
-            gamcodeTitleLabel = new JLabel("Game: ");
-            gamcodeTitleLabel.setForeground(aliceblue);
-            gamecodeLabel = new JLabel(gameCode);
-            gamecodeLabel.setForeground(aliceblue);
-            roundTitleLabel = new JLabel(" / Runde: ");
-            roundTitleLabel.setForeground(aliceblue);
-            roundLabel = new JLabel("0");
-            roundLabel.setForeground(aliceblue);
+        //panelInformationCenter
+        panelInformationCenter = new JPanel();
+        panelInformationCenter.setLayout(new BoxLayout(panelInformationCenter, BoxLayout.X_AXIS));
+        gamcodeTitleLabel = new JLabel("Game: ");
+        gamcodeTitleLabel.setForeground(aliceblue);
+        gamecodeLabel = new JLabel(gameCode);
+        gamecodeLabel.setForeground(aliceblue);
+        roundTitleLabel = new JLabel(" / Runde: ");
+        roundTitleLabel.setForeground(aliceblue);
+        roundLabel = new JLabel("0");
+        roundLabel.setForeground(aliceblue);
 
 
-            panelInformationCenter.add(gamcodeTitleLabel);
-            panelInformationCenter.add(gamecodeLabel);
-            panelInformationCenter.add(roundTitleLabel);
-            panelInformationCenter.add(roundLabel);
-            panelInformationCenter.setOpaque(false);
+        panelInformationCenter.add(gamcodeTitleLabel);
+        panelInformationCenter.add(gamecodeLabel);
+        panelInformationCenter.add(roundTitleLabel);
+        panelInformationCenter.add(roundLabel);
+        panelInformationCenter.setOpaque(false);
 
-            //panelInformation Bottom
-            panelInformationBottom = new JPanel();
-            panelInformationBottom.setLayout(new BoxLayout(panelInformationBottom, BoxLayout.X_AXIS));
-            nameTitleLabel = new JLabel("Name: ");
-            nameTitleLabel.setForeground(aliceblue);
-            nameLabel = new JLabel(name);
-            nameLabel.setForeground(aliceblue);
-            enemyTitleLabel = new JLabel(" / Gegner: ");
-            enemyTitleLabel.setForeground(aliceblue);
-            enemyLabel = new JLabel("---");
-            enemyLabel.setForeground(aliceblue);
+        //panelInformation Bottom
+        panelInformationBottom = new JPanel();
+        panelInformationBottom.setLayout(new BoxLayout(panelInformationBottom, BoxLayout.X_AXIS));
+        nameTitleLabel = new JLabel("Name: ");
+        nameTitleLabel.setForeground(aliceblue);
+        nameLabel = new JLabel(name);
+        nameLabel.setForeground(aliceblue);
+        enemyTitleLabel = new JLabel(" / Gegner: ");
+        enemyTitleLabel.setForeground(aliceblue);
+        enemyLabel = new JLabel("---");
+        enemyLabel.setForeground(aliceblue);
 
-            panelInformationBottom.add(nameTitleLabel);
-            panelInformationBottom.add(nameLabel);
-            panelInformationBottom.add(enemyTitleLabel);
-            panelInformationBottom.add(enemyLabel);
-            panelInformationBottom.setOpaque(false);
+        panelInformationBottom.add(nameTitleLabel);
+        panelInformationBottom.add(nameLabel);
+        panelInformationBottom.add(enemyTitleLabel);
+        panelInformationBottom.add(enemyLabel);
+        panelInformationBottom.setOpaque(false);
 
 
         panelInformation.add(panelInformationTop);
@@ -123,31 +154,31 @@ public class GameView extends View implements ActionListener {
         panelCenter = new JPanel();
         panelCenter.setLayout(new BoxLayout(panelCenter, BoxLayout.X_AXIS));
 
-            //left
+        //left
 
-            panelCenterLeft = new JPanel();
-            panelCenterLeft.setLayout(new BoxLayout(panelCenterLeft, BoxLayout.Y_AXIS));
-            panelCenterLeft.setOpaque(false);
-            boardImage = new BoardImage();
-            nextStepLabel = new JLabel("Auf Gegenspieler warten");
-            nextStepLabel.setForeground(aliceblue);
-            nextStepLabel.setFont(new Font("Roboto", 0, 13));
+        panelCenterLeft = new JPanel();
+        panelCenterLeft.setLayout(new BoxLayout(panelCenterLeft, BoxLayout.Y_AXIS));
+        panelCenterLeft.setOpaque(false);
+        boardImage = new BoardImage();
+        nextStepLabel = new JLabel("Auf Gegenspieler warten");
+        nextStepLabel.setForeground(aliceblue);
+        nextStepLabel.setFont(new Font("Roboto", 0, 13));
 
-            panelCenterLeft.add(boardImage.getMainLabel());
-            panelCenterLeft.add(nextStepLabel);
+        panelCenterLeft.add(boardImage.getMainLabel());
+        panelCenterLeft.add(nextStepLabel);
 
 
 
-            //right
-            panelCenterRight = new JPanel();
-            panelCenterRight.setOpaque(false);
-            scanButton = new JButton("SCAN");
-            scanButton.setPreferredSize(new Dimension(300,300));
-            scanButton.setEnabled(false);
-            scanButton.addActionListener(this);
+        //right
+        panelCenterRight = new JPanel();
+        panelCenterRight.setOpaque(false);
+        scanButton = new JButton("SCAN");
+        scanButton.setPreferredSize(new Dimension(300,300));
+        scanButton.setEnabled(false);
+        scanButton.addActionListener(this);
 
-            putButton = new JButton("put");
-            putButton.addActionListener(this);
+        putButton = new JButton("put");
+        putButton.addActionListener(this);
 
             /*ringTextfield = new JTextField();
             fieldTextfield = new JTextField();
@@ -174,23 +205,15 @@ public class GameView extends View implements ActionListener {
             /*panicButton = new JButton("Panic");
             panicButton.addActionListener(this);*/
 
-            panelCenterRight.add(scanButton);
-            //panelCenterRight.add(putPanel);
-            //panelCenterRight.add(putPanel2);
-            //panelCenterRight.add(panicButton);
-
-
-
-
+        panelCenterRight.add(scanButton);
+        //panelCenterRight.add(putPanel);
+        //panelCenterRight.add(putPanel2);
+        //panelCenterRight.add(panicButton);
 
 
         panelCenter.add(panelCenterLeft);
         panelCenter.add(panelCenterRight);
         panelCenter.setOpaque(false);
-
-
-
-
 
 
         mainPanel = new JPanel();
@@ -199,8 +222,6 @@ public class GameView extends View implements ActionListener {
         mainPanel.add(panelCenter);
         mainPanel.setBackground(background);
         this.add(mainPanel);
-
-
     }
 
 

@@ -28,8 +28,6 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
     ViewManager viewManager;
 
     JButton startButton;
-    JButton joinButton;
-    JButton watchButton;
     SwitchButton colorSwitchButton, startSwitchButton;
     JTextField gamecodeTextfield, nameTextfield;
     JLabel informationLabel, nameLabel, colorLabel, label, computerLevelLabel, startLabelHuman, startLabelComputer;
@@ -170,21 +168,32 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
 
         if(ae.getSource() == this.startButton){
 
-            sendHTTPRequest(0);
-        }
-        else if(ae.getSource() == this.joinButton){
 
-            sendHTTPRequest(1);
+            if (nameTextfield.getText().length() == 0){
+                informationLabel.setText("Geben Sie einen Spielernamen ein");
+                return;
+            }
+
+            STONECOLOR player1Color;
+            STONECOLOR player2Color;
+            if (colorSwitchButton.isSelected()){
+                player1Color = STONECOLOR.WHITE;
+                player2Color = STONECOLOR.BLACK;
+            }
+            else {
+                player1Color = STONECOLOR.BLACK;
+                player2Color = STONECOLOR.WHITE;
+            }
+
+            int ownIndex = startSwitchButton.isSelected() ? 1 : 0;
+
+
+            GameView gameView = new GameView(viewManager, args, nameTextfield.getText(), player1Color, player2Color, ownIndex);
+            viewManager.setCurrentView(gameView);
+            gameView.setVisible(true);
+            this.setVisible(false);
         }
-        else if (ae.getSource() == this.watchButton){
-            label.setText(("Button 3 wurde betätigt"));
-        }
-        else if (ae.getSource() == this.gamecodeTextfield){
-            keyboard.setActiveTextfield(gamecodeTextfield);
-        }
-        else if (ae.getSource() == this.nameTextfield){
-            keyboard.setActiveTextfield(nameTextfield);
-        }
+
 
     }
 
