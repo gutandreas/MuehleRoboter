@@ -249,6 +249,10 @@ public class GameView extends View implements ActionListener {
         return player1StoneColor;
     }
 
+    public Connection getConnection() {
+        return connection;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 

@@ -37,6 +37,9 @@ public class ComputerPlayer extends Player implements MessageHandler {
         }
 
         System.out.println("Gesetzter Stein: " + gameTree.getBestPut());
+
+        gameView.getConnection().put(gameTree.getBestPut(), playerIndex);
+
         return gameTree.getBestPut();
     }
 
@@ -129,6 +132,9 @@ public class ComputerPlayer extends Player implements MessageHandler {
         }
 
         System.out.println("Getätigter Zug: " + gameTree.getBestMove());
+
+        gameView.getConnection().move(gameTree.getBestMove(), allowedToJump);
+
         return gameTree.getBestMove();
 
     }
@@ -202,6 +208,8 @@ public class ComputerPlayer extends Player implements MessageHandler {
 
 
     Position kill(Board board, int ownPlayerIndex, int otherPlayerIndex) {
+
+        gameView.getConnection().kill(gameTree.getBestKill(), ownPlayerIndex);
 
         return gameTree.getBestKill();
 
