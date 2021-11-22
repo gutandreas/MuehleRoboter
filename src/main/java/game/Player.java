@@ -2,13 +2,14 @@ package game;
 
 
 import View.GameView;
+import Websocket.MessageHandler;
 
-public abstract class Player {
+public abstract class Player implements MessageHandler {
 
     private final String name;
     private final String uuid;
     private final STONECOLOR stonecolor;
-    private final GameView gameView;
+    protected final GameView gameView;
 
     public Player(GameView gameView, String name, String uuid, STONECOLOR stonecolor) {
         this.name = name;

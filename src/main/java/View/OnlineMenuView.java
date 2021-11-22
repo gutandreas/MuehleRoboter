@@ -279,13 +279,14 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
 
                 switch (modus){
                     case 0:
-                        game = new Game(gameView, new HumanPlayer(gameView, nameTextfield.getText(), uuid, player1Color),
-                            new OnlinePlayer(gameView, " "), gamecodeTextfield.getText(), false);
+                        game = new Game(gameView, new HumanPlayer(gameView, nameTextfield.getText(), uuid, player1Color, true),
+                                new HumanPlayer(gameView, " ", " ", player2Color, false),
+                                gamecodeTextfield.getText(), null, false);
                         gameView = new GameView(viewManager, args, gameCode, name, connection, player1Color, player2Color, 0);
                         break;
                     case 1:
-                        game = new Game(gameView, new OnlinePlayer(gameView, jsonResponseObject.getString("player1Name")),
-                                new HumanPlayer(gameView, nameTextfield.getText(), uuid, player2Color), gamecodeTextfield.getText(), true);
+                        game = new Game(gameView, new HumanPlayer(gameView, jsonResponseObject.getString("player1Name"), jsonResponseObject.getString("player1Uuid"), STONECOLOR.valueOf(jsonResponseObject.getString("player2Color" )), false),
+                                new HumanPlayer(gameView, nameTextfield.getText(), uuid, player2Color, true), gamecodeTextfield.getText(), null, true);
                         if (jsonResponseObject.getString("player2Color").equals("BLACK")){
                             player1Color = STONECOLOR.WHITE;
                             player2Color = STONECOLOR.BLACK;

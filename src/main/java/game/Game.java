@@ -1,6 +1,7 @@
 package game;
 
 import View.GameView;
+import Websocket.WebsocketClient;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -31,6 +32,7 @@ public class Game {
     private String gameCode;
     private GameView gameView;
     private int ownIndex;
+    private WebsocketClient websocketClient;
 
 
     ArrayList<Player> playerArrayList = new ArrayList<>();
@@ -39,6 +41,7 @@ public class Game {
         this.gameView = gameView;
         this.player0 = player0;
         this.player1 = player1;
+
         playerArrayList.add(0, player0);
         playerArrayList.add(1, player1);
         round = 0;
@@ -47,10 +50,11 @@ public class Game {
 
     }
 
-    public Game(GameView gameView, Player player0, Player player1, String gameCode, boolean joiningToExistingGame) {
+    public Game(GameView gameView, Player player0, Player player1, String gameCode, WebsocketClient websocketClient, boolean joiningToExistingGame) {
         this.gameView = gameView;
         this.player0 = player0;
         this.player1 = player1;
+        this.websocketClient = websocketClient;
         playerArrayList.add(0, player0);
         playerArrayList.add(1, player1);
         round = 0;
@@ -95,6 +99,10 @@ public class Game {
         return joiningToExistingGame;
     }
 
+    public WebsocketClient getWebsocketClient() {
+        return websocketClient;
+    }
+
     public Player getPlayer0() {
         return player0;
     }
@@ -115,6 +123,34 @@ public class Game {
             return player1;
         }
         return null;
+    }
+
+    public void updateGameState(boolean put, boolean killHappend, boolean increaseRound){
+
+        if (increaseRound) {
+
+            increaseRound();
+            updateCurrentPlayer();
+            setGamesPhaseBooleans();
+            gameView.setInformationLabel(currentPlayer.getName() + " ist an der Reihe");
+            System.out.println(round);
+        }
+
+        checkWinner();
+
+    }
+
+    private void checkWinner(){
+
+        boolean thereIsAWinner = (movePhase && board.countPlayersStones(getCurrentPlayerIndex()) < 3)
+                || (movePhase && !board.checkIfAbleToMove(getCurrentPlayerIndex()));
+
+        if (thereIsAWinner){
+            winner = getOtherPlayer();
+            gameView.setInformationLabel(winner.getName() + " hat das Spiel gewonnen");
+            gameView.enableScanButton(false);
+            System.out.println(winner.getName() + " hat das Spiel gewonnen!");
+        }
     }
 
     public int getOwnIndex() {

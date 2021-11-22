@@ -1,12 +1,11 @@
 package View;
 
+import game.Game;
+
 public class ViewManager {
 
     View currentView;
-
-    public ViewManager(View currentView) {
-        this.currentView = currentView;
-    }
+    Game game;
 
     public ViewManager() {
     }
@@ -18,4 +17,5 @@ public class ViewManager {
     public void setCurrentView(View currentView) {
         this.currentView = currentView;
     }
+
 }

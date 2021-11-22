@@ -229,6 +229,10 @@ public class GameView extends View implements ActionListener {
         this.game = game;
     }
 
+    public Game getGame() {
+        return game;
+    }
+
     public void setWebsocketClient(WebsocketClient websocketClient) {
         this.websocketClient = websocketClient;
     }
