@@ -251,7 +251,7 @@ public class Connection {
 
     private void goHome(int speed){
         connectToStone(false);
-        ebb.stepperMotorMove(500,0,0);
+        ebb.stepperMotorMove(500,0,0); //warten für 0.5s
         try {
             xyMove(-(xCoord-1), -(yCoord-1), speed);
             xyMove(-1, -1, 1);

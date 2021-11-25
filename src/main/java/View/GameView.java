@@ -556,4 +556,8 @@ public class GameView extends View implements ActionListener {
     public void enableScanButton(boolean enable){
         scanButton.setEnabled(enable);
     }
+
+    public void setScanButtonColor(Color color){
+        scanButton.setBackground(color);
+    }
 }

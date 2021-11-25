@@ -126,7 +126,7 @@ public class Game {
         return null;
     }
 
-    public void updateGameState(boolean put, boolean killHappend, boolean increaseRound){
+    public void updateGameState(boolean increaseRound){
 
         if (increaseRound) {
 
@@ -137,11 +137,13 @@ public class Game {
             if (killPhase){
                 gameView.setNextStepLabelKill(currentPlayer.getName());
             }
-            if (putPhase){
-                gameView.setNextStepLabelPut(currentPlayer.getName());
-            }
-            if (movePhase){
-                gameView.setNextStepLabelMove(currentPlayer.getName());
+            else {
+                if (putPhase) {
+                    gameView.setNextStepLabelPut(currentPlayer.getName());
+                }
+                if (movePhase) {
+                    gameView.setNextStepLabelMove(currentPlayer.getName());
+                }
             }
 
             System.out.println(round);
@@ -218,6 +220,7 @@ public class Game {
     public void increaseRound(){
         round++;
         setGamesPhaseBooleans();
+        gameView.increaseRoundLabel();
     }
 
     private void setGamesPhaseBooleans(){

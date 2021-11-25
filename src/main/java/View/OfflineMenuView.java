@@ -187,7 +187,7 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
             Game game = null;
             ScorePoints putPoints = new ScorePoints(0,0,0,0,0,0,0,0,0,0,0,0);
             ScorePoints movePoints = new ScorePoints(0,0,0,0,0,0,0,0,0,0,0,0);
-            int levelLimit = 3;
+            int levelLimit = 1;
 
             switch (ownIndex){
                 case 0:

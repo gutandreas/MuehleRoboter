@@ -5,6 +5,8 @@ import View.GameView;
 import View.ViewManager;
 import Websocket.MessageHandler;
 
+import java.awt.*;
+
 public class HumanPlayer extends Player implements MessageHandler {
 
     boolean local;
@@ -21,21 +23,26 @@ public class HumanPlayer extends Player implements MessageHandler {
     @Override
     public void prepareKill(ViewManager viewManager) {
 
+        GameView gameView = ((GameView) viewManager.getCurrentView());
+
         if (local){
-            ((GameView) viewManager.getCurrentView()).enableScanButton(true);
+            gameView.enableScanButton(true);
         }
         else {
-            ((GameView) viewManager.getCurrentView()).enableScanButton(false);
+            gameView.enableScanButton(false);
         }
     }
 
     @Override
     public void preparePutOrMove(ViewManager viewManager) {
+
+        GameView gameView = ((GameView) viewManager.getCurrentView());
+
         if (local){
-            ((GameView) viewManager.getCurrentView()).enableScanButton(true);
+            gameView.enableScanButton(true);
         }
         else {
-            ((GameView) viewManager.getCurrentView()).enableScanButton(false);
+            gameView.enableScanButton(false);
         }
     }
 }
