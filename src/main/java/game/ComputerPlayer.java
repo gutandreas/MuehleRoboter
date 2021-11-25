@@ -38,7 +38,7 @@ public class ComputerPlayer extends Player implements MessageHandler {
 
         System.out.println("Gesetzter Stein: " + gameTree.getBestPut());
 
-        gameView.getConnection().put(gameTree.getBestPut(), playerIndex);
+        //gameView.getConnection().put(gameTree.getBestPut(), playerIndex);
 
         return gameTree.getBestPut();
     }
@@ -235,19 +235,19 @@ public class ComputerPlayer extends Player implements MessageHandler {
     public void triggerPut(ViewManager viewManager){
         Game game = gameView.getGame();
         Position putPosition = put(game.getBoard(), game.getCurrentPlayerIndex());
-        Messenger.sendPutMessage(viewManager, putPosition);
+        Messenger.sendPutMessage(viewManager, putPosition, true);
     }
 
     public void triggerMove(ViewManager viewManager){
         Game game = gameView.getGame();
         boolean allowedToJump = game.getBoard().countPlayersStones(game.getCurrentPlayerIndex()) == 3;
         Move move = move(game.getBoard(), game.getCurrentPlayerIndex(), allowedToJump);
-        Messenger.sendMoveMessage(viewManager, move);
+        Messenger.sendMoveMessage(viewManager, move, true);
     }
 
     public void triggerKill(ViewManager viewManager){
         Game game = gameView.getGame();
         Position killPosition = kill(game.getBoard(), game.getCurrentPlayerIndex(), game.getOtherPlayerIndex());
-        Messenger.sendKillMessage(viewManager, killPosition);
+        Messenger.sendKillMessage(viewManager, killPosition, true);
     }
 }

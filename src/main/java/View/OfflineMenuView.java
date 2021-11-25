@@ -26,7 +26,7 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
 
     JButton startButton;
     SwitchButton colorSwitchButton, startSwitchButton;
-    JTextField gamecodeTextfield, nameTextfield;
+    JTextField nameTextfield;
     JLabel informationLabel, nameLabel, colorLabel, label, computerLevelLabel, startLabelHuman, startLabelComputer;
     JPanel mainPanel, panelInformation, panelTop, panelCenter, panelBottom, panelStartGame, panelColor;
     JRadioButton computerLevelRadioButton;
@@ -183,7 +183,7 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
             }
 
             int ownIndex = startSwitchButton.isSelected() ? 1 : 0;
-            GameView gameView = new GameView(viewManager, args, nameTextfield.getText(), player1Color, player2Color, ownIndex);
+            GameView gameView = new GameView(viewManager, args, nameTextfield.getText(), connection, player1Color, player2Color, ownIndex);
             Game game = null;
             ScorePoints putPoints = new ScorePoints(0,0,0,0,0,0,0,0,0,0,0,0);
             ScorePoints movePoints = new ScorePoints(0,0,0,0,0,0,0,0,0,0,0,0);
@@ -193,17 +193,14 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
                 case 0:
                     game = new Game(gameView, new HumanPlayer(gameView, nameTextfield.getText(), "", player1Color, true),
                             new ComputerPlayer(gameView, "Computer", player2Color, putPoints, movePoints, levelLimit),
-                            gamecodeTextfield.getText(), null, false);
+                            "Offlinegame", null, false);
                     break;
                 case 1:
                     game = new Game(gameView, new ComputerPlayer(gameView, "Computer", player1Color, putPoints, movePoints, levelLimit),
                             new HumanPlayer(gameView, nameTextfield.getText(), " ", player2Color, true),
-                            gamecodeTextfield.getText(), null, false);
+                            "Offlinegame", null, false);
                     break;
-
-
             }
-
 
             viewManager.setCurrentView(gameView);
             gameView.setGame(game);

@@ -1,5 +1,6 @@
 package game;
 
+import EiBotBoard.Connection;
 import View.GameView;
 import Websocket.WebsocketClient;
 import org.json.JSONObject;
@@ -132,7 +133,17 @@ public class Game {
             increaseRound();
             updateCurrentPlayer();
             setGamesPhaseBooleans();
-            gameView.setInformationLabel(currentPlayer.getName() + " ist an der Reihe");
+
+            if (killPhase){
+                gameView.setNextStepLabelKill(currentPlayer.getName());
+            }
+            if (putPhase){
+                gameView.setNextStepLabelPut(currentPlayer.getName());
+            }
+            if (movePhase){
+                gameView.setNextStepLabelMove(currentPlayer.getName());
+            }
+
             System.out.println(round);
         }
 

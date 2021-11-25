@@ -13,12 +13,10 @@ import java.net.URI;
 public class WebsocketClient extends WebSocketClient {
 
     ViewManager viewManager;
-    final private Connection connection;
     final private Game game;
 
-    public WebsocketClient(ViewManager viewManager, URI serverUri, Connection connection, Game game) {
+    public WebsocketClient(ViewManager viewManager, URI serverUri, Game game) {
         super(serverUri);
-        this.connection = connection;
         this.game = game;
         this.viewManager = viewManager;
     }
@@ -45,7 +43,10 @@ public class WebsocketClient extends WebSocketClient {
 
     @Override
     public void onMessage(String message) {
-        System.out.println(message);
+
+        Messenger.receiveMessage(viewManager, message);
+
+        /*System.out.println(message);
         JSONObject jsonObject = new JSONObject(message);
         String command = jsonObject.getString("command");
         Board board = game.getBoard();
@@ -195,7 +196,7 @@ public class WebsocketClient extends WebSocketClient {
 
             case "exception":
                 System.out.println(jsonObject.get("details"));
-        }
+        }*/
     }
 
     @Override
@@ -215,12 +216,5 @@ public class WebsocketClient extends WebSocketClient {
         send(jsonObject.toString());
     }
 
-    private STONECOLOR evaluateStonecolor(GameView gameView, int index){
-        if (index == 0){
-            return gameView.getPlayer0StoneColor();
-        }
-        else {
-            return gameView.getPlayer1StoneColor();
-        }
-    }
+
 }

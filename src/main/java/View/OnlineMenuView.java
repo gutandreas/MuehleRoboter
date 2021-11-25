@@ -303,7 +303,7 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
                 }
 
 
-                WebsocketClient websocketClient = new WebsocketClient(viewManager, uri, connection, game);
+                WebsocketClient websocketClient = new WebsocketClient(viewManager, uri, game);
                 websocketClient.connect();
                 gameView.setGame(game);
                 gameView.setWebsocketClient(websocketClient);

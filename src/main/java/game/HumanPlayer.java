@@ -14,15 +14,28 @@ public class HumanPlayer extends Player implements MessageHandler {
         this.local = local;
     }
 
-
+    public boolean isLocal() {
+        return local;
+    }
 
     @Override
     public void prepareKill(ViewManager viewManager) {
-        ((GameView) viewManager.getCurrentView()).enableScanButton(true);
+
+        if (local){
+            ((GameView) viewManager.getCurrentView()).enableScanButton(true);
+        }
+        else {
+            ((GameView) viewManager.getCurrentView()).enableScanButton(false);
+        }
     }
 
     @Override
     public void preparePutOrMove(ViewManager viewManager) {
-        ((GameView) viewManager.getCurrentView()).enableScanButton(true);
+        if (local){
+            ((GameView) viewManager.getCurrentView()).enableScanButton(true);
+        }
+        else {
+            ((GameView) viewManager.getCurrentView()).enableScanButton(false);
+        }
     }
 }

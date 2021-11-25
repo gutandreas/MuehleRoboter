@@ -1,5 +1,6 @@
 package Websocket;
 
+import View.BoardImage;
 import View.GameView;
 import View.ViewManager;
 import game.*;
@@ -16,7 +17,7 @@ public class Messenger {
         }
     }
 
-    public static void sendPutMessage(ViewManager viewManager, Position position){
+    public static void sendPutMessage(ViewManager viewManager, Position position, boolean triggerAxidraw){
         JSONObject jsonObject = new JSONObject();
         Game game = ((GameView) viewManager.getCurrentView()).getGame();
         System.out.println(game.getCurrentPlayer().getUuid());
@@ -29,11 +30,12 @@ public class Messenger {
         jsonObject.put("ring", position.getRing());
         jsonObject.put("field", position.getField());
         jsonObject.put("callComputer", false);
+        jsonObject.put("triggerAxidraw", triggerAxidraw);
         jsonObject.put("playerIndex", game.getCurrentPlayerIndex());
         sendMessage(viewManager, jsonObject.toString());
     }
 
-    public static void sendMoveMessage(ViewManager viewManager, Move move) {
+    public static void sendMoveMessage(ViewManager viewManager, Move move, boolean triggerAxidraw) {
 
         JSONObject jsonObject = new JSONObject();
         Game game = ((GameView) viewManager.getCurrentView()).getGame();
@@ -47,11 +49,12 @@ public class Messenger {
         jsonObject.put("moveToRing", move.getTo().getRing());
         jsonObject.put("moveToField", move.getTo().getField());
         jsonObject.put("callComputer", false);
+        jsonObject.put("triggerAxidraw", triggerAxidraw);
         jsonObject.put("playerIndex", game.getCurrentPlayerIndex());
         sendMessage(viewManager, jsonObject.toString());
     }
 
-    public static void sendKillMessage(ViewManager viewManager, Position position) {
+    public static void sendKillMessage(ViewManager viewManager, Position position, boolean triggerAxidraw) {
 
         JSONObject jsonObject = new JSONObject();
         Game game = ((GameView) viewManager.getCurrentView()).getGame();
@@ -63,6 +66,7 @@ public class Messenger {
         jsonObject.put("ring", position.getRing());
         jsonObject.put("field", position.getField());
         jsonObject.put("callComputer", false);
+        jsonObject.put("triggerAxidraw", triggerAxidraw);
         jsonObject.put("playerIndex", game.getCurrentPlayerIndex());
         sendMessage(viewManager, jsonObject.toString());
     }
@@ -101,6 +105,17 @@ public class Messenger {
                     if (board.checkPut(position)){
                         board.putStone(position, playerIndex);
                         System.out.println(board);
+
+                        if (jsonObject.getBoolean("triggerAxidraw")){
+                            gameView.getConnection().put(position, playerIndex);
+                        }
+
+                        STONECOLOR stonecolor = evaluateStonecolor(gameView, playerIndex);
+                        gameView.getBoardImage().put(position, stonecolor);
+                        gameView.clearInformationLabel();
+
+
+
                         //führt zu Mühle
                         if (board.checkMorris(position) && board.isThereStoneToKill(1-playerIndex)){
                             game.updateGameState(true, false, false);
@@ -132,6 +147,14 @@ public class Messenger {
                     if (board.checkMove(move, jump)){
                         board.move(move, playerIndex);
                         System.out.println(board);
+
+                        if (jsonObject.getBoolean("triggerAxidraw")){
+                            gameView.getConnection().move(move, jump);
+                        }
+
+                        gameView.getBoardImage().move(move);
+                        gameView.clearInformationLabel();
+
                         //führt zu Mühle
                         if (board.checkMorris(move.getTo()) && board.isThereStoneToKill(1-playerIndex)){
                             game.updateGameState(false, false, false);
@@ -161,6 +184,13 @@ public class Messenger {
                         board.clearStone(position);
                         System.out.println(board);
 
+                        if (jsonObject.getBoolean("triggerAxidraw")){
+                            gameView.getConnection().kill(position, playerIndex);
+                        }
+
+                        gameView.getBoardImage().kill(position);
+                        gameView.clearInformationLabel();
+
                         game.updateGameState(false, true, true);
                         game.setKillPhase(false);
                         game.getCurrentPlayer().preparePutOrMove(viewManager);
@@ -171,6 +201,15 @@ public class Messenger {
                     }
                 }
                 break;
+        }
+    }
+
+    private static STONECOLOR evaluateStonecolor(GameView gameView, int index){
+        if (index == 0){
+            return gameView.getPlayer0StoneColor();
+        }
+        else {
+            return gameView.getPlayer1StoneColor();
         }
     }
 }

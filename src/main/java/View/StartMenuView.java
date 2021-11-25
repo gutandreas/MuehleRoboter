@@ -77,7 +77,6 @@ public class StartMenuView extends View implements MouseListener {
             viewManager.setCurrentView(onlineMenuView);
             onlineMenuView.setVisible(true);
             this.setVisible(false);
-
         }
 
         if (e.getSource() == offlineButton){
@@ -85,7 +84,6 @@ public class StartMenuView extends View implements MouseListener {
             viewManager.setCurrentView(offlineMenuView);
             offlineMenuView.setVisible(true);
             this.setVisible(false);
-
         }
     }
 
