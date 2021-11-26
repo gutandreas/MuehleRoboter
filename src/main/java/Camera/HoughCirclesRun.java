@@ -21,10 +21,9 @@ import java.util.LinkedList;
 public class HoughCirclesRun {
 
 
-    Board board;
 
-    public HoughCirclesRun(Board board) {
-        this.board = board;
+    public HoughCirclesRun() {
+
     }
 
 
@@ -99,7 +98,7 @@ public class HoughCirclesRun {
             throw new InvalidBoardException("Es wurde kein Stein entfernt");
         }
 
-        if (!board.checkKill(changes[1], 1)){ // Achtung: PlayerIndex harcoded
+        if (!board.checkKill(changes[1], 1)){ // Achtung: PlayerIndex harcoded TODO: Index felxibel machen
             throw new InvalidBoardException("Es wurde ein unerlaubter Stein entfernt");
         }
 
