@@ -114,11 +114,12 @@ public class Messenger {
                         STONECOLOR stonecolor = evaluateStonecolor(gameView, playerIndex);
                         gameView.getBoardImage().put(position, stonecolor);
                         gameView.clearInformationLabel();
+                        System.out.println("update GUI");
 
                         //führt zu Mühle
                         if (board.checkMorris(position) && board.isThereStoneToKill(1-playerIndex)){
-                            game.setKillPhase(true);
-                            game.updateGameState(false);
+                            game.updateGameState(true);
+                            System.out.println("Mühle");
 
                             if (triggerAxidraw){
                                 waitToAvoidAxidrawEventQueueOverflow();
@@ -128,8 +129,7 @@ public class Messenger {
                         }
                         //führt nicht zu Mühle
                         else {
-                            game.setKillPhase(false);
-                            game.updateGameState(true);
+                            game.updateGameState(false);
                             game.getCurrentPlayer().preparePutOrMove(viewManager);
                         }
                     }
@@ -164,8 +164,7 @@ public class Messenger {
 
                         //führt zu Mühle
                         if (board.checkMorris(move.getTo()) && board.isThereStoneToKill(1-playerIndex)){
-                            game.setKillPhase(true);
-                            game.updateGameState(false);
+                            game.updateGameState(true);
                             if (triggerAxidraw){
                                 waitToAvoidAxidrawEventQueueOverflow();
                             }
@@ -173,7 +172,7 @@ public class Messenger {
                         }
                         //führt nicht zu Mühle
                         else {
-                            game.updateGameState( true);
+                            game.updateGameState( false);
                             game.getCurrentPlayer().preparePutOrMove(viewManager);
                             }
                     }
@@ -203,8 +202,7 @@ public class Messenger {
                         gameView.getBoardImage().kill(position);
                         gameView.clearInformationLabel();
 
-                        game.setKillPhase(false);
-                        game.updateGameState( true);
+                        game.updateGameState( false);
                         game.getCurrentPlayer().preparePutOrMove(viewManager);
 
                     }

@@ -117,18 +117,18 @@ public class Game {
         return null;
     }
 
-    public void updateGameState(boolean increaseRound){
+    public void updateGameState(boolean killPhase){
 
-        if (increaseRound) {
+        if (killPhase){
+            gameView.setNextStepLabelKill(currentPlayer.getName());
+            gameView.getGame().setKillPhase(true);
+        }
 
+        else {
+            gameView.getGame().setKillPhase(false);
             increaseRound();
             updateCurrentPlayer();
             setGamesPhaseBooleans();
-
-            if (killPhase){
-                gameView.setNextStepLabelKill(currentPlayer.getName());
-            }
-            else {
                 if (putPhase) {
                     gameView.setNextStepLabelPut(currentPlayer.getName());
                 }
@@ -137,8 +137,7 @@ public class Game {
                 }
             }
 
-            System.out.println(round);
-        }
+        System.out.println(round);
 
         checkWinner();
 
@@ -146,11 +145,11 @@ public class Game {
 
     private void checkWinner(){
 
-        boolean thereIsAWinner = (movePhase && board.countPlayersStones(getCurrentPlayerIndex()) < 3)
+        boolean thereIsAWinner = (movePhase && board.countPlayersStones(getOtherPlayerIndex()) < 3)
                 || (movePhase && !board.checkIfAbleToMove(getCurrentPlayerIndex()));
 
         if (thereIsAWinner){
-            winner = getOtherPlayer();
+            winner = getCurrentPlayer();
             gameView.setInformationLabel(winner.getName() + " hat das Spiel gewonnen");
             gameView.enableScanButton(false);
             System.out.println(winner.getName() + " hat das Spiel gewonnen!");
