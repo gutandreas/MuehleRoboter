@@ -5,6 +5,7 @@ import Camera.InvalidBoardException;
 import EiBotBoard.Connection;
 import Websocket.Messenger;
 import Websocket.WebsocketClient;
+import com.sun.source.doctree.TextTree;
 import game.*;
 import org.opencv.core.Core;
 
@@ -13,6 +14,8 @@ import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.font.TextAttribute;
+import java.text.AttributedString;
 
 public class GameView extends View implements ActionListener {
 
@@ -23,6 +26,7 @@ public class GameView extends View implements ActionListener {
     JButton scanButton, putButton, putButton2, panicButton, exitButton;
     JTextField fieldTextfield, ringTextfield, ringTextfield2, fieldTextfield2;
     JTextArea chatTextArea;
+    String textAreaPromtText = "Chatnachrichten...";
     JScrollPane scroll;
     BoardImage boardImage;
     Color aliceblue = new Color(161, 210, 255);
@@ -194,7 +198,7 @@ public class GameView extends View implements ActionListener {
         panelCenterRight = new JPanel();
         panelCenterRight.setOpaque(false);
         panelCenterRight.setLayout(new BoxLayout(panelCenterRight, BoxLayout.Y_AXIS));
-        chatTextArea = new JTextArea("Chatnachrichten", 15, 10);
+        chatTextArea = new JTextArea(textAreaPromtText, 15, 10);
         chatTextArea.setFont(new Font("Roboto", 0, 13));
         chatTextArea.setLineWrap(true);
         chatTextArea.setWrapStyleWord(true);
@@ -494,9 +498,12 @@ public class GameView extends View implements ActionListener {
     }
 
     public void addChatMessageToTextarea(String name, String message){
-        chatTextArea.setText(name + ": " + message + "\n" + chatTextArea.getText());
-        JScrollBar vertical = scroll.getVerticalScrollBar();
-        //vertical.setValue( vertical.getMaximum() );
+
+        if (chatTextArea.getText().equals(textAreaPromtText)){
+            chatTextArea.setText(name + ": " + message + "\n");
+        }
+        else {
+            chatTextArea.setText(name + ": " + message +"\n" + chatTextArea.getText());}
     }
 
 }
