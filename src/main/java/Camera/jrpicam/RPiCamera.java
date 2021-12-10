@@ -121,13 +121,18 @@ public class RPiCamera {
 		List<String> command = new ArrayList<>();
 		command.add("raspistill");
 		command.add("-o");
-		//command.add("-n"); //Keine Vorschau
-		//command.add("-t 1000"); // 600 Milliskunden delay (Minimum liegt bei 500)
 		command.add(saveDir + File.separator + pictureName);
+
 		command.add("-w");
 		command.add("" + width);
 		command.add("-h");
 		command.add("" + height);
+
+		command.add("-n"); //Keine Vorschau
+
+		command.add("-t"); //Delay
+		command.add("" + 1000);
+		// 600 Milliskunden delay (Minimum liegt bei 500)
 		for (Map.Entry<String, String[]> entry : options.entrySet()) {
 			if (entry.getValue() != null        &&
                 !"width".equals(entry.getKey()) &&
@@ -145,8 +150,8 @@ public class RPiCamera {
 // 						"Desktop" + File.separator + "RPiCamera.out"));
 		
 		p = pb.start();
-		p.waitFor(); //Schauen wie lange das wartet! gibt int zurück, um zu schauen, ob fertig (0=ok)
-		// Thread.sleep(); //Hack, um Speichern abzuwarten
+		//Thread.sleep(2000); //Hack, um Speichern abzuwarten
+		System.out.println("Prozess beendet: 0=ok  ->" + p.waitFor()); //Schauen wie lange das wartet! gibt int zurück, um zu schauen, ob fertig (0=ok)
 		return new File(saveDir + File.separator + pictureName);
 	}
 	
