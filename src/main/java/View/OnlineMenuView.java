@@ -215,11 +215,11 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
                 jsonObject.put("player1Color", player1Color.toString());
                 break;
             case 1:
-                urlAsString = "http://" + ipAdress + ":" + port + "8080/index/controller/menschVsMensch/join";
+                urlAsString = "http://" + ipAdress + ":" + port + "/index/controller/menschVsMensch/join";
                 jsonObject.put("player2Name", name);
                 break;
             case 2:
-                urlAsString = "http://" + ipAdress + ":" + port + "8080/index/controller/menschVsMensch/watch";
+                urlAsString = "http://" + ipAdress + ":" + port + "/index/controller/menschVsMensch/watch";
                 break;
         }
 
@@ -297,7 +297,7 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
                             player2Color = STONECOLOR.WHITE;
                         }
                         gameView = new GameView(viewManager, args, gameCode, name, connection, player1Color, player2Color, 1);
-                        game = new Game(gameView, new HumanPlayer(gameView, jsonResponseObject.getString("player1Name"), jsonResponseObject.getString("player1Uuid"), STONECOLOR.valueOf(jsonResponseObject.getString("player2Color" )), false),
+                        game = new Game(gameView, new HumanPlayer(gameView, jsonResponseObject.getString("player1Name"), " ", STONECOLOR.valueOf(jsonResponseObject.getString("player2Color" )), false),
                                 new HumanPlayer(gameView, nameTextfield.getText(), uuid, player2Color, true), gamecodeTextfield.getText(), null, true);
 
                         gameView.setEnemyLabel(jsonResponseObject.getString("player1Name"));

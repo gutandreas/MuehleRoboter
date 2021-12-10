@@ -494,13 +494,9 @@ public class GameView extends View implements ActionListener {
     }
 
     public void addChatMessageToTextarea(String name, String message){
-        chatTextArea.setText(chatTextArea.getText() + "\n" + name + ": " + message);
+        chatTextArea.setText(name + ": " + message + "\n" + chatTextArea.getText());
         JScrollBar vertical = scroll.getVerticalScrollBar();
-        vertical.setValue( vertical.getMaximum() );
-
+        //vertical.setValue( vertical.getMaximum() );
     }
 
-    public void setScanButtonColor(Color color){
-        scanButton.setBackground(color);
-    }
 }

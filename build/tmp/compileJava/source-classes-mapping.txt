@@ -104,29 +104,29 @@ Camera/jrpicam/examples/ShootBufferedStill.java
  Camera.jrpicam.examples.ShootBufferedStill
 Camera/jrpicam/examples/ShootStill.java
  Camera.jrpicam.examples.ShootStill
-Camera/HoughCirclesRun.java
- Camera.HoughCirclesRun
-View/StartMenuView.java
- View.StartMenuView
+Websocket/WebsocketClient.java
+ Websocket.WebsocketClient
+game/ComputerPlayer.java
+ game.ComputerPlayer
 game/Game.java
  game.Game
 View/ViewManager.java
  View.ViewManager
 View/OfflineMenuView.java
  View.OfflineMenuView
-Websocket/MessageHandler.java
- Websocket.MessageHandler
-game/Player.java
- game.Player
-View/OnlineMenuView.java
- View.OnlineMenuView
-game/HumanPlayer.java
- game.HumanPlayer
-Websocket/WebsocketClient.java
- Websocket.WebsocketClient
-game/ComputerPlayer.java
- game.ComputerPlayer
 View/GameView.java
  View.GameView
 Websocket/Messenger.java
  Websocket.Messenger
+Camera/HoughCirclesRun.java
+ Camera.HoughCirclesRun
+game/HumanPlayer.java
+ game.HumanPlayer
+game/Player.java
+ game.Player
+Websocket/MessageHandler.java
+ Websocket.MessageHandler
+View/OnlineMenuView.java
+ View.OnlineMenuView
+View/StartMenuView.java
+ View.StartMenuView
