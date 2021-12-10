@@ -2,6 +2,7 @@ package Websocket;
 
 import View.BoardImage;
 import View.GameView;
+import View.View;
 import View.ViewManager;
 import game.*;
 import org.json.JSONObject;
@@ -71,6 +72,16 @@ public class Messenger {
         sendMessage(viewManager, jsonObject.toString());
     }
 
+    public static void sendGiveUpMessage(ViewManager viewManager){
+
+        JSONObject jsonObject = new JSONObject();
+        Game game = ((GameView) viewManager.getCurrentView()).getGame();
+
+        jsonObject.put("gameCode", game.getGameCode());
+        jsonObject.put("command", "giveup");
+        jsonObject.put("name", game.getOwnPlayer().getName());
+    }
+
 
     public static void receiveMessage(ViewManager viewManager, String message){
 
@@ -89,6 +100,10 @@ public class Messenger {
                     System.out.println("Spiel beigetreten");
                     gameView.setEnemyLabel(jsonObject.getString("player2Name"));
                     gameView.enableScanButton(true);}
+                break;
+
+            case "chat":
+                gameView.addChatMessageToTextarea(jsonObject.getString("name"), jsonObject.getString("message"));
                 break;
 
             case "update":

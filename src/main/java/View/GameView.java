@@ -6,12 +6,10 @@ import EiBotBoard.Connection;
 import Websocket.Messenger;
 import Websocket.WebsocketClient;
 import game.*;
-import org.json.JSONObject;
 import org.opencv.core.Core;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,10 +18,12 @@ public class GameView extends View implements ActionListener {
 
     ViewManager viewManager;
 
-    JPanel mainPanel, panelInformation, panelInformationTop, panelInformationCenter, panelInformationBottom, panelCenter, panelCenterLeft, panelCenterRight;
+    JPanel mainPanel, panelInformation, panelInformationTop, panelInformationCenter, panelInformationBottom, panelCenter, panelCenterLeft, panelCenterCenter, panelCenterRight;
     JLabel informationLabel, gamcodeTitleLabel, gamecodeLabel, nameTitleLabel, nameLabel, roundTitleLabel, roundLabel, enemyTitleLabel, enemyLabel, nextStepLabel;
-    JButton scanButton, putButton, putButton2, panicButton;
+    JButton scanButton, putButton, putButton2, panicButton, exitButton;
     JTextField fieldTextfield, ringTextfield, ringTextfield2, fieldTextfield2;
+    JTextArea chatTextArea;
+    JScrollPane scroll;
     BoardImage boardImage;
     Color aliceblue = new Color(161, 210, 255);
     Color background = new Color(60,60,60);
@@ -109,7 +109,7 @@ public class GameView extends View implements ActionListener {
         //panelInformationTop
         panelInformationTop = new JPanel();
         panelInformationTop.setLayout(new BoxLayout(panelInformationTop, BoxLayout.X_AXIS));
-        informationLabel = new JLabel("");
+        informationLabel = new JLabel(" ");
         informationLabel.setForeground(Color.RED);
         panelInformationTop.add(informationLabel);
         panelInformationTop.setOpaque(false);
@@ -161,7 +161,7 @@ public class GameView extends View implements ActionListener {
 
         //panelCenter
         panelCenter = new JPanel();
-        panelCenter.setLayout(new BoxLayout(panelCenter, BoxLayout.X_AXIS));
+        panelCenter.setLayout(new FlowLayout(0));
 
         //left
 
@@ -172,22 +172,53 @@ public class GameView extends View implements ActionListener {
         nextStepLabel = new JLabel("Auf Gegenspieler warten");
         nextStepLabel.setForeground(aliceblue);
         nextStepLabel.setFont(new Font("Roboto", 0, 13));
-
         panelCenterLeft.add(boardImage.getMainLabel());
         panelCenterLeft.add(nextStepLabel);
 
 
 
-        //right
-        panelCenterRight = new JPanel();
-        panelCenterRight.setOpaque(false);
+        //center
+        panelCenterCenter = new JPanel();
+        panelCenterCenter.setOpaque(false);
         scanButton = new JButton("SCAN");
-        scanButton.setPreferredSize(new Dimension(300,300));
+        scanButton.setPreferredSize(new Dimension(290,290));
         scanButton.setEnabled(false);
         scanButton.addActionListener(this);
 
         putButton = new JButton("put");
         putButton.addActionListener(this);
+
+        panelCenterCenter.add(scanButton);
+
+        //right
+        panelCenterRight = new JPanel();
+        panelCenterRight.setOpaque(false);
+        panelCenterRight.setLayout(new BoxLayout(panelCenterRight, BoxLayout.Y_AXIS));
+        chatTextArea = new JTextArea("Chatnachrichten", 15, 10);
+        chatTextArea.setFont(new Font("Roboto", 0, 13));
+        chatTextArea.setLineWrap(true);
+        chatTextArea.setWrapStyleWord(true);
+        chatTextArea.setEditable(false);
+        chatTextArea.setHighlighter(null);
+        scroll = new JScrollPane (chatTextArea,
+                JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scroll.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+
+        exitButton = new JButton("Spiel verlassen");
+        exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        exitButton.addActionListener(this);
+
+
+
+        panelCenterRight.add(scroll);
+        panelCenterRight.add(Box.createRigidArea(new Dimension(0, 5)));
+        panelCenterRight.add(exitButton);
+
+
+
+
+
 
             /*ringTextfield = new JTextField();
             fieldTextfield = new JTextField();
@@ -214,13 +245,14 @@ public class GameView extends View implements ActionListener {
             /*panicButton = new JButton("Panic");
             panicButton.addActionListener(this);*/
 
-        panelCenterRight.add(scanButton);
+
         //panelCenterRight.add(putPanel);
         //panelCenterRight.add(putPanel2);
         //panelCenterRight.add(panicButton);
 
 
         panelCenter.add(panelCenterLeft);
+        panelCenter.add(panelCenterCenter);
         panelCenter.add(panelCenterRight);
         panelCenter.setOpaque(false);
 
@@ -230,6 +262,7 @@ public class GameView extends View implements ActionListener {
         mainPanel.add(panelInformation);
         mainPanel.add(panelCenter);
         mainPanel.setBackground(background);
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.add(mainPanel);
     }
 
@@ -280,7 +313,15 @@ public class GameView extends View implements ActionListener {
                 moveScan();
                 return;
             }
+        }
 
+        if (e.getSource() == exitButton){
+            System.out.println("Spiel verlassen");
+            Messenger.sendGiveUpMessage(viewManager);
+            StartMenuView startMenuView = new StartMenuView(viewManager, args, connection);
+            viewManager.setCurrentView(startMenuView);
+            startMenuView.setVisible(true);
+            this.setVisible(false);
         }
 
         /*if (e.getSource() == this.putButton){
@@ -352,7 +393,7 @@ public class GameView extends View implements ActionListener {
 
         System.out.println("Scan des Spielfelds");
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-        HoughCirclesRun houghCirclesRun = new HoughCirclesRun();
+        HoughCirclesRun houghCirclesRun = new HoughCirclesRun(this);
 
 
         try {
@@ -369,7 +410,7 @@ public class GameView extends View implements ActionListener {
 
         System.out.println("Scan des Spielfelds");
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-        HoughCirclesRun houghCirclesRun = new HoughCirclesRun();
+        HoughCirclesRun houghCirclesRun = new HoughCirclesRun(this);
 
 
 
@@ -386,7 +427,7 @@ public class GameView extends View implements ActionListener {
 
         System.out.println("Scan des Spielfelds");
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-        HoughCirclesRun houghCirclesRun = new HoughCirclesRun();
+        HoughCirclesRun houghCirclesRun = new HoughCirclesRun(this);
 
 
         try {
@@ -450,6 +491,13 @@ public class GameView extends View implements ActionListener {
 
     public void enableScanButton(boolean enable){
         scanButton.setEnabled(enable);
+    }
+
+    public void addChatMessageToTextarea(String name, String message){
+        chatTextArea.setText(chatTextArea.getText() + "\n" + name + ": " + message);
+        JScrollBar vertical = scroll.getVerticalScrollBar();
+        vertical.setValue( vertical.getMaximum() );
+
     }
 
     public void setScanButtonColor(Color color){

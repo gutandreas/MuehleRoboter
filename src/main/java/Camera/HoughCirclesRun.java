@@ -3,6 +3,7 @@ package Camera;// https://docs.opencv.org/4.5.3/d4/d70/tutorial_hough_circle.htm
 
 import Camera.jrpicam.RPiCamera;
 import Camera.jrpicam.exceptions.FailedToRunRaspistillException;
+import View.GameView;
 import game.Board;
 import game.Move;
 import game.Position;
@@ -21,8 +22,11 @@ import java.util.LinkedList;
 public class HoughCirclesRun {
 
 
+    GameView gameView;
 
-    public HoughCirclesRun() {
+
+    public HoughCirclesRun(GameView gameView) {
+       this.gameView = gameView;
 
     }
 
@@ -98,7 +102,7 @@ public class HoughCirclesRun {
             throw new InvalidBoardException("Es wurde kein Stein entfernt");
         }
 
-        if (!board.checkKill(changes[1], 1)){ // Achtung: PlayerIndex harcoded TODO: Index felxibel machen
+        if (!board.checkKill(changes[1], gameView.getGame().getOtherPlayerIndex())){
             throw new InvalidBoardException("Es wurde ein unerlaubter Stein entfernt");
         }
 

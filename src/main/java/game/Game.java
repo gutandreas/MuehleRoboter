@@ -82,6 +82,9 @@ public class Game {
         return currentPlayer;
     }
 
+    public Player getOwnPlayer() {
+        return playerArrayList.get(getOwnIndex());
+    }
 
     public Player getOtherPlayer() {
         return playerArrayList.get(getOtherPlayerIndex());
@@ -115,6 +118,10 @@ public class Game {
             return player1;
         }
         return null;
+    }
+
+    public void setWebsocketClient(WebsocketClient websocketClient) {
+        this.websocketClient = websocketClient;
     }
 
     public void updateGameState(boolean killPhase){

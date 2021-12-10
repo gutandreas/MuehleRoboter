@@ -130,9 +130,9 @@ public class RPiCamera {
 
 		command.add("-n"); //Keine Vorschau
 
-		command.add("-t"); //Delay
+		command.add("-t"); //Delay (Minimum: 500)
 		command.add("" + 1000);
-		// 600 Milliskunden delay (Minimum liegt bei 500)
+
 		for (Map.Entry<String, String[]> entry : options.entrySet()) {
 			if (entry.getValue() != null        &&
                 !"width".equals(entry.getKey()) &&
@@ -150,8 +150,7 @@ public class RPiCamera {
 // 						"Desktop" + File.separator + "RPiCamera.out"));
 		
 		p = pb.start();
-		//Thread.sleep(2000); //Hack, um Speichern abzuwarten
-		System.out.println("Prozess beendet: 0=ok  ->" + p.waitFor()); //Schauen wie lange das wartet! gibt int zurück, um zu schauen, ob fertig (0=ok)
+		System.out.println("Prozess beendet: 0=ok  -> " + p.waitFor()); //Schauen wie lange das wartet! gibt int zurück, um zu schauen, ob fertig (0=ok)
 		return new File(saveDir + File.separator + pictureName);
 	}
 	

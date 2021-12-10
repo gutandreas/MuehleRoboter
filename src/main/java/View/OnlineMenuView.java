@@ -42,6 +42,7 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
     Connection connection;
     String[] args;
     String ipAdress = "192.168.0.11";
+    String port = "443";
     //String ipAdress = "localhost";
 
     public static void main(String[] args) {
@@ -209,16 +210,16 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
 
         switch (modus){
             case 0:
-                urlAsString = "http://" + ipAdress + ":8080/index/controller/menschVsMensch/start";
+                urlAsString = "http://" + ipAdress + ":" + port + "/index/controller/menschVsMensch/start";
                 jsonObject.put("player1Name", name);
                 jsonObject.put("player1Color", player1Color.toString());
                 break;
             case 1:
-                urlAsString = "http://" + ipAdress + ":8080/index/controller/menschVsMensch/join";
+                urlAsString = "http://" + ipAdress + ":" + port + "8080/index/controller/menschVsMensch/join";
                 jsonObject.put("player2Name", name);
                 break;
             case 2:
-                urlAsString = "http://" + ipAdress + ":8080/index/controller/menschVsMensch/watch";
+                urlAsString = "http://" + ipAdress + ":" + port + "8080/index/controller/menschVsMensch/watch";
                 break;
         }
 
@@ -272,21 +273,21 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
 
         if (response.statusCode() == 200){
             try {
-                URI uri = new URI("ws://" + ipAdress + ":8080/board");
+                URI uri = new URI("ws://" + ipAdress + ":" + port + "/board");
 
                 GameView gameView = null;
                 Game game = null;
 
                 switch (modus){
                     case 0:
+                        //gameView = new GameView(viewManager, args, nameTextfield.getText(), connection, player1Color, player2Color, 0);
+                        gameView = new GameView(viewManager, args, gameCode, name, connection, player1Color, player2Color, 0);
                         game = new Game(gameView, new HumanPlayer(gameView, nameTextfield.getText(), uuid, player1Color, true),
                                 new HumanPlayer(gameView, " ", " ", player2Color, false),
                                 gamecodeTextfield.getText(), null, false);
-                        gameView = new GameView(viewManager, args, gameCode, name, connection, player1Color, player2Color, 0);
+
                         break;
                     case 1:
-                        game = new Game(gameView, new HumanPlayer(gameView, jsonResponseObject.getString("player1Name"), jsonResponseObject.getString("player1Uuid"), STONECOLOR.valueOf(jsonResponseObject.getString("player2Color" )), false),
-                                new HumanPlayer(gameView, nameTextfield.getText(), uuid, player2Color, true), gamecodeTextfield.getText(), null, true);
                         if (jsonResponseObject.getString("player2Color").equals("BLACK")){
                             player1Color = STONECOLOR.WHITE;
                             player2Color = STONECOLOR.BLACK;
@@ -296,6 +297,9 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
                             player2Color = STONECOLOR.WHITE;
                         }
                         gameView = new GameView(viewManager, args, gameCode, name, connection, player1Color, player2Color, 1);
+                        game = new Game(gameView, new HumanPlayer(gameView, jsonResponseObject.getString("player1Name"), jsonResponseObject.getString("player1Uuid"), STONECOLOR.valueOf(jsonResponseObject.getString("player2Color" )), false),
+                                new HumanPlayer(gameView, nameTextfield.getText(), uuid, player2Color, true), gamecodeTextfield.getText(), null, true);
+
                         gameView.setEnemyLabel(jsonResponseObject.getString("player1Name"));
                         break;
 
@@ -304,6 +308,7 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
 
 
                 WebsocketClient websocketClient = new WebsocketClient(viewManager, uri, game);
+                game.setWebsocketClient(websocketClient);
                 websocketClient.connect();
                 gameView.setGame(game);
                 gameView.setWebsocketClient(websocketClient);
