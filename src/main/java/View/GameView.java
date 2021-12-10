@@ -472,7 +472,7 @@ public class GameView extends View implements ActionListener {
     }
 
     public void clearInformationLabel(){
-        informationLabel.setText("");
+        informationLabel.setText(" ");
     }
     public void setNextStepLabelPut(String name) {
         nextStepLabel.setText(name + " darf einen Stein setzen");

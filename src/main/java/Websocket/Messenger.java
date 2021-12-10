@@ -2,7 +2,7 @@ package Websocket;
 
 import View.BoardImage;
 import View.GameView;
-import View.View;
+import View.StartMenuView;
 import View.ViewManager;
 import game.*;
 import org.json.JSONObject;
@@ -106,6 +106,18 @@ public class Messenger {
             case "chat":
                 gameView.addChatMessageToTextarea(jsonObject.getString("name"), jsonObject.getString("message"));
                 break;
+
+            case "giveup":
+                if (!jsonObject.getString("playerUuid").equals(ownUuid)){
+                    System.out.println("Gegner hat Spiel verlassen");
+                    StartMenuView startMenuView = new StartMenuView(viewManager,new String[0], ((GameView) viewManager.getCurrentView()).getConnection());
+                    startMenuView.setVisible(true);
+                    viewManager.getCurrentView().setVisible(false);
+                    viewManager.setCurrentView(startMenuView);
+                    }
+                break;
+
+
 
             case "update":
 

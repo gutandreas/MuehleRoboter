@@ -38,15 +38,14 @@ public class HoughCirclesRun {
         Position[] changes = getChanges(board, positions);
 
         if (changes[0] != null && changes[1] != null){
-            throw new InvalidBoardException("Es wurde unerlaubt ein Stein verschoben");
+            throw new InvalidBoardException("Es wurde unerlaubt ein Stein auf " + changes[1] + " verschoben");
         }
 
         if (changes[0] == null && changes[1] != null){
-            throw new InvalidBoardException("Es wurde unerlaubt ein Stein entfernt");
+            throw new InvalidBoardException("Es wurde unerlaubt ein Stein von " + changes[1] + " entfernt");
         }
 
         if (changes[0] == null && changes[1] == null){
-            System.out.println("Kein Stein gesetzt");
             throw new InvalidBoardException("Es wurde kein Stein hinzugefügt");
         }
 
@@ -63,11 +62,11 @@ public class HoughCirclesRun {
         Position[] changes = getChanges(board, positions);
 
         if (changes[0] != null && changes[1] == null){
-            throw new InvalidBoardException("Es wurde unerlaubt ein Stein gesetzt");
+            throw new InvalidBoardException("Es wurde unerlaubt ein Stein auf " + changes[0] + " hinzugefügt");
         }
 
         if (changes[0] == null && changes[1] != null){
-            throw new InvalidBoardException("Es wurde unerlaubt ein Stein entfernt");
+            throw new InvalidBoardException("Es wurde unerlaubt ein Stein von " + changes[1] + " entfernt");
         }
 
         if (changes[0] == null && changes[1] == null){
@@ -91,11 +90,11 @@ public class HoughCirclesRun {
         Position[] changes = getChanges(board, positions);
 
         if (changes[0] != null && changes[1] != null){
-            throw new InvalidBoardException("Es wurde unerlaubt ein Stein verschoben");
+            throw new InvalidBoardException("Es wurde unerlaubt ein Stein auf " + changes[0] + " verschoben");
         }
 
         if (changes[0] != null && changes[1] == null){
-            throw new InvalidBoardException("Es wurde unerlaubt ein Stein hinzugefügt");
+            throw new InvalidBoardException("Es wurde unerlaubt ein Stein auf " + changes[0] + " hinzugefügt");
         }
 
         if (changes[0] == null && changes[1] == null){
@@ -103,7 +102,7 @@ public class HoughCirclesRun {
         }
 
         if (!board.checkKill(changes[1], gameView.getGame().getOtherPlayerIndex())){
-            throw new InvalidBoardException("Es wurde ein unerlaubter Stein entfernt");
+            throw new InvalidBoardException("Es wurde ein unerlaubter Stein von " + changes[1] + " entfernt");
         }
 
         return changes[1];
