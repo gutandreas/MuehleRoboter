@@ -261,6 +261,13 @@ public class Connection {
 
     }
 
+    public void resetVariables(){
+        player1PutNumber = 0;
+        player2PutNumber = 0;
+        player1KillNumber = 0;
+        player2KillNumber = 0;
+    }
+
     private void disableMotors(){
         ebb.enableMotor(0,0);
     }

@@ -110,6 +110,7 @@ public class Messenger {
             case "giveup":
                 if (!jsonObject.getString("playerUuid").equals(ownUuid)){
                     System.out.println("Gegner hat Spiel verlassen");
+                    ((GameView) viewManager.getCurrentView()).getConnection().resetVariables();
                     StartMenuView startMenuView = new StartMenuView(viewManager,new String[0], ((GameView) viewManager.getCurrentView()).getConnection());
                     startMenuView.setVisible(true);
                     viewManager.getCurrentView().setVisible(false);
@@ -117,7 +118,14 @@ public class Messenger {
                     }
                 break;
 
-
+            case "timeout":
+                System.out.println("Timeout");
+                ((GameView) viewManager.getCurrentView()).getConnection().resetVariables();
+                StartMenuView startMenuView = new StartMenuView(viewManager,new String[0], ((GameView) viewManager.getCurrentView()).getConnection());
+                startMenuView.setVisible(true);
+                viewManager.getCurrentView().setVisible(false);
+                viewManager.setCurrentView(startMenuView);
+                break;
 
             case "update":
 

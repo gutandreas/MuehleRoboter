@@ -322,6 +322,7 @@ public class GameView extends View implements ActionListener {
         if (e.getSource() == exitButton){
             System.out.println("Spiel verlassen");
             Messenger.sendGiveUpMessage(viewManager);
+            connection.resetVariables();
             StartMenuView startMenuView = new StartMenuView(viewManager, args, connection);
             viewManager.setCurrentView(startMenuView);
             startMenuView.setVisible(true);
