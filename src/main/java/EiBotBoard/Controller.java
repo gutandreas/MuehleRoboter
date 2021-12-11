@@ -24,7 +24,7 @@ public class Controller {
 
 
         RingAndFieldCoordsCm ringAndFieldCoordsCm = new RingAndFieldCoordsCm();
-        ebb.execute("SC," + 4 + "," + 30000);
+        //ebb.execute("SC," + 4 + "," + 19500);
 
 
         Connection connection = new Connection(ebb);
@@ -34,7 +34,8 @@ public class Controller {
         //connection.put(new Position(2,0), 1);
         //connection.move(new Position(2,0), new Position(2,5), true);
 
-        ebb.enableMotor(0,0);
+        ebb.togglePen();
+        //ebb.enableMotor(0,0);
 
 
            /* for (int j = 0; j<1; j++){

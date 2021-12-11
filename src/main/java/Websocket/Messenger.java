@@ -80,6 +80,7 @@ public class Messenger {
         jsonObject.put("gameCode", game.getGameCode());
         jsonObject.put("command", "giveup");
         jsonObject.put("name", game.getOwnPlayer().getName());
+        jsonObject.put("playerUuid", game.getOwnPlayer().getUuid());
         sendMessage(viewManager, jsonObject.toString());
     }
 

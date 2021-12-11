@@ -17,8 +17,10 @@ public class Connection {
     public Connection(Ebb ebb) {
         this.ebb = ebb;
         RingAndFieldCoordsCm ringAndFieldCoordsCm = new RingAndFieldCoordsCm();
+        ebb.execute("SC," + 4 + "," + 24900); //disconnect
+        ebb.execute("SC," + 5 + "," + 20500); //connect
         goHome(5);
-        ebb.execute("SC," + 4 + "," + 30000);
+
     }
 
     public void move(Move move, boolean jump){

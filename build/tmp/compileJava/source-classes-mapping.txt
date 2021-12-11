@@ -51,8 +51,8 @@ EiBotBoard/TestAxidrawConnection.java
  EiBotBoard.TestAxidrawConnection
 Camera/jrpicam/enums/MeteringMode.java
  Camera.jrpicam.enums.MeteringMode
-EiBotBoard/Controller.java
- EiBotBoard.Controller
+game/Advisor.java
+ game.Advisor
 Camera/jrpicam/enums/ImageEffect.java
  Camera.jrpicam.enums.ImageEffect
 View/View.java
@@ -77,56 +77,56 @@ View/SwitchButton.java
  View.SwitchButton$EventSwitchSelected
 game/GameTreeNode.java
  game.GameTreeNode
-Camera/jrpicam/examples/ShootStill.java
- Camera.jrpicam.examples.ShootStill
+game/OpenMorris.java
+ game.OpenMorris
 game/ClosedMorris.java
  game.ClosedMorris
-EiBotBoard/Connection.java
- EiBotBoard.Connection
-game/Advisor.java
- game.Advisor
 game/GameTree.java
  game.GameTree
  game.GameTree$1
  game.GameTree$2
-game/OpenMorris.java
- game.OpenMorris
+View/StartMenuView.java
+ View.StartMenuView
+Camera/jrpicam/examples/ShootTimelapse.java
+ Camera.jrpicam.examples.ShootTimelapse
+game/Game.java
+ game.Game
+game/HumanPlayer.java
+ game.HumanPlayer
+Camera/jrpicam/RPiCamera.java
+ Camera.jrpicam.RPiCamera
+EiBotBoard/Controller.java
+ EiBotBoard.Controller
+Camera/jrpicam/examples/ShootStill.java
+ Camera.jrpicam.examples.ShootStill
+EiBotBoard/Connection.java
+ EiBotBoard.Connection
+View/OnlineMenuView.java
+ View.OnlineMenuView
+game/Player.java
+ game.Player
 Camera/jrpicam/examples/DemoView.java
  Camera.jrpicam.examples.DemoView
  Camera.jrpicam.examples.DemoView$1
  Camera.jrpicam.examples.DemoView$2
  Camera.jrpicam.examples.DemoView$3
-Camera/jrpicam/examples/ShootTimelapse.java
- Camera.jrpicam.examples.ShootTimelapse
-Camera/jrpicam/RPiCamera.java
- Camera.jrpicam.RPiCamera
+Websocket/MessageHandler.java
+ Websocket.MessageHandler
+Camera/HoughCirclesRun.java
+ Camera.HoughCirclesRun
 Camera/jrpicam/examples/ShootBufferedStill.java
  Camera.jrpicam.examples.ShootBufferedStill
+View/OfflineMenuView.java
+ View.OfflineMenuView
+View/ViewManager.java
+ View.ViewManager
 View/Run.java
  View.Run
 Websocket/WebsocketClient.java
  Websocket.WebsocketClient
 game/ComputerPlayer.java
  game.ComputerPlayer
-game/Game.java
- game.Game
-View/ViewManager.java
- View.ViewManager
-View/OfflineMenuView.java
- View.OfflineMenuView
 View/GameView.java
  View.GameView
 Websocket/Messenger.java
  Websocket.Messenger
-View/OnlineMenuView.java
- View.OnlineMenuView
-game/HumanPlayer.java
- game.HumanPlayer
-game/Player.java
- game.Player
-Websocket/MessageHandler.java
- Websocket.MessageHandler
-View/StartMenuView.java
- View.StartMenuView
-Camera/HoughCirclesRun.java
- Camera.HoughCirclesRun
