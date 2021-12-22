@@ -14,10 +14,12 @@ import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.font.TextAttribute;
 import java.text.AttributedString;
 
-public class GameView extends View implements ActionListener {
+public class GameView extends View implements ActionListener, MouseListener {
 
     ViewManager viewManager;
 
@@ -123,6 +125,7 @@ public class GameView extends View implements ActionListener {
         panelInformationCenter = new JPanel();
         panelInformationCenter.setLayout(new BoxLayout(panelInformationCenter, BoxLayout.X_AXIS));
         gamcodeTitleLabel = new JLabel("Game: ");
+        gamcodeTitleLabel.addMouseListener(this);
         gamcodeTitleLabel.setForeground(aliceblue);
         gamecodeLabel = new JLabel(gameCode);
         gamecodeLabel.setForeground(aliceblue);
@@ -398,7 +401,7 @@ public class GameView extends View implements ActionListener {
 
         System.out.println("Scan des Spielfelds");
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-        HoughCirclesRun houghCirclesRun = new HoughCirclesRun(this);
+        HoughCirclesRun houghCirclesRun = new HoughCirclesRun(this, viewManager.getrPiCamera());
 
 
         try {
@@ -415,7 +418,7 @@ public class GameView extends View implements ActionListener {
 
         System.out.println("Scan des Spielfelds");
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-        HoughCirclesRun houghCirclesRun = new HoughCirclesRun(this);
+        HoughCirclesRun houghCirclesRun = new HoughCirclesRun(this, viewManager.getrPiCamera());
 
 
 
@@ -432,7 +435,7 @@ public class GameView extends View implements ActionListener {
 
         System.out.println("Scan des Spielfelds");
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-        HoughCirclesRun houghCirclesRun = new HoughCirclesRun(this);
+        HoughCirclesRun houghCirclesRun = new HoughCirclesRun(this, viewManager.getrPiCamera());
 
 
         try {
@@ -507,4 +510,29 @@ public class GameView extends View implements ActionListener {
             chatTextArea.setText(name + ": " + message +"\n" + chatTextArea.getText());}
     }
 
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        System.out.println("Spielfeld angelickt");
+        new CameraView(viewManager);
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
 }

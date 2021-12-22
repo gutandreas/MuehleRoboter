@@ -71,6 +71,7 @@ public class BoardImage extends Label {
             mainLabel.add(jLabel, c);
         }}
 
+
     }
 
     private void setupHashMap(){

@@ -45,28 +45,28 @@ public class RingAndFieldCoordsCm {
 
 
         //Wartebank Player1
-        positionMap.put(new Position(-1,0), new XyCoordsCm(40+xBorder, 1+yBorder));
-        positionMap.put(new Position(-1,1), new XyCoordsCm(40+xBorder, 4+yBorder));
-        positionMap.put(new Position(-1,2), new XyCoordsCm(40+xBorder, 7+yBorder));
-        positionMap.put(new Position(-1,3), new XyCoordsCm(40+xBorder, 10+yBorder));
-        positionMap.put(new Position(-1,4), new XyCoordsCm(40+xBorder, 13+yBorder));
-        positionMap.put(new Position(-1,5), new XyCoordsCm(40+xBorder, 16+yBorder));
-        positionMap.put(new Position(-1,6), new XyCoordsCm(40+xBorder, 19+yBorder));
-        positionMap.put(new Position(-1,7), new XyCoordsCm(40+xBorder, 22+yBorder));
-        positionMap.put(new Position(-1,8), new XyCoordsCm(40+xBorder, 25+yBorder));
-        positionMap.put(new Position(-1,9), new XyCoordsCm(40+xBorder, 28+yBorder));
+        positionMap.put(new Position(-1,0), new XyCoordsCm(40+xBorder, 0+yBorder));
+        positionMap.put(new Position(-1,1), new XyCoordsCm(40+xBorder, 3+yBorder));
+        positionMap.put(new Position(-1,2), new XyCoordsCm(40+xBorder, 6+yBorder));
+        positionMap.put(new Position(-1,3), new XyCoordsCm(40+xBorder, 9+yBorder));
+        positionMap.put(new Position(-1,4), new XyCoordsCm(40+xBorder, 12+yBorder));
+        positionMap.put(new Position(-1,5), new XyCoordsCm(40+xBorder, 15+yBorder));
+        positionMap.put(new Position(-1,6), new XyCoordsCm(40+xBorder, 18+yBorder));
+        positionMap.put(new Position(-1,7), new XyCoordsCm(40+xBorder, 21+yBorder));
+        positionMap.put(new Position(-1,8), new XyCoordsCm(40+xBorder, 24+yBorder));
+        positionMap.put(new Position(-1,9), new XyCoordsCm(40+xBorder, 27+yBorder));
 
         //Wartebank Player2
-        positionMap.put(new Position(-2,0), new XyCoordsCm(0+xBorder, 1+yBorder));
-        positionMap.put(new Position(-2,1), new XyCoordsCm(0+xBorder, 4+yBorder));
-        positionMap.put(new Position(-2,2), new XyCoordsCm(0+xBorder, 7+yBorder));
-        positionMap.put(new Position(-2,3), new XyCoordsCm(0+xBorder, 10+yBorder));
-        positionMap.put(new Position(-2,4), new XyCoordsCm(0+xBorder, 13+yBorder));
-        positionMap.put(new Position(-2,5), new XyCoordsCm(0+xBorder, 16+yBorder));
-        positionMap.put(new Position(-2,6), new XyCoordsCm(0+xBorder, 19+yBorder));
-        positionMap.put(new Position(-2,7), new XyCoordsCm(0+xBorder, 22+yBorder));
-        positionMap.put(new Position(-2,8), new XyCoordsCm(0+xBorder, 25+yBorder));
-        positionMap.put(new Position(-2,9), new XyCoordsCm(0+xBorder, 28+yBorder));
+        positionMap.put(new Position(-2,0), new XyCoordsCm(0+xBorder, 0+yBorder));
+        positionMap.put(new Position(-2,1), new XyCoordsCm(0+xBorder, 3+yBorder));
+        positionMap.put(new Position(-2,2), new XyCoordsCm(0+xBorder, 6+yBorder));
+        positionMap.put(new Position(-2,3), new XyCoordsCm(0+xBorder, 9+yBorder));
+        positionMap.put(new Position(-2,4), new XyCoordsCm(0+xBorder, 12+yBorder));
+        positionMap.put(new Position(-2,5), new XyCoordsCm(0+xBorder, 15+yBorder));
+        positionMap.put(new Position(-2,6), new XyCoordsCm(0+xBorder, 18+yBorder));
+        positionMap.put(new Position(-2,7), new XyCoordsCm(0+xBorder, 21+yBorder));
+        positionMap.put(new Position(-2,8), new XyCoordsCm(0+xBorder, 24+yBorder));
+        positionMap.put(new Position(-2,9), new XyCoordsCm(0+xBorder, 27+yBorder));
 
         //Startposition für Bahnen (Move in Line), B0 bis B3 Player 1
         positionMap.put(new Position(-11,3), new XyCoordsCm(34+xBorder, 22+yBorder));

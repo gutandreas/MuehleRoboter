@@ -3,6 +3,7 @@ package Camera;// https://docs.opencv.org/4.5.3/d4/d70/tutorial_hough_circle.htm
 
 import Camera.jrpicam.RPiCamera;
 import Camera.jrpicam.exceptions.FailedToRunRaspistillException;
+import View.CameraView;
 import View.GameView;
 import game.Board;
 import game.Move;
@@ -15,6 +16,7 @@ import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -23,18 +25,22 @@ public class HoughCirclesRun {
 
 
     GameView gameView;
+    RPiCamera rPiCamera;
 
 
-    public HoughCirclesRun(GameView gameView) {
+    public HoughCirclesRun(GameView gameView, RPiCamera camera) {
        this.gameView = gameView;
+       rPiCamera = camera;
 
     }
 
-
+    public HoughCirclesRun(RPiCamera camera) {
+        rPiCamera = camera;
+    }
 
     public Position detectPut(String[] args, Board board){
-        Mat src = takePhoto(args);
-        Position[] positions = detectCircles(src);
+        Mat src = takePhoto(rPiCamera, "spielfoto");
+        Position[] positions = detectCircles(src, true);
         Position[] changes = getChanges(board, positions);
 
         if (changes[0] != null && changes[1] != null){
@@ -57,8 +63,8 @@ public class HoughCirclesRun {
     }
 
     public Move detectMove(String[] args, Board board){
-        Mat src = takePhoto(args);
-        Position[] positions = detectCircles(src);
+        Mat src = takePhoto(rPiCamera, "spielfoto");
+        Position[] positions = detectCircles(src, false);
         Position[] changes = getChanges(board, positions);
 
         if (changes[0] != null && changes[1] == null){
@@ -85,8 +91,8 @@ public class HoughCirclesRun {
     }
 
     public Position detectKill(String[] args, Board board){
-        Mat src = takePhoto(args);
-        Position[] positions = detectCircles(src);
+        Mat src = takePhoto(rPiCamera, "spielfoto");
+        Position[] positions = detectCircles(src, false);
         Position[] changes = getChanges(board, positions);
 
         if (changes[0] != null && changes[1] != null){
@@ -112,18 +118,14 @@ public class HoughCirclesRun {
 
 
 
-    public Mat takePhoto(String[] args) {
+    public Mat takePhoto(RPiCamera camera, String name) {
 
-        RPiCamera rPiCamera = null;
+
         Mat src = null;
 
         try {
-            rPiCamera = new RPiCamera("/home/pi/");
-            rPiCamera.setContrast(0);
-            rPiCamera.takeStill("test.png", 3280, 2464);
-            src = Imgcodecs.imread("/home/pi/test.png");
-        } catch (FailedToRunRaspistillException e) {
-            e.printStackTrace();
+            camera.takeStill(name + ".png", 3280, 2464);
+            src = Imgcodecs.imread("/home/pi/" + name + ".png");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -134,14 +136,14 @@ public class HoughCirclesRun {
 
     }
 
-    private Position[] detectCircles(Mat src){
+    public Position[] detectCircles(Mat src, boolean paintCircles){
         Mat gray = new Mat();
         Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
         Imgproc.medianBlur(gray, gray, 5);
         Mat circles = new Mat();
         Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1.0,
                 (double)gray.rows()/16, // change this value to detect circles with different distances to each other
-                100.0, 30.0, 10, 100); // change the last two parameters
+                100.0, 30.0, 22, 40); // change the last two parameters
 
 
         Position[] positions = new Position[circles.cols()];
@@ -159,30 +161,6 @@ public class HoughCirclesRun {
                 positions[counter] = position;
                 counter++;
             }
-
-            /*Scalar scalar;
-
-            if (positions[counter] != null){
-                scalar = new Scalar(0,255,0);
-                for (Position pos : positions){
-                    if (pos != null && pos!=positions[counter] && pos.equals(positions[counter])){
-                        scalar = new Scalar(0,255,255);
-                    }
-                }
-            }
-            else {
-                scalar = new Scalar(0,0,255);
-            }*/
-
-
-
-            /*// circle center
-            Imgproc.circle(src, center, 0, new Scalar(255,255,255), 3, 8, 0 );
-            // circle outline
-            int radius = (int) Math.round(c[2]);
-            Imgproc.circle(src, center, radius, scalar, 2, 8, 0 );*/
-
-
         }
 
         for (Position pos : positions){
@@ -190,6 +168,60 @@ public class HoughCirclesRun {
         }
 
         return positions;
+    }
+
+    public Image paintCircles(Mat src){
+        Mat gray = new Mat();
+        Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
+        Imgproc.medianBlur(gray, gray, 5);
+        Mat circles = new Mat();
+        Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1.0,
+                (double)gray.rows()/16, // change this value to detect circles with different distances to each other
+                100.0, 30.0, 22, 40); // change the last two parameters
+
+
+        Position[] positions = new Position[circles.cols()];
+        int counter = 0;
+
+        // (min_radius & max_radius) to detect larger circles
+        for (int x = 0; x < circles.cols(); x++) {
+            double[] c = circles.get(0, x);
+            Point center = new Point(Math.round(c[0]), Math.round(c[1]));
+            System.out.println("Kreis an Position x=" + center.x + " / y=" + center.y + " erkannt");
+
+
+            Position position = getPosition(center.x, center.y, 100);
+            if (position != null){
+                positions[counter] = position;
+
+
+            Scalar scalar;
+
+            if (positions[counter] != null) {
+                scalar = new Scalar(0, 255, 0);
+                for (Position pos : positions) {
+                    if (pos != null && pos != positions[counter] && pos.equals(positions[counter])) {
+                        scalar = new Scalar(0, 255, 255);
+                    }
+                }
+            } else {
+                scalar = new Scalar(0, 0, 255);
+            }
+
+            // circle center
+            Imgproc.circle(src, center, 0, new Scalar(255, 255, 255), 3, 8, 0);
+            // circle outline
+            int radius = (int) Math.round(c[2]);
+            Imgproc.circle(src, center, radius, scalar, 10, 8, 0);
+
+            counter++;
+            }
+
+        }
+
+        Image img = HighGui.toBufferedImage(src);
+
+        return img;
     }
 
     private Position getPosition(double x, double y, double tolerance) {
