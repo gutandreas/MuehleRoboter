@@ -40,10 +40,7 @@ public class CameraView extends View implements ActionListener {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         houghCirclesRun = new HoughCirclesRun(viewManager.getrPiCamera());
         Mat src = houghCirclesRun.takePhoto(viewManager.rPiCamera, "vorschau");
-        loadPreviewImage(src);
-
-
-        mainPanel.add(imageLabel);
+        loadAndAddOrUpdatePreviewImage(src, false);
         JPanel brightnessPanel = new JPanel();
         brightnessPanel.add(brightnessLabel);
         brightnessTextfield.setColumns(3);
@@ -74,7 +71,7 @@ public class CameraView extends View implements ActionListener {
             previewCamera.setBrightness(Integer.parseInt(brightnessTextfield.getText()));
             previewCamera.setContrast(Integer.parseInt(contrastTextfield.getText()));
             Mat preview = houghCirclesRun.takePhoto(previewCamera, "preview");
-            loadPreviewImage(preview);
+            loadAndAddOrUpdatePreviewImage(preview, true);
         }
 
         if (e.getSource() == saveButton){
@@ -85,7 +82,7 @@ public class CameraView extends View implements ActionListener {
         }
     }
 
-    private void loadPreviewImage(Mat src){
+    private void loadAndAddOrUpdatePreviewImage(Mat src, boolean update){
         previewIcon = new ImageIcon(houghCirclesRun.paintCircles(src).getScaledInstance(230, 200, 0));
 
         imageLabel = new JLabel(previewIcon) {
@@ -100,8 +97,16 @@ public class CameraView extends View implements ActionListener {
             }
         };
 
+        if (update){
+            mainPanel.remove(0);
+        }
+
+        mainPanel.add(imageLabel, 0);
+
         mainPanel.revalidate();
         mainPanel.repaint();
+
+
 
 
 
