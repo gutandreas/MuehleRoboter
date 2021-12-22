@@ -14,8 +14,8 @@ public class ViewManager {
     public ViewManager() {
         try {
             rPiCamera = new RPiCamera("/home/pi/");
-            rPiCamera.setBrightness(30);
-            rPiCamera.setContrast(20);
+            rPiCamera.setBrightness(50);
+            rPiCamera.setContrast(0);
         } catch (FailedToRunRaspistillException e) {
             e.printStackTrace();
         }

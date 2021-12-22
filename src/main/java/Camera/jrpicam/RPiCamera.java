@@ -71,9 +71,6 @@ public class RPiCamera {
 	 */
 	public RPiCamera(String saveDir) throws FailedToRunRaspistillException {
 
-		setContrast(15);
-		setBrightness(10);
-
 		this.saveDir = saveDir;
 		try {
 			pb = new ProcessBuilder("raspistill");
