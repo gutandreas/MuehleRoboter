@@ -21,7 +21,11 @@ public class CameraView extends View implements ActionListener {
     JPanel mainPanel = new JPanel();
     JLabel brightnessLabel = new JLabel("Helligkeit (0 bis 100):");
     JTextField brightnessTextfield = new JTextField();
+    JButton brightnessPlusButton = new JButton("+");
+    JButton brightnessMinusButton = new JButton("-");
     JLabel contrastLabel = new JLabel("Kontrast (-100 bis 100):");
+    JButton contrastPlusButton = new JButton("+");
+    JButton contrastMinusButton = new JButton("-");
     JLabel imageLabel;
     JLabel drcLabel = new JLabel("Dynamic Range Compression: ");
     SwitchButton drcSwitchButton = new SwitchButton(Color.RED, Color.GREEN, aliceblue);
@@ -52,7 +56,7 @@ public class CameraView extends View implements ActionListener {
 
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         houghCirclesRun = new HoughCirclesRun(viewManager.getrPiCamera());
-        Mat src = houghCirclesRun.takePhoto(viewManager.rPiCamera, "vorschau");
+        Mat src = houghCirclesRun.takePhoto(viewManager.getrPiCamera(), "vorschau");
         loadAndAddOrUpdatePreviewImage(src, false);
 
         brightnessLabel.setFont(font);
@@ -62,6 +66,10 @@ public class CameraView extends View implements ActionListener {
         brightnessTextfield.setColumns(3);
         brightnessTextfield.setText(viewManager.getrPiCamera().getBrightness());
         brightnessPanel.add(brightnessTextfield);
+        brightnessPlusButton.addActionListener(this);
+        brightnessPanel.add(brightnessPlusButton);
+        brightnessMinusButton.addActionListener(this);
+        brightnessPanel.add(brightnessMinusButton);
         brightnessPanel.setOpaque(false);
 
         contrastLabel.setFont(font);
@@ -71,6 +79,10 @@ public class CameraView extends View implements ActionListener {
         contrastTextfield.setColumns(3);
         contrastTextfield.setText(viewManager.getrPiCamera().getContrast());
         contrastPanel.add(contrastTextfield);
+        contrastPlusButton.addActionListener(this);
+        contrastPanel.add(contrastPlusButton);
+        contrastMinusButton.addActionListener(this);
+        contrastPanel.add(contrastMinusButton);
         contrastPanel.setOpaque(false);
 
         drcLabel.setFont(font);
@@ -145,10 +157,41 @@ public class CameraView extends View implements ActionListener {
 
         if (e.getSource() == saveButton){
             System.out.println("save Button");
-            viewManager.getrPiCamera().setBrightness(Integer.parseInt(brightnessTextfield.getText()));
-            viewManager.getrPiCamera().setContrast(Integer.parseInt(contrastTextfield.getText()));
+            viewManager.setrPiCamera(previewCamera);
             saveButton.setVisible(false);
 
+        }
+
+        if (e.getSource() == brightnessPlusButton){
+            int value = Integer.parseInt(brightnessTextfield.getText());
+            if (value + 5 <= 100){
+                value = value + 5;
+            }
+            brightnessTextfield.setText("" + value);
+        }
+
+        if (e.getSource() == brightnessMinusButton){
+            int value = Integer.parseInt(brightnessTextfield.getText());
+            if (value - 5 >= 0){
+                value = value - 5;
+            }
+            brightnessTextfield.setText("" + value);
+        }
+
+        if (e.getSource() == contrastPlusButton){
+            int value = Integer.parseInt(contrastTextfield.getText());
+            if (value + 5 <= 100){
+                value = value + 5;
+            }
+            contrastTextfield.setText("" + value);
+        }
+
+        if (e.getSource() == contrastMinusButton){
+            int value = Integer.parseInt(contrastTextfield.getText());
+            if (value - 5 >= -100){
+                value = value - 5;
+            }
+            contrastTextfield.setText("" + value);
         }
     }
 

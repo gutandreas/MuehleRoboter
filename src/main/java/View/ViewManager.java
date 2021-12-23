@@ -11,7 +11,7 @@ public class ViewManager {
 
     View currentView;
     Game game;
-    RPiCamera rPiCamera;
+    private RPiCamera rPiCamera;
 
     public ViewManager() {
         try {
@@ -33,5 +33,9 @@ public class ViewManager {
 
     public RPiCamera getrPiCamera() {
         return rPiCamera;
+    }
+
+    public void setrPiCamera(RPiCamera rPiCamera) {
+        this.rPiCamera = rPiCamera;
     }
 }
