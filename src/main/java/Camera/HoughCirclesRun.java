@@ -181,7 +181,7 @@ public class HoughCirclesRun {
 
         Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1.0,
                 (double)gray.rows()/16, // change this value to detect circles with different distances to each other
-                100.0, 30.0, 70, 85); // change the last two parameters
+                100.0, 30.0, 65, 85); // change the last two parameters
 
         Position[] positions = new Position[circles.cols()];
         int counter = 0;

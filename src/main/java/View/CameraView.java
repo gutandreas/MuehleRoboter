@@ -60,6 +60,7 @@ public class CameraView extends View implements ActionListener {
         JPanel brightnessPanel = new JPanel();
         brightnessPanel.add(brightnessLabel);
         brightnessTextfield.setColumns(3);
+        brightnessTextfield.setText(viewManager.getrPiCamera().getBrightness());
         brightnessPanel.add(brightnessTextfield);
         brightnessPanel.setOpaque(false);
 
@@ -68,6 +69,7 @@ public class CameraView extends View implements ActionListener {
         JPanel contrastPanel = new JPanel();
         contrastPanel.add(contrastLabel);
         contrastTextfield.setColumns(3);
+        contrastTextfield.setText(viewManager.getrPiCamera().getContrast());
         contrastPanel.add(contrastTextfield);
         contrastPanel.setOpaque(false);
 
@@ -86,15 +88,30 @@ public class CameraView extends View implements ActionListener {
         awbPanel.setOpaque(false);
 
         previewButton.addActionListener(this);
+        previewButton.setPreferredSize(new Dimension(100, 50));
+        previewButton.setFont(new Font("Roboto", 0, 13));
         saveButton.addActionListener(this);
+        saveButton.setPreferredSize(new Dimension(100, 50));
+        saveButton.setFont(new Font("Roboto", 0, 13));
+        saveButton.setVisible(false);
+        JPanel buttonPanel  = new JPanel();
+        buttonPanel.setLayout(new FlowLayout());
+        buttonPanel.add(previewButton);
+        buttonPanel.add(saveButton);
+        buttonPanel.setOpaque(false);
 
-        mainPanel.add(brightnessPanel);
-        mainPanel.add(contrastPanel);
-        mainPanel.add(drcPanel);
-        mainPanel.add(awbPanel);
-        mainPanel.add(previewButton);
-        mainPanel.add(saveButton);
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        JPanel settingsPanel = new JPanel();
+        settingsPanel.add(brightnessPanel);
+        settingsPanel.add(contrastPanel);
+        settingsPanel.add(drcPanel);
+        settingsPanel.add(awbPanel);
+        settingsPanel.add(buttonPanel);
+        settingsPanel.setOpaque(false);
+        settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.Y_AXIS));
+        settingsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        mainPanel.add(imageLabel);
+        mainPanel.add(settingsPanel);
         mainPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.setBackground(background);
         this.add(mainPanel);
@@ -122,18 +139,21 @@ public class CameraView extends View implements ActionListener {
             else {
                 previewCamera.setAWB(AWB.AUTO);
             }
+
+            saveButton.setVisible(true);
         }
 
         if (e.getSource() == saveButton){
             System.out.println("save Button");
             viewManager.getrPiCamera().setBrightness(Integer.parseInt(brightnessTextfield.getText()));
             viewManager.getrPiCamera().setContrast(Integer.parseInt(contrastTextfield.getText()));
+            saveButton.setVisible(false);
 
         }
     }
 
     private void loadAndAddOrUpdatePreviewImage(Mat src, boolean update){
-        previewIcon = new ImageIcon(houghCirclesRun.paintCircles(src).getScaledInstance(230, 200, 0));
+        previewIcon = new ImageIcon(houghCirclesRun.paintCircles(src).getScaledInstance(460, 400, 0));
 
         imageLabel = new JLabel(previewIcon) {
             @Override
@@ -142,7 +162,7 @@ public class CameraView extends View implements ActionListener {
                 Dimension lmPrefSize = getLayout().preferredLayoutSize(this);
                 size.width = Math.max(size.width, lmPrefSize.width);
                 size.height = Math.max(size.height, lmPrefSize.height);*/
-                Dimension size = new Dimension(230, 200);
+                Dimension size = new Dimension(460, 400);
                 return size;
             }
         };

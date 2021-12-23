@@ -1,6 +1,8 @@
 package View;
 
 import Camera.jrpicam.RPiCamera;
+import Camera.jrpicam.enums.Exposure;
+import Camera.jrpicam.enums.ImageEffect;
 import Camera.jrpicam.exceptions.FailedToRunRaspistillException;
 import Websocket.Messenger;
 import game.Game;
