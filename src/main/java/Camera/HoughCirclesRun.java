@@ -175,10 +175,13 @@ public class HoughCirclesRun {
         Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
         Imgproc.medianBlur(gray, gray, 5);
         Mat circles = new Mat();
+        /*Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1.0,
+                (double)gray.rows()/16, // change this value to detect circles with different distances to each other
+                100.0, 30.0, 22, 40); // change the last two parameters*/
+
         Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1.0,
                 (double)gray.rows()/16, // change this value to detect circles with different distances to each other
-                100.0, 30.0, 22, 40); // change the last two parameters
-
+                100.0, 30.0, 70, 85); // change the last two parameters
 
         Position[] positions = new Position[circles.cols()];
         int counter = 0;
@@ -212,7 +215,7 @@ public class HoughCirclesRun {
             Imgproc.circle(src, center, 0, new Scalar(255, 255, 255), 3, 8, 0);
             // circle outline
             int radius = (int) Math.round(c[2]);
-            Imgproc.circle(src, center, radius, scalar, 10, 8, 0);
+            Imgproc.circle(src, center, radius, scalar, 30, 8, 0);
 
             counter++;
             }
