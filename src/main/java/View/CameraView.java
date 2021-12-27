@@ -34,6 +34,11 @@ public class CameraView extends View implements ActionListener {
     JTextField contrastTextfield = new JTextField();
     JButton previewButton = new JButton("Vorschau");
     JButton saveButton = new JButton("Speichern");
+    JLabel numberOfStonesLabel = new JLabel("Anzahl Steine:");
+    JTextField numberOfStonesTextfield = new JTextField();
+    JButton numberOfStonesPlusButton = new JButton("+");
+    JButton numberOfStonesMinusButton = new JButton("-");
+    JButton automaticScanButton = new JButton("Automatisch einstellen");
     ViewManager viewManager;
     HoughCirclesRun houghCirclesRun;
     RPiCamera previewCamera;
@@ -112,12 +117,33 @@ public class CameraView extends View implements ActionListener {
         buttonPanel.add(saveButton);
         buttonPanel.setOpaque(false);
 
+        numberOfStonesLabel.setFont(font);
+        numberOfStonesLabel.setForeground(aliceblue);
+        numberOfStonesPlusButton.addActionListener(this);
+        numberOfStonesPlusButton.setFont(new Font("Roboto", 0, 13));
+        numberOfStonesMinusButton.addActionListener(this);
+        numberOfStonesMinusButton.setFont(new Font("Roboto", 0, 13));
+        numberOfStonesTextfield.setText("5");
+        numberOfStonesTextfield.setColumns(2);
+        JPanel automaticScanPanel = new JPanel();
+        automaticScanPanel.add(numberOfStonesLabel);
+        automaticScanPanel.add(numberOfStonesTextfield);
+        automaticScanPanel.add(numberOfStonesPlusButton);
+        automaticScanPanel.add(numberOfStonesMinusButton);
+        automaticScanPanel.setOpaque(false);
+
+        automaticScanButton.addActionListener(this);
+        automaticScanButton.setFont(new Font("Roboto", 0, 10));
+
+
         JPanel settingsPanel = new JPanel();
         settingsPanel.add(brightnessPanel);
         settingsPanel.add(contrastPanel);
         settingsPanel.add(drcPanel);
         settingsPanel.add(awbPanel);
         settingsPanel.add(buttonPanel);
+        settingsPanel.add(automaticScanPanel);
+        settingsPanel.add(automaticScanButton);
         settingsPanel.setOpaque(false);
         settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.Y_AXIS));
         settingsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -192,6 +218,22 @@ public class CameraView extends View implements ActionListener {
                 value = value - 5;
             }
             contrastTextfield.setText("" + value);
+        }
+
+        if (e.getSource() == numberOfStonesPlusButton){
+            int value = Integer.parseInt(numberOfStonesTextfield.getText());
+            if (value + 1 <= 18){
+                value = value + 1;
+            }
+            numberOfStonesTextfield.setText("" + value);
+        }
+
+        if (e.getSource() == numberOfStonesMinusButton){
+            int value = Integer.parseInt(numberOfStonesTextfield.getText());
+            if (value - 1 >= 1){
+                value = value - 1;
+            }
+            numberOfStonesTextfield.setText("" + value);
         }
     }
 

@@ -40,7 +40,7 @@ public class HoughCirclesRun {
 
     public Position detectPut(String[] args, Board board){
         Mat src = takePhoto(rPiCamera, "spielfoto");
-        Position[] positions = detectCircles(src, true);
+        Position[] positions = detectCircles(src);
         Position[] changes = getChanges(board, positions);
 
         if (changes[0] != null && changes[1] != null){
@@ -64,7 +64,7 @@ public class HoughCirclesRun {
 
     public Move detectMove(String[] args, Board board){
         Mat src = takePhoto(rPiCamera, "spielfoto");
-        Position[] positions = detectCircles(src, false);
+        Position[] positions = detectCircles(src);
         Position[] changes = getChanges(board, positions);
 
         if (changes[0] != null && changes[1] == null){
@@ -92,7 +92,7 @@ public class HoughCirclesRun {
 
     public Position detectKill(String[] args, Board board){
         Mat src = takePhoto(rPiCamera, "spielfoto");
-        Position[] positions = detectCircles(src, false);
+        Position[] positions = detectCircles(src);
         Position[] changes = getChanges(board, positions);
 
         if (changes[0] != null && changes[1] != null){
@@ -136,7 +136,7 @@ public class HoughCirclesRun {
 
     }
 
-    public Position[] detectCircles(Mat src, boolean paintCircles){
+    public Position[] detectCircles(Mat src){
         Mat gray = new Mat();
         Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
         Imgproc.medianBlur(gray, gray, 5);
