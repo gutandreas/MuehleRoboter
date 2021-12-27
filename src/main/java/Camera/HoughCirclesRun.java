@@ -26,6 +26,8 @@ public class HoughCirclesRun {
 
     GameView gameView;
     RPiCamera rPiCamera;
+    private final int MIN_RADIUS = 65;
+    private final int MAX_RADIUS = 85;
 
 
     public HoughCirclesRun(GameView gameView, RPiCamera camera) {
@@ -39,7 +41,7 @@ public class HoughCirclesRun {
     }
 
     public Position detectPut(String[] args, Board board){
-        Mat src = takePhoto(rPiCamera, "spielfoto");
+        Mat src = takePhoto(rPiCamera, "spielfoto", false);
         Position[] positions = detectCircles(src);
         Position[] changes = getChanges(board, positions);
 
@@ -63,7 +65,7 @@ public class HoughCirclesRun {
     }
 
     public Move detectMove(String[] args, Board board){
-        Mat src = takePhoto(rPiCamera, "spielfoto");
+        Mat src = takePhoto(rPiCamera, "spielfoto", false);
         Position[] positions = detectCircles(src);
         Position[] changes = getChanges(board, positions);
 
@@ -91,7 +93,7 @@ public class HoughCirclesRun {
     }
 
     public Position detectKill(String[] args, Board board){
-        Mat src = takePhoto(rPiCamera, "spielfoto");
+        Mat src = takePhoto(rPiCamera, "spielfoto", false);
         Position[] positions = detectCircles(src);
         Position[] changes = getChanges(board, positions);
 
@@ -118,13 +120,13 @@ public class HoughCirclesRun {
 
 
 
-    public Mat takePhoto(RPiCamera camera, String name) {
+    public Mat takePhoto(RPiCamera camera, String name, boolean preview) {
 
 
         Mat src = null;
 
         try {
-            camera.takeStill(name + ".png", 3280, 2464);
+            camera.takeStill(name + ".png", 3280, 2464, preview);
             src = Imgcodecs.imread("/home/pi/" + name + ".png");
         } catch (IOException e) {
             e.printStackTrace();
@@ -143,7 +145,7 @@ public class HoughCirclesRun {
         Mat circles = new Mat();
         Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1.0,
                 (double)gray.rows()/16, // change this value to detect circles with different distances to each other
-                100.0, 30.0, 22, 40); // change the last two parameters
+                100.0, 30.0, MIN_RADIUS, MAX_RADIUS); // change the last two parameters
 
 
         Position[] positions = new Position[circles.cols()];
@@ -181,7 +183,7 @@ public class HoughCirclesRun {
 
         Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1.0,
                 (double)gray.rows()/16, // change this value to detect circles with different distances to each other
-                100.0, 30.0, 65, 85); // change the last two parameters
+                100.0, 30.0, MIN_RADIUS, MAX_RADIUS); // change the last two parameters
 
         Position[] positions = new Position[circles.cols()];
         int counter = 0;

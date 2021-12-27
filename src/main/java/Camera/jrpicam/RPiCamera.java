@@ -118,7 +118,7 @@ public class RPiCamera {
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	public File takeStill(String pictureName, int width, int height) throws IOException, InterruptedException {
+	public File takeStill(String pictureName, int width, int height, boolean preview) throws IOException, InterruptedException {
 		List<String> command = new ArrayList<>();
 		command.add("raspistill");
 		command.add("-o");
@@ -129,7 +129,8 @@ public class RPiCamera {
 		command.add("-h");
 		command.add("" + height);
 
-		//command.add("-n"); //Keine Vorschau
+		if (!preview){
+		command.add("-n");} //Keine Vorschau
 
 		command.add("-t"); //Delay (Minimum: 500)
 		command.add("" + 1000);
@@ -181,7 +182,7 @@ public class RPiCamera {
 	public File takeStill(String pictureName) throws IOException, InterruptedException {
 		return takeStill(pictureName,
 				Integer.parseInt(options.get("width")[1]),
-				Integer.parseInt(options.get("height")[1]));
+				Integer.parseInt(options.get("height")[1]), false);
 	}
 	
 	/**
@@ -981,7 +982,7 @@ public class RPiCamera {
 	
 	/**
 	 * Sets width of images taken by RPiCamera. Note that this setting
-	 * can be overriden by the {@link #takeStill(String, int, int)}  and {@link #takeBufferedStill(int, int)} methods.
+	 * can be overriden by the {@link #takeStill(String, int, int, boolean)}  and {@link #takeBufferedStill(int, int)} methods.
 	 * 
 	 * @param width An int specifying the width.
 	 */
@@ -992,7 +993,7 @@ public class RPiCamera {
 	
 	/**
 	 * Sets height of images taken by the RPiCamera. Note that this settings
-     * can be overriden by the {@link #takeStill(String, int, int)}  and {@link #takeBufferedStill(int, int)} methods.
+     * can be overriden by the {@link #takeStill(String, int, int, boolean)}  and {@link #takeBufferedStill(int, int)} methods.
 	 *
 	 * @param height An int specifying the height.
 	 */

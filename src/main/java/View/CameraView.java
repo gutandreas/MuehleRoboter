@@ -46,7 +46,6 @@ public class CameraView extends View implements ActionListener {
 
     public static void main(String[] args) {
         new CameraView(new ViewManager());
-
     }
 
     public CameraView(ViewManager viewManager) {
@@ -61,7 +60,7 @@ public class CameraView extends View implements ActionListener {
 
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         houghCirclesRun = new HoughCirclesRun(viewManager.getrPiCamera());
-        Mat src = houghCirclesRun.takePhoto(viewManager.getrPiCamera(), "vorschau");
+        Mat src = houghCirclesRun.takePhoto(viewManager.getrPiCamera(), "vorschau", false);
         loadAndAddOrUpdatePreviewImage(src, false);
 
         brightnessLabel.setFont(font);
@@ -163,7 +162,7 @@ public class CameraView extends View implements ActionListener {
             System.out.println("preview Button");
             previewCamera.setBrightness(Integer.parseInt(brightnessTextfield.getText()));
             previewCamera.setContrast(Integer.parseInt(contrastTextfield.getText()));
-            Mat preview = houghCirclesRun.takePhoto(previewCamera, "preview");
+            Mat preview = houghCirclesRun.takePhoto(previewCamera, "preview", true);
             loadAndAddOrUpdatePreviewImage(preview, true);
             if (drcSwitchButton.isSelected()){
                 previewCamera.setDRC(DRC.HIGH);
@@ -235,6 +234,10 @@ public class CameraView extends View implements ActionListener {
             }
             numberOfStonesTextfield.setText("" + value);
         }
+
+        if (e.getSource() == automaticScanButton){
+            scanAutomatically();
+        }
     }
 
     private void loadAndAddOrUpdatePreviewImage(Mat src, boolean update){
@@ -260,8 +263,32 @@ public class CameraView extends View implements ActionListener {
 
         mainPanel.revalidate();
         mainPanel.repaint();
+    }
 
+    private void scanAutomatically(){
 
+        for (int brightness = 30; brightness <= 70; brightness += 10){
+            for (int contrast = 20; contrast <= 80; contrast += 10){
+
+                previewCamera.setBrightness(brightness);
+                previewCamera.setContrast(contrast);
+
+                Mat preview = houghCirclesRun.takePhoto(previewCamera, "preview", false);
+                System.out.println(houghCirclesRun.detectCircles(preview).length);
+
+                if (houghCirclesRun.detectCircles(preview).length == Integer.parseInt(numberOfStonesTextfield.getText())){
+                    System.out.println("Alle Steine gefunden mit Helligkeit " + brightness + " und Kontrast " + contrast);
+                    saveButton.setVisible(true);
+                    brightnessTextfield.setText("" + brightness);
+                    contrastTextfield.setText("" + contrast);
+                    loadAndAddOrUpdatePreviewImage(preview, true);
+                    return;
+                }
+                else {
+                    System.out.println("Nicht alle Steine gefunden mit Helligkeit " + brightness + " und Kontrast " + contrast);
+                }
+            }
+        }
 
 
 
