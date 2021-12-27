@@ -274,6 +274,8 @@ public class CameraView extends View implements ActionListener {
 
     private void scanAutomatically(){
 
+        boolean confirmed = false;
+
         for (int brightness = 30; brightness <= 70; brightness += 10){
             for (int contrast = 20; contrast <= 80; contrast += 10){
 
@@ -287,13 +289,18 @@ public class CameraView extends View implements ActionListener {
                         System.out.println("Alle Steine gefunden mit Helligkeit " + brightness + " und Kontrast " + contrast);
                         saveButton.setVisible(true);
                         loadAndAddOrUpdatePreviewImage(preview, true);
-                        brightnessTextfield.setText("" + brightness);
-                        contrastTextfield.setText("" + contrast);
-                        automaticScanButton.setBackground(Color.GREEN);
-                        return;
+                        if (confirmed){
+                            brightnessTextfield.setText("" + brightness);
+                            contrastTextfield.setText("" + contrast);
+                            automaticScanButton.setBackground(Color.GREEN);
+                            return;}
+                        else {
+                            confirmed = true;
+                        }
                     }
                     else {
                         System.out.println("Nicht alle Steine gefunden mit Helligkeit " + brightness + " und Kontrast " + contrast);
+                        confirmed = false;
                     }
                 }
         }
