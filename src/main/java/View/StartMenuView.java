@@ -46,6 +46,8 @@ public class StartMenuView extends View implements MouseListener {
         mainPanel.setOpaque(false);
 
         titleLabel = new JLabel("Mühle – Startmenu");
+        titleLabel.setFont(new Font("Roboto", 0, 30));
+        titleLabel.setForeground(aliceblue);
 
         buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);

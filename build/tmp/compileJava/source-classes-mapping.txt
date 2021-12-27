@@ -75,8 +75,8 @@ Camera/InvalidBoardException.java
  Camera.InvalidBoardException
 game/STONECOLOR.java
  game.STONECOLOR
-View/Run.java
- View.Run
+game/HumanPlayer.java
+ game.HumanPlayer
 EiBotBoard/XyCoordsCm.java
  EiBotBoard.XyCoordsCm
 Camera/jrpicam/exceptions/FailedToRunRaspistillException.java
@@ -99,8 +99,8 @@ game/Game.java
  game.Game
 View/OfflineMenuView.java
  View.OfflineMenuView
-View/StartMenuView.java
- View.StartMenuView
+Camera/jrpicam/RPiCamera.java
+ Camera.jrpicam.RPiCamera
 Camera/jrpicam/examples/ShootStill.java
  Camera.jrpicam.examples.ShootStill
 View/OnlineMenuView.java
@@ -122,12 +122,12 @@ game/ComputerPlayer.java
  game.ComputerPlayer
 View/ViewManager.java
  View.ViewManager
+View/Run.java
+ View.Run
+View/StartMenuView.java
+ View.StartMenuView
 Websocket/Messenger.java
  Websocket.Messenger
-Camera/jrpicam/RPiCamera.java
- Camera.jrpicam.RPiCamera
-game/HumanPlayer.java
- game.HumanPlayer
 View/GameView.java
  View.GameView
 View/CameraView.java

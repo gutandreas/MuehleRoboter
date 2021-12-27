@@ -124,15 +124,19 @@ public class CameraView extends View implements ActionListener {
         numberOfStonesMinusButton.setFont(new Font("Roboto", 0, 13));
         numberOfStonesTextfield.setText("5");
         numberOfStonesTextfield.setColumns(2);
-        JPanel automaticScanPanel = new JPanel();
-        automaticScanPanel.add(numberOfStonesLabel);
-        automaticScanPanel.add(numberOfStonesTextfield);
-        automaticScanPanel.add(numberOfStonesPlusButton);
-        automaticScanPanel.add(numberOfStonesMinusButton);
-        automaticScanPanel.setOpaque(false);
+        JPanel automaticScanPanel1 = new JPanel();
+        automaticScanPanel1.add(numberOfStonesLabel);
+        automaticScanPanel1.add(numberOfStonesTextfield);
+        automaticScanPanel1.add(numberOfStonesPlusButton);
+        automaticScanPanel1.add(numberOfStonesMinusButton);
+        automaticScanPanel1.setOpaque(false);
 
+        JPanel automaticScanPanel2 = new JPanel();
         automaticScanButton.addActionListener(this);
-        automaticScanButton.setFont(new Font("Roboto", 0, 10));
+        automaticScanButton.setPreferredSize(new Dimension(200, 50));
+        automaticScanButton.setFont(new Font("Roboto", 0, 13));
+        automaticScanPanel2.add(automaticScanButton);
+        automaticScanPanel2.setOpaque(false);
 
 
         JPanel settingsPanel = new JPanel();
@@ -141,8 +145,8 @@ public class CameraView extends View implements ActionListener {
         settingsPanel.add(drcPanel);
         settingsPanel.add(awbPanel);
         settingsPanel.add(buttonPanel);
-        settingsPanel.add(automaticScanPanel);
-        settingsPanel.add(automaticScanButton);
+        settingsPanel.add(automaticScanPanel1);
+        settingsPanel.add(automaticScanPanel2);
         settingsPanel.setOpaque(false);
         settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.Y_AXIS));
         settingsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -158,6 +162,7 @@ public class CameraView extends View implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         if (e.getSource() == previewButton){
             System.out.println("preview Button");
             previewCamera.setBrightness(Integer.parseInt(brightnessTextfield.getText()));
@@ -236,7 +241,9 @@ public class CameraView extends View implements ActionListener {
         }
 
         if (e.getSource() == automaticScanButton){
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             scanAutomatically();
+            setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
     }
 
@@ -274,23 +281,27 @@ public class CameraView extends View implements ActionListener {
                 previewCamera.setContrast(contrast);
 
                 Mat preview = houghCirclesRun.takePhoto(previewCamera, "preview", false);
-                System.out.println(houghCirclesRun.detectCircles(preview).length);
 
-                if (houghCirclesRun.detectCircles(preview).length == Integer.parseInt(numberOfStonesTextfield.getText())){
-                    System.out.println("Alle Steine gefunden mit Helligkeit " + brightness + " und Kontrast " + contrast);
-                    saveButton.setVisible(true);
-                    brightnessTextfield.setText("" + brightness);
-                    contrastTextfield.setText("" + contrast);
-                    loadAndAddOrUpdatePreviewImage(preview, true);
-                    return;
+
+                    if (houghCirclesRun.detectCircles(preview).length == Integer.parseInt(numberOfStonesTextfield.getText())){
+                        System.out.println("Alle Steine gefunden mit Helligkeit " + brightness + " und Kontrast " + contrast);
+                        saveButton.setVisible(true);
+                        loadAndAddOrUpdatePreviewImage(preview, true);
+                        brightnessTextfield.setText("" + brightness);
+                        contrastTextfield.setText("" + contrast);
+                        automaticScanButton.setBackground(Color.GREEN);
+                        return;
+                    }
+                    else {
+                        System.out.println("Nicht alle Steine gefunden mit Helligkeit " + brightness + " und Kontrast " + contrast);
+                    }
                 }
-                else {
-                    System.out.println("Nicht alle Steine gefunden mit Helligkeit " + brightness + " und Kontrast " + contrast);
-                }
-            }
         }
+
+        automaticScanButton.setBackground(Color.RED);
 
 
 
     }
+
 }
