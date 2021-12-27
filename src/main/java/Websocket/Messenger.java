@@ -24,7 +24,7 @@ public class Messenger {
         System.out.println(game.getCurrentPlayer().getUuid());
 
 
-        jsonObject.put("gameCode", ((GameView) viewManager.getCurrentView()).getGame().getGameCode());
+        jsonObject.put("gameCode", game.getGameCode());
         jsonObject.put("command", "update");
         jsonObject.put("action", "put");
         jsonObject.put("playerUuid", (game.getCurrentPlayer().getUuid()));
@@ -41,7 +41,7 @@ public class Messenger {
         JSONObject jsonObject = new JSONObject();
         Game game = ((GameView) viewManager.getCurrentView()).getGame();
 
-        jsonObject.put("gameCode", ((GameView) viewManager.getCurrentView()).getGame().getGameCode());
+        jsonObject.put("gameCode", game.getGameCode());
         jsonObject.put("command", "update");
         jsonObject.put("action", "move");
         jsonObject.put("playerUuid", game.getCurrentPlayer().getUuid());
@@ -60,7 +60,7 @@ public class Messenger {
         JSONObject jsonObject = new JSONObject();
         Game game = ((GameView) viewManager.getCurrentView()).getGame();
 
-        jsonObject.put("gameCode", ((GameView) viewManager.getCurrentView()).getGame().getGameCode());
+        jsonObject.put("gameCode", game.getGameCode());
         jsonObject.put("command", "update");
         jsonObject.put("action", "kill");
         jsonObject.put("playerUuid", game.getCurrentPlayer().getUuid());
@@ -81,6 +81,19 @@ public class Messenger {
         jsonObject.put("command", "giveup");
         jsonObject.put("name", game.getOwnPlayer().getName());
         jsonObject.put("playerUuid", game.getOwnPlayer().getUuid());
+        sendMessage(viewManager, jsonObject.toString());
+    }
+
+    public static void sendGameOverMessage(ViewManager viewManager, String details){
+
+        JSONObject jsonObject = new JSONObject();
+        Game game = ((GameView) viewManager.getCurrentView()).getGame();
+
+        jsonObject.put("gameCode", game.getGameCode());
+        jsonObject.put("playerUuid", game.getCurrentPlayer().getUuid());
+        jsonObject.put("playerIndex", game.getCurrentPlayerIndex());
+        jsonObject.put("command", "gameOver");
+        jsonObject.put("details", details);
         sendMessage(viewManager, jsonObject.toString());
     }
 
@@ -117,6 +130,13 @@ public class Messenger {
                     viewManager.getCurrentView().setVisible(false);
                     viewManager.setCurrentView(startMenuView);
                     }
+                break;
+
+            case "gameOver":
+                int index = jsonObject.getInt("playerIndex");
+                String name = game.getPlayerByIndex(1-index).getName();
+                gameView.setInformationLabel(name + " hat das Spiel gewonnen!");
+                gameView.enableScanButton(false);
                 break;
 
             case "timeout":

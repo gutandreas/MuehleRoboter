@@ -535,4 +535,8 @@ public class GameView extends View implements ActionListener, MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
+
+    public ViewManager getViewManager() {
+        return viewManager;
+    }
 }

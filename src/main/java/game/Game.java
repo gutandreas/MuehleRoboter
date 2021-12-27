@@ -1,6 +1,7 @@
 package game;
 
 import View.GameView;
+import Websocket.Messenger;
 import Websocket.WebsocketClient;
 import java.util.ArrayList;
 
@@ -21,6 +22,7 @@ public class Game {
     private boolean player2starts;
     private boolean clickOkay = true;
     private boolean joiningToExistingGame;
+    private boolean gameOver = false;
     private String gameCode;
     private GameView gameView;
     private int ownIndex;
@@ -152,15 +154,26 @@ public class Game {
 
     private void checkWinner(){
 
-        boolean thereIsAWinner = (movePhase && board.countPlayersStones(getOtherPlayerIndex()) < 3)
-                || (movePhase && !board.checkIfAbleToMove(getCurrentPlayerIndex()));
+        boolean lessThan3Stones = movePhase && board.countPlayersStones(getCurrentPlayerIndex()) < 3;
+        boolean unableToMove = movePhase && !board.checkIfAbleToMove(getCurrentPlayerIndex());
 
-        if (thereIsAWinner){
-            winner = getCurrentPlayer();
-            gameView.setInformationLabel(winner.getName() + " hat das Spiel gewonnen");
-            gameView.enableScanButton(false);
-            System.out.println(winner.getName() + " hat das Spiel gewonnen!");
+        if (lessThan3Stones || unableToMove){
+            gameOver = true;
         }
+
+        if (websocketClient == null) {
+
+
+            if (lessThan3Stones) {
+                Messenger.sendGameOverMessage(gameView.getViewManager(), "Weniger als 3 Steine");
+            }
+
+
+            if (unableToMove) {
+                Messenger.sendGameOverMessage(gameView.getViewManager(), "Keine möglichen Züge");
+            }
+        }
+
     }
 
     public int getOwnIndex() {
@@ -229,4 +242,6 @@ public class Game {
     public void changeToMovePhase(){
         movePhase = true;
     }
+
+
 }
