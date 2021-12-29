@@ -17,8 +17,8 @@ public class Connection {
     public Connection(Ebb ebb) {
         this.ebb = ebb;
         RingAndFieldCoordsCm ringAndFieldCoordsCm = new RingAndFieldCoordsCm();
-        ebb.execute("SC," + 4 + "," + 24900); //disconnect
-        ebb.execute("SC," + 5 + "," + 20500); //connect
+        ebb.execute("SC," + 4 + "," + 19500); //connect
+        ebb.execute("SC," + 5 + "," + 24900); //disconnect
         goHome(5);
 
     }
@@ -86,7 +86,7 @@ public class Connection {
         int shift;
         Position startPosition;
 
-        goToPositionDirectly( position, 10);
+        goToPositionDirectly(position, 10);
         connectToStone(true);
         wait(1);
 
@@ -251,7 +251,7 @@ public class Connection {
     }
 
 
-    private void goHome(int speed){
+    public void goHome(int speed){
         connectToStone(false);
         ebb.stepperMotorMove(500,0,0); //warten für 0.5s
         try {
@@ -276,10 +276,10 @@ public class Connection {
 
     public void connectToStone(boolean connect){
         if (connect){
-            ebb.setPenState(false);
+            ebb.setPenState(true);
         }
         else {
-            ebb.setPenState(true);
+            ebb.setPenState(false);
         }
     }
 

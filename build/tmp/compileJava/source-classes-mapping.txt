@@ -1,5 +1,5 @@
-EiBotBoard/Controller.java
- EiBotBoard.Controller
+Camera/jrpicam/RPiCamera.java
+ Camera.jrpicam.RPiCamera
 View/Keyboard.java
  View.Keyboard
 View/View.java
@@ -75,8 +75,8 @@ Camera/InvalidBoardException.java
  Camera.InvalidBoardException
 game/STONECOLOR.java
  game.STONECOLOR
-game/HumanPlayer.java
- game.HumanPlayer
+Camera/jrpicam/examples/ShootStill.java
+ Camera.jrpicam.examples.ShootStill
 EiBotBoard/XyCoordsCm.java
  EiBotBoard.XyCoordsCm
 Camera/jrpicam/exceptions/FailedToRunRaspistillException.java
@@ -89,47 +89,47 @@ game/ClosedMorris.java
  game.ClosedMorris
 Camera/jrpicam/enums/DRC.java
  Camera.jrpicam.enums.DRC
-EiBotBoard/Connection.java
- EiBotBoard.Connection
-Websocket/WebsocketClient.java
- Websocket.WebsocketClient
-Camera/jrpicam/examples/ShootTimelapse.java
- Camera.jrpicam.examples.ShootTimelapse
-game/Game.java
- game.Game
-View/OfflineMenuView.java
- View.OfflineMenuView
-Camera/jrpicam/RPiCamera.java
- Camera.jrpicam.RPiCamera
-Camera/jrpicam/examples/ShootStill.java
- Camera.jrpicam.examples.ShootStill
-View/OnlineMenuView.java
- View.OnlineMenuView
-game/Player.java
- game.Player
 Camera/jrpicam/examples/DemoView.java
  Camera.jrpicam.examples.DemoView
  Camera.jrpicam.examples.DemoView$1
  Camera.jrpicam.examples.DemoView$2
  Camera.jrpicam.examples.DemoView$3
+Camera/jrpicam/examples/ShootBufferedStill.java
+ Camera.jrpicam.examples.ShootBufferedStill
+Camera/jrpicam/examples/ShootTimelapse.java
+ Camera.jrpicam.examples.ShootTimelapse
+Websocket/WebsocketClient.java
+ Websocket.WebsocketClient
+game/Game.java
+ game.Game
+View/OfflineMenuView.java
+ View.OfflineMenuView
+View/GameView.java
+ View.GameView
+EiBotBoard/Controller.java
+ EiBotBoard.Controller
+EiBotBoard/Connection.java
+ EiBotBoard.Connection
+View/OnlineMenuView.java
+ View.OnlineMenuView
+game/Player.java
+ game.Player
 Websocket/MessageHandler.java
  Websocket.MessageHandler
 Camera/HoughCirclesRun.java
  Camera.HoughCirclesRun
-Camera/jrpicam/examples/ShootBufferedStill.java
- Camera.jrpicam.examples.ShootBufferedStill
 game/ComputerPlayer.java
  game.ComputerPlayer
 View/ViewManager.java
  View.ViewManager
-View/Run.java
- View.Run
-View/StartMenuView.java
- View.StartMenuView
 Websocket/Messenger.java
  Websocket.Messenger
-View/GameView.java
- View.GameView
+View/Run.java
+ View.Run
 View/CameraView.java
  View.CameraView
  View.CameraView$1
+game/HumanPlayer.java
+ game.HumanPlayer
+View/StartMenuView.java
+ View.StartMenuView

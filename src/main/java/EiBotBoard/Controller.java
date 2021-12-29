@@ -34,7 +34,19 @@ public class Controller {
         //connection.put(new Position(2,0), 1);
         //connection.move(new Position(2,0), new Position(2,5), true);
 
-        ebb.togglePen();
+        /*connection.connectToStone(true);
+        try {
+            connection.xyMove(2,2, 6);
+            connection.connectToStone(false);
+            connection.goHome(5);
+
+        } catch (MotorException e) {
+            e.printStackTrace();
+        }*/
+
+        //connection.connectToStone(true);
+        connection.connectToStone(false);
+
         //ebb.enableMotor(0,0);
 
 
