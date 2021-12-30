@@ -26,16 +26,22 @@ public class WebsocketClient extends WebSocketClient {
         System.out.println("Verbunden mit Server");
         JSONObject jsonObject = new JSONObject();
 
-        if (game.isJoiningToExistingGame()){
-            System.out.println("join");
+        if (game.isWatchGame()){
+            System.out.println("watch");
             jsonObject.put("gameCode", game.getGameCode());
-            jsonObject.put("command", "join");
-            jsonObject.put("player2Name", game.getPlayer1().getName());
+            jsonObject.put("command", "watch");
         }
         else {
-            System.out.println("start");
-            jsonObject.put("gameCode", game.getGameCode());
-            jsonObject.put("command", "start");
+            if (game.isJoiningToExistingGame()) {
+                System.out.println("join");
+                jsonObject.put("gameCode", game.getGameCode());
+                jsonObject.put("command", "join");
+                jsonObject.put("player2Name", game.getPlayer1().getName());
+            } else {
+                System.out.println("start");
+                jsonObject.put("gameCode", game.getGameCode());
+                jsonObject.put("command", "start");
+            }
         }
 
         send(jsonObject.toString());

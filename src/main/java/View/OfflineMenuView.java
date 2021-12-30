@@ -192,12 +192,12 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
                 case 0:
                     game = new Game(gameView, new HumanPlayer(gameView, nameTextfield.getText(), " ", player1Color, true),
                             new ComputerPlayer(gameView, "Computer", player2Color, putPoints, movePoints, levelLimit),
-                            "Offlinegame", null, false);
+                            "Offlinegame", null, false, false);
                     break;
                 case 1:
                     game = new Game(gameView, new ComputerPlayer(gameView, "Computer", player1Color, putPoints, movePoints, levelLimit),
                             new HumanPlayer(gameView, nameTextfield.getText(), " ", player2Color, true),
-                            "Offlinegame", null, false);
+                            "Offlinegame", null, false, false);
                     break;
             }
 

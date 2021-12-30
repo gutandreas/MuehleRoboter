@@ -19,6 +19,7 @@ public class Game {
     private boolean movePhaseTake = true;
     private boolean movePhaseRelase = false;
     private boolean killPhase = false;
+    private boolean watchGame;
     private boolean player2starts;
     private boolean clickOkay = true;
     private boolean joiningToExistingGame;
@@ -44,11 +45,12 @@ public class Game {
 
     }
 
-    public Game(GameView gameView, Player player0, Player player1, String gameCode, WebsocketClient websocketClient, boolean joiningToExistingGame) {
+    public Game(GameView gameView, Player player0, Player player1, String gameCode, WebsocketClient websocketClient, boolean joiningToExistingGame, boolean watchGame) {
         this.gameView = gameView;
         this.player0 = player0;
         this.player1 = player1;
         this.websocketClient = websocketClient;
+        this.watchGame = watchGame;
         playerArrayList.add(0, player0);
         playerArrayList.add(1, player1);
         round = 0;
@@ -182,6 +184,10 @@ public class Game {
 
     public String getGameCode() {
         return gameCode;
+    }
+
+    public boolean isWatchGame() {
+        return watchGame;
     }
 
     public boolean isPutPhase() {

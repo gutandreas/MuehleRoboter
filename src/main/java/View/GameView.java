@@ -50,7 +50,7 @@ public class GameView extends View implements ActionListener {
         ComputerPlayer computerPlayer = new ComputerPlayer(gameView, "COMPUTER", STONECOLOR.WHITE, putPoints, movePoints, 3 );
         Game game = new Game(gameView, computerPlayer, new HumanPlayer(gameView, "Peter", "", STONECOLOR.BLACK, true),
 
-                "gamecode", null, false);
+                "gamecode", null, false, false);
         viewManager.setCurrentView(gameView);
         gameView.setGame(game);
         //gameView.enableScanButton(true);
@@ -68,8 +68,7 @@ public class GameView extends View implements ActionListener {
         this.player0StoneColor = player0StoneColor;
         this.player1StoneColor = player1StoneColor;
         this.ownIndex = ownIndex;
-        setupView(name, "Offlinegame");
-        enemyLabel.setText("Computer");
+        setupView(name, "Computer", "Offlinegame");
 
         if (ownIndex == 0) {
             scanButton.setEnabled(true);
@@ -79,12 +78,10 @@ public class GameView extends View implements ActionListener {
             scanButton.setEnabled(false);
         }
 
-
-
     }
 
 
-    //online
+    //online play Game
     public GameView(ViewManager viewManager, String[] args, String gameCode, String name, Connection connection, STONECOLOR player0StoneColor, STONECOLOR player1StoneColor, int ownIndex) throws HeadlessException {
 
         this.viewManager = viewManager;
@@ -94,14 +91,28 @@ public class GameView extends View implements ActionListener {
         this.player1StoneColor = player1StoneColor;
         this.ownIndex = ownIndex;
 
-        setupView(name, gameCode);
-
-
-
+        setupView(name, "---", gameCode);
 
     }
 
-    public void setupView(String name, String gameCode){
+    //online watch Game
+    public GameView(ViewManager viewManager, String[] args, String gameCode, String name0, String name1, Connection connection, STONECOLOR player0StoneColor, STONECOLOR player1StoneColor, int ownIndex) throws HeadlessException {
+
+        this.viewManager = viewManager;
+        this.args = args;
+        this.connection = connection;
+        this.player0StoneColor = player0StoneColor;
+        this.player1StoneColor = player1StoneColor;
+        this.ownIndex = ownIndex;
+
+        setupView(name0, name1, gameCode);
+
+        scanButton.setVisible(false);
+        cameraSettingsButton.setVisible(false);
+
+    }
+
+    public void setupView(String name0, String name1, String gameCode){
         View.setUIFont(new FontUIResource(new Font("Roboto", 0, 20)));
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setUndecorated(false);
@@ -143,11 +154,11 @@ public class GameView extends View implements ActionListener {
         panelInformationBottom.setLayout(new BoxLayout(panelInformationBottom, BoxLayout.X_AXIS));
         nameTitleLabel = new JLabel("Name: ");
         nameTitleLabel.setForeground(aliceblue);
-        nameLabel = new JLabel(name);
+        nameLabel = new JLabel(name0);
         nameLabel.setForeground(aliceblue);
         enemyTitleLabel = new JLabel(" / Gegner: ");
         enemyTitleLabel.setForeground(aliceblue);
-        enemyLabel = new JLabel("---");
+        enemyLabel = new JLabel(name1);
         enemyLabel.setForeground(aliceblue);
 
         panelInformationBottom.add(nameTitleLabel);
@@ -189,7 +200,6 @@ public class GameView extends View implements ActionListener {
         scanButton.setEnabled(false);
         scanButton.addActionListener(this);
 
-
         panelCenterCenter.add(scanButton);
 
         //right
@@ -216,17 +226,11 @@ public class GameView extends View implements ActionListener {
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         exitButton.addActionListener(this);
 
-
-
-
-
         panelCenterRight.add(scroll);
         panelCenterRight.add(Box.createRigidArea(new Dimension(0, 5)));
         panelCenterRight.add(cameraSettingsButton);
         panelCenterRight.add(Box.createRigidArea(new Dimension(0, 5)));
         panelCenterRight.add(exitButton);
-
-
 
         panelCenter.add(panelCenterLeft);
         panelCenter.add(panelCenterCenter);
@@ -297,15 +301,17 @@ public class GameView extends View implements ActionListener {
         }
 
         if (e.getSource() == exitButton){
+
             System.out.println("Spiel verlassen");
-            Messenger.sendGiveUpMessage(viewManager);
+
+            if (!game.isWatchGame())
+                Messenger.sendGiveUpMessage(viewManager);}
+
             connection.resetVariables();
             StartMenuView startMenuView = new StartMenuView(viewManager, args, connection);
             viewManager.setCurrentView(startMenuView);
             startMenuView.setVisible(true);
             this.setVisible(false);
-        }
-
     }
 
 
