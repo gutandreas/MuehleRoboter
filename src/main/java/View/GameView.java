@@ -176,10 +176,9 @@ public class GameView extends View implements ActionListener {
 
         //panelCenter
         panelCenter = new JPanel();
-        panelCenter.setLayout(new FlowLayout(0));
+        panelCenter.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         //left
-
         panelCenterLeft = new JPanel();
         panelCenterLeft.setLayout(new BoxLayout(panelCenterLeft, BoxLayout.Y_AXIS));
         panelCenterLeft.setOpaque(false);
