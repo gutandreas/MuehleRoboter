@@ -16,17 +16,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.font.TextAttribute;
-import java.text.AttributedString;
 
-public class GameView extends View implements ActionListener, MouseListener {
+
+public class GameView extends View implements ActionListener {
 
     ViewManager viewManager;
 
     JPanel mainPanel, panelInformation, panelInformationTop, panelInformationCenter, panelInformationBottom, panelCenter, panelCenterLeft, panelCenterCenter, panelCenterRight;
     JLabel informationLabel, gamcodeTitleLabel, gamecodeLabel, nameTitleLabel, nameLabel, roundTitleLabel, roundLabel, enemyTitleLabel, enemyLabel, nextStepLabel;
-    JButton scanButton, putButton, putButton2, panicButton, exitButton;
-    JTextField fieldTextfield, ringTextfield, ringTextfield2, fieldTextfield2;
+    JButton scanButton, cameraSettingsButton, exitButton;
     JTextArea chatTextArea;
     String textAreaPromtText = "Chatnachrichten...";
     JScrollPane scroll;
@@ -125,7 +123,6 @@ public class GameView extends View implements ActionListener, MouseListener {
         panelInformationCenter = new JPanel();
         panelInformationCenter.setLayout(new BoxLayout(panelInformationCenter, BoxLayout.X_AXIS));
         gamcodeTitleLabel = new JLabel("Game: ");
-        gamcodeTitleLabel.addMouseListener(this);
         gamcodeTitleLabel.setForeground(aliceblue);
         gamecodeLabel = new JLabel(gameCode);
         gamecodeLabel.setForeground(aliceblue);
@@ -192,8 +189,6 @@ public class GameView extends View implements ActionListener, MouseListener {
         scanButton.setEnabled(false);
         scanButton.addActionListener(this);
 
-        putButton = new JButton("put");
-        putButton.addActionListener(this);
 
         panelCenterCenter.add(scanButton);
 
@@ -201,7 +196,7 @@ public class GameView extends View implements ActionListener, MouseListener {
         panelCenterRight = new JPanel();
         panelCenterRight.setOpaque(false);
         panelCenterRight.setLayout(new BoxLayout(panelCenterRight, BoxLayout.Y_AXIS));
-        chatTextArea = new JTextArea(textAreaPromtText, 15, 10);
+        chatTextArea = new JTextArea(textAreaPromtText, 12, 10);
         chatTextArea.setFont(new Font("Roboto", 0, 13));
         chatTextArea.setLineWrap(true);
         chatTextArea.setWrapStyleWord(true);
@@ -212,50 +207,25 @@ public class GameView extends View implements ActionListener, MouseListener {
         scroll.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
+        cameraSettingsButton = new JButton("Kameraoptionen");
+        cameraSettingsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        cameraSettingsButton.addActionListener(this);
+
+
         exitButton = new JButton("Spiel verlassen");
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         exitButton.addActionListener(this);
 
 
 
+
+
         panelCenterRight.add(scroll);
+        panelCenterRight.add(Box.createRigidArea(new Dimension(0, 5)));
+        panelCenterRight.add(cameraSettingsButton);
         panelCenterRight.add(Box.createRigidArea(new Dimension(0, 5)));
         panelCenterRight.add(exitButton);
 
-
-
-
-
-
-            /*ringTextfield = new JTextField();
-            fieldTextfield = new JTextField();
-
-
-            JPanel putPanel = new JPanel();
-            putPanel.setLayout(new BoxLayout(putPanel, BoxLayout.Y_AXIS));
-            putPanel.add(ringTextfield);
-            putPanel.add(fieldTextfield);
-            putPanel.add(putButton);*/
-
-           /* putButton2 = new JButton("move");
-            putButton2.addActionListener(this);
-            ringTextfield2 = new JTextField();
-            fieldTextfield2 = new JTextField();*/
-
-
-            /*JPanel putPanel2 = new JPanel();
-            putPanel2.setLayout(new BoxLayout(putPanel2, BoxLayout.Y_AXIS));
-            putPanel2.add(ringTextfield2);
-            putPanel2.add(fieldTextfield2);
-            putPanel2.add(putButton2);*/
-
-            /*panicButton = new JButton("Panic");
-            panicButton.addActionListener(this);*/
-
-
-        //panelCenterRight.add(putPanel);
-        //panelCenterRight.add(putPanel2);
-        //panelCenterRight.add(panicButton);
 
 
         panelCenter.add(panelCenterLeft);
@@ -322,6 +292,10 @@ public class GameView extends View implements ActionListener, MouseListener {
             }
         }
 
+        if (e.getSource() == cameraSettingsButton){
+            new CameraView(viewManager);
+        }
+
         if (e.getSource() == exitButton){
             System.out.println("Spiel verlassen");
             Messenger.sendGiveUpMessage(viewManager);
@@ -330,68 +304,6 @@ public class GameView extends View implements ActionListener, MouseListener {
             viewManager.setCurrentView(startMenuView);
             startMenuView.setVisible(true);
             this.setVisible(false);
-        }
-
-        /*if (e.getSource() == this.putButton){
-
-            *//*boardImage.put(new Position(0,0), STONECOLOR.WHITE);
-            boardImage.move(new Move(new Position(0,0), new Position(0,1)));
-            boardImage.put(new Position(2,3), STONECOLOR.BLACK);
-            boardImage.put(new Position(2,1), STONECOLOR.BLACK);
-            boardImage.put(new Position(2,2), STONECOLOR.BLACK);*//*
-
-
-
-
-            //connection.put(new Position(Integer.parseInt(ringTextfield.getText()), Integer.parseInt(fieldTextfield.getText())), 1);
-
-            int ring = Integer.parseInt(ringTextfield.getText());
-            int field = Integer.parseInt(fieldTextfield.getText());
-
-            JSONObject jsonObject2 = new JSONObject();
-            jsonObject2.put("playerUuid", game.getPlayer0().getUuid());
-
-            jsonObject2.put("gameCode", game.getGameCode());
-            jsonObject2.put("command", "update");
-            jsonObject2.put("action", "put");
-            jsonObject2.put("ring", ringTextfield.getText());
-            jsonObject2.put("field", fieldTextfield.getText());
-            jsonObject2.put("callComputer", false);
-            websocketClient.send(jsonObject2.toString());
-
-            Position position = new Position(ring,field);
-            int playerIndex = 0;
-
-            game.getBoard().putStone(position, playerIndex);
-
-            boardImage.put(position, STONECOLOR.BLACK);
-            this.getContentPane().validate();
-            this.getContentPane().repaint();
-
-
-            *//*System.out.println("Put wird ausgeführt");
-            connection.put(new Position(0,5), 1);
-            connection.move(new Position(0,5), new Position(2,1), false);*//*
-
-        }*/
-
-        if (e.getSource() == this.putButton2){
-
-            Position from = new Position(0,2);
-            Position to = new Position(Integer.parseInt(ringTextfield2.getText()), Integer.parseInt(fieldTextfield2.getText()));
-            Move move = new Move(from, to);
-            if (game.getBoard().checkMove(move, true)){
-                connection.move(move,true);
-            }
-            else {
-                System.out.println("Unerlaubter Zug");
-            }
-
-
-        }
-
-        if (e.getSource() == this.panicButton){
-            connection.getEbb().enableMotor(0,0);
         }
 
     }
@@ -441,25 +353,6 @@ public class GameView extends View implements ActionListener, MouseListener {
         try {
             Position position = houghCirclesRun.detectKill(args, game.getBoard());
             Messenger.sendKillMessage(viewManager, position, false);
-            //game.getBoard().clearStone(position);
-            //killOnBoardImage(position);
-
-            /*setInformationLabel(" ");
-            game.setKillPhase(false);
-            enableScanButton(false);
-
-            if (game.getRound() < 18){
-                setNextStepLabelPut(false);
-            }
-            else {
-                setNextStepLabelMove(false);
-            }*/
-
-
-            /*if (game.getBoard().countPlayersStones(1-ownIndex) < 3 && game.getRound() > 18) {
-                setInformationLabel("Sie haben das Spiel gewonnen!");
-                System.out.println("Spiel gewonnen");
-            }*/
 
         }
         catch (InvalidBoardException ibe){
@@ -510,31 +403,6 @@ public class GameView extends View implements ActionListener, MouseListener {
             chatTextArea.setText(name + ": " + message +"\n" + chatTextArea.getText());}
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        System.out.println("Spielfeld angelickt");
-        new CameraView(viewManager);
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
 
     public ViewManager getViewManager() {
         return viewManager;
