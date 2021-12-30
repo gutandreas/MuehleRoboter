@@ -83,7 +83,7 @@ public class HoughCirclesRun {
 
         Move move = new Move(changes[1], changes[0]);
 
-        boolean allowedToJump = board.countPlayersStones(0) == 3; // Achtung: PlayerIndex hardcoded
+        boolean allowedToJump = board.countPlayersStones(gameView.getGame().getCurrentPlayerIndex()) == 3;
         if (!board.checkMove(move, allowedToJump)){
             throw new InvalidBoardException("Es wurde ein unerlaubter Zug gemacht");
         }

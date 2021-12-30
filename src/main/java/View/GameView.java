@@ -5,7 +5,6 @@ import Camera.InvalidBoardException;
 import EiBotBoard.Connection;
 import Websocket.Messenger;
 import Websocket.WebsocketClient;
-import com.sun.source.doctree.TextTree;
 import game.*;
 import org.opencv.core.Core;
 
@@ -14,8 +13,6 @@ import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 
 public class GameView extends View implements ActionListener {
