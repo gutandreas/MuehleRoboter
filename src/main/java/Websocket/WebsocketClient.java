@@ -3,6 +3,7 @@ package Websocket;
 import EiBotBoard.Connection;
 import View.BoardImage;
 import View.GameView;
+import View.StartMenuView;
 import View.ViewManager;
 import game.*;
 import org.java_websocket.client.WebSocketClient;
@@ -207,7 +208,12 @@ public class WebsocketClient extends WebSocketClient {
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-
+        System.out.println("Serververbindung abgebrochen");
+        ((GameView) viewManager.getCurrentView()).getConnection().resetVariables();
+        StartMenuView startMenuView = new StartMenuView(viewManager,new String[0], ((GameView) viewManager.getCurrentView()).getConnection());
+        startMenuView.setVisible(true);
+        viewManager.getCurrentView().setVisible(false);
+        viewManager.setCurrentView(startMenuView);
     }
 
     @Override
