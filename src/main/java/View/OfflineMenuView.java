@@ -31,17 +31,18 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
     JPanel mainPanel, panelInformation, panelTop, panelCenter, panelBottom, panelStartGame, panelColor;
     JRadioButton computerLevelRadioButton;
 
-
     Keyboard keyboard;
     Color aliceblue = new Color(161, 210, 255);
     Color background = new Color(60,60,60);
-
-
 
     Connection connection;
     String[] args;
     String ipAdress = "192.168.0.11";
     //String ipAdress = "localhost";
+
+    ScorePoints putPoints = new ScorePoints(3000, 1000,30, 200, 300,6, -3000, -1000, -30, -200, -300, -6);
+    ScorePoints movePoints = new ScorePoints(2000, 300,250, 200, 300,3, -2000, -300, -250, -200, -300, -3);
+
 
     public static void main(String[] args) {
         ViewManager viewManager = new ViewManager();
@@ -185,9 +186,7 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
             int ownIndex = startSwitchButton.isSelected() ? 1 : 0;
             GameView gameView = new GameView(viewManager, args, nameTextfield.getText(), connection, player1Color, player2Color, ownIndex);
             Game game = null;
-            ScorePoints putPoints = new ScorePoints(0,0,0,0,0,0,0,0,0,0,0,0);
-            ScorePoints movePoints = new ScorePoints(0,0,0,0,0,0,0,0,0,0,0,0);
-            int levelLimit = 1;
+            int levelLimit = 3;
 
             switch (ownIndex){
                 case 0:

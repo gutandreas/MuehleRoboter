@@ -5,7 +5,6 @@ import View.ViewManager;
 import Websocket.MessageHandler;
 import Websocket.Messenger;
 
-import java.util.Stack;
 
 public class ComputerPlayer extends Player implements MessageHandler {
 
@@ -28,47 +27,38 @@ public class ComputerPlayer extends Player implements MessageHandler {
 
         recursivePutBfs(gameTree.getRoot(), putPoints, movePoints, playerIndex, playerIndex, levelLimit);
 
-        System.out.println(gameTree);
+        //System.out.println(gameTree);
 
-        Stack<GameTreeNode> winningPath = gameTree.getPathToBestLeaf();
-        System.out.println("Gewinnerpfad:");
-        while (!winningPath.isEmpty()){
-            System.out.println(winningPath.pop());
-        }
-
-        System.out.println("Gesetzter Stein: " + gameTree.getBestPut());
-
-        //gameView.getConnection().put(gameTree.getBestPut(), playerIndex);
 
         return gameTree.getBestPut();
     }
 
-    private void recursivePutBfs(GameTreeNode set, ScorePoints putPoints, ScorePoints movePoints, int scorePlayerIndex, int currentPlayerIndex, int levelLimit){
+    private void recursivePutBfs(GameTreeNode node, ScorePoints putPoints, ScorePoints movePoints, int scorePlayerIndex, int currentPlayerIndex, int levelLimit){
 
-        if (set.getLevel()==levelLimit){
+        if (node.getLevel()==levelLimit){
             return;
         }
 
         int tempCurrentPlayerIndex;
 
-        if (set.getLevel()%2 == 0){
+        if (node.getLevel()%2 == 0){
             tempCurrentPlayerIndex = scorePlayerIndex;
         }
         else {
             tempCurrentPlayerIndex = 1 - scorePlayerIndex;
         }
 
-        for (Position freeField : Advisor.getAllFreeFields(set.getBoard())){
-            pretendPut(set.getBoard(), freeField, putPoints, set, scorePlayerIndex, tempCurrentPlayerIndex, set.getLevel()+1);
+        for (Position freeField : Advisor.getAllFreeFields(node.getBoard())){
+            pretendPut(node.getBoard(), freeField, putPoints, node, scorePlayerIndex, tempCurrentPlayerIndex, node.getLevel()+1);
         }
 
-        if (set.getLevel()%2 == 0){
-            gameTree.keepOnlyBestChildren(set, 10);}
+        if (node.getLevel()%2 == 0){
+            gameTree.keepOnlyBestChildren(node, 15);}
         else {
-            gameTree.keepOnlyWorstChildren(set, 1);
+            gameTree.keepOnlyWorstChildren(node, 15);
         }
 
-        for (GameTreeNode child : set.getChildren()){
+        for (GameTreeNode child : node.getChildren()){
             if (gameView.getGame().getRound() + child.getLevel() < 18){
                 recursivePutBfs(child, putPoints, movePoints, scorePlayerIndex, tempCurrentPlayerIndex, levelLimit);
             }
@@ -106,11 +96,11 @@ public class ComputerPlayer extends Player implements MessageHandler {
 
                 gameTreeNode2.setBoard(clonedBoard2);
                 gameTreeNode2.setScore(Advisor.getScore(gameTreeNode2, scorePoints, scorePlayerIndex, false));
-                gameTree.addSet(parent, gameTreeNode2);
+                gameTree.addNode(parent, gameTreeNode2);
             }
         }
         else {
-            gameTree.addSet(parent, gameTreeNode1);
+            gameTree.addNode(parent, gameTreeNode1);
         }
 
     }
@@ -123,17 +113,7 @@ public class ComputerPlayer extends Player implements MessageHandler {
 
         recursiveMoveBfs(gameTree.getRoot(), movePoints, playerIndex, playerIndex, levelLimit);
 
-        System.out.println(gameTree);
-
-        Stack<GameTreeNode> winningPath = gameTree.getPathToBestLeaf();
-        System.out.println("Gewinnerpfad:");
-        while (!winningPath.isEmpty()){
-            System.out.println(winningPath.pop());
-        }
-
-        System.out.println("Getätigter Zug: " + gameTree.getBestMove());
-
-        //gameView.getConnection().move(gameTree.getBestMove(), allowedToJump);
+        //System.out.println(gameTree);
 
         return gameTree.getBestMove();
 
@@ -159,10 +139,9 @@ public class ComputerPlayer extends Player implements MessageHandler {
         }
 
         if (set.getLevel()%2 == 0){
-            gameTree.keepOnlyBestChildren(set, 3);}
+            gameTree.keepOnlyBestChildren(set, 15);}
         else {
-            gameTree.keepOnlyWorstChildren(set, 1);
-        }
+            gameTree.keepOnlyWorstChildren(set, 15);}
 
 
         for (GameTreeNode child : set.getChildren()){
@@ -197,11 +176,11 @@ public class ComputerPlayer extends Player implements MessageHandler {
 
                 gameTreeNode2.setBoard(clonedBoard2);
                 gameTreeNode2.setScore(Advisor.getScore(gameTreeNode2, scorePoints, scorePlayerIndex, false));
-                gameTree.addSet(parent, gameTreeNode2);
+                gameTree.addNode(parent, gameTreeNode2);
             }
         }
         else {
-            gameTree.addSet(parent, gameTreeNode1);
+            gameTree.addNode(parent, gameTreeNode1);
         }
     }
 
@@ -209,10 +188,7 @@ public class ComputerPlayer extends Player implements MessageHandler {
 
     Position kill(Board board, int ownPlayerIndex, int otherPlayerIndex) {
 
-        //gameView.getConnection().kill(gameTree.getBestKill(), ownPlayerIndex);
-
         return gameTree.getBestKill();
-
     }
 
 
