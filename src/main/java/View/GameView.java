@@ -296,18 +296,19 @@ public class GameView extends View implements ActionListener {
             new CameraView(viewManager);
         }
 
-        if (e.getSource() == exitButton){
+        if (e.getSource() == exitButton) {
 
             System.out.println("Spiel verlassen");
 
-            if (!game.isWatchGame())
-                Messenger.sendGiveUpMessage(viewManager);}
-
+            if (!game.isWatchGame()) {
+                Messenger.sendGiveUpMessage(viewManager);
+            }
             connection.resetVariables();
             StartMenuView startMenuView = new StartMenuView(viewManager, args, connection);
             viewManager.setCurrentView(startMenuView);
             startMenuView.setVisible(true);
             this.setVisible(false);
+        }
     }
 
 

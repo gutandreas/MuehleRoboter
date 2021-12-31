@@ -45,7 +45,19 @@ public class Controller {
         }*/
 
         //connection.connectToStone(true);
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        connection.connectToStone(true);
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         connection.connectToStone(false);
+        ;
 
         //ebb.enableMotor(0,0);
 

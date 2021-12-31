@@ -17,9 +17,15 @@ public class Connection {
     public Connection(Ebb ebb) {
         this.ebb = ebb;
         RingAndFieldCoordsCm ringAndFieldCoordsCm = new RingAndFieldCoordsCm();
-        ebb.execute("SC," + 4 + "," + 19500); //connect
-        ebb.execute("SC," + 5 + "," + 24900); //disconnect
         goHome(5);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        ebb.execute("SC," + 4 + "," + 12000); //connect
+        ebb.execute("SC," + 5 + "," + 25000); //disconnect
+
 
     }
 
