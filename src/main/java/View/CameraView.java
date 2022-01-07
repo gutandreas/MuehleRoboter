@@ -15,38 +15,34 @@ import java.awt.event.ActionListener;
 
 public class CameraView extends View implements ActionListener {
 
-    Color aliceblue = new Color(161, 210, 255);
-    Color background = new Color(60,60,60);
-    ImageIcon previewIcon;
-    JPanel mainPanel = new JPanel();
-    JLabel brightnessLabel = new JLabel("Helligkeit (0 bis 100):");
-    JTextField brightnessTextfield = new JTextField();
-    JButton brightnessPlusButton = new JButton("+");
-    JButton brightnessMinusButton = new JButton("-");
-    JLabel contrastLabel = new JLabel("Kontrast (-100 bis 100):");
-    JButton contrastPlusButton = new JButton("+");
-    JButton contrastMinusButton = new JButton("-");
-    JLabel imageLabel;
-    JLabel drcLabel = new JLabel("Dynamic Range Compression: ");
-    SwitchButton drcSwitchButton = new SwitchButton(Color.RED, Color.GREEN, aliceblue);
-    JLabel awbLabel = new JLabel("Automatic White Balance: ");
-    SwitchButton awbSwitchButton = new SwitchButton(Color.RED, Color.GREEN, aliceblue);
-    JTextField contrastTextfield = new JTextField();
-    JButton previewButton = new JButton("Vorschau");
-    JButton saveButton = new JButton("Speichern");
-    JLabel numberOfStonesLabel = new JLabel("Anzahl Steine:");
-    JTextField numberOfStonesTextfield = new JTextField();
-    JButton numberOfStonesPlusButton = new JButton("+");
-    JButton numberOfStonesMinusButton = new JButton("-");
-    JButton automaticScanButton = new JButton("Automatisch einstellen");
-    ViewManager viewManager;
-    HoughCirclesRun houghCirclesRun;
-    RPiCamera previewCamera;
-    Font font = new Font("Roboto", 0, 12);
-
-    public static void main(String[] args) {
-        new CameraView(new ViewManager());
-    }
+    private Color aliceblue = new Color(161, 210, 255);
+    private Color background = new Color(60,60,60);
+    private ImageIcon previewIcon;
+    private JPanel mainPanel = new JPanel();
+    private JLabel brightnessLabel = new JLabel("Helligkeit (0 bis 100):");
+    private JTextField brightnessTextfield = new JTextField();
+    private JButton brightnessPlusButton = new JButton("+");
+    private JButton brightnessMinusButton = new JButton("-");
+    private JLabel contrastLabel = new JLabel("Kontrast (-100 bis 100):");
+    private JButton contrastPlusButton = new JButton("+");
+    private JButton contrastMinusButton = new JButton("-");
+    private JLabel imageLabel;
+    private JLabel drcLabel = new JLabel("Dynamic Range Compression: ");
+    private SwitchButton drcSwitchButton = new SwitchButton(Color.RED, Color.GREEN, aliceblue);
+    private JLabel awbLabel = new JLabel("Automatic White Balance: ");
+    private SwitchButton awbSwitchButton = new SwitchButton(Color.RED, Color.GREEN, aliceblue);
+    private JTextField contrastTextfield = new JTextField();
+    private JButton previewButton = new JButton("Vorschau");
+    private JButton saveButton = new JButton("Speichern");
+    private JLabel numberOfStonesLabel = new JLabel("Anzahl Steine:");
+    private JTextField numberOfStonesTextfield = new JTextField();
+    private JButton numberOfStonesPlusButton = new JButton("+");
+    private JButton numberOfStonesMinusButton = new JButton("-");
+    private JButton automaticScanButton = new JButton("Automatisch einstellen");
+    private ViewManager viewManager;
+    private HoughCirclesRun houghCirclesRun;
+    private RPiCamera previewCamera;
+    private Font font = new Font("Roboto", 0, 12);
 
     public CameraView(ViewManager viewManager) {
         this.viewManager = viewManager;
@@ -169,12 +165,14 @@ public class CameraView extends View implements ActionListener {
             previewCamera.setContrast(Integer.parseInt(contrastTextfield.getText()));
             Mat preview = houghCirclesRun.takePhoto(previewCamera, "preview", true);
             loadAndAddOrUpdatePreviewImage(preview, true);
+
             if (drcSwitchButton.isSelected()){
                 previewCamera.setDRC(DRC.HIGH);
             }
             else {
                 previewCamera.setDRC(DRC.OFF);
             }
+
             if (awbSwitchButton.isSelected()){
                 previewCamera.setAWB(AWB.FLASH);
             }
@@ -284,31 +282,27 @@ public class CameraView extends View implements ActionListener {
 
                 Mat preview = houghCirclesRun.takePhoto(previewCamera, "preview", false);
 
-
-                    if (houghCirclesRun.detectCircles(preview).length == Integer.parseInt(numberOfStonesTextfield.getText())){
-                        System.out.println("Alle Steine gefunden mit Helligkeit " + brightness + " und Kontrast " + contrast);
-                        saveButton.setVisible(true);
-                        loadAndAddOrUpdatePreviewImage(preview, true);
-                        if (confirmed){
-                            brightnessTextfield.setText("" + brightness);
-                            contrastTextfield.setText("" + contrast);
-                            automaticScanButton.setBackground(Color.GREEN);
-                            return;}
-                        else {
-                            confirmed = true;
-                        }
-                    }
+                if (houghCirclesRun.detectCircles(preview).length == Integer.parseInt(numberOfStonesTextfield.getText())){
+                    System.out.println("Alle Steine gefunden mit Helligkeit " + brightness + " und Kontrast " + contrast);
+                    saveButton.setVisible(true);
+                    loadAndAddOrUpdatePreviewImage(preview, true);
+                    if (confirmed){
+                        brightnessTextfield.setText("" + brightness);
+                        contrastTextfield.setText("" + contrast);
+                        automaticScanButton.setBackground(Color.GREEN);
+                        return;}
                     else {
-                        System.out.println("Nicht alle Steine gefunden mit Helligkeit " + brightness + " und Kontrast " + contrast);
-                        confirmed = false;
+                        confirmed = true;
                     }
                 }
+                else {
+                    System.out.println("Nicht alle Steine gefunden mit Helligkeit " + brightness + " und Kontrast " + contrast);
+                    confirmed = false;
+                }
+            }
         }
 
         automaticScanButton.setBackground(Color.RED);
-
-
-
     }
 
 }

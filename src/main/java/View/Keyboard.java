@@ -12,9 +12,9 @@ import java.awt.event.ActionListener;
 public class Keyboard implements ActionListener {
 
     private final JPanel keyboard = new JPanel();
-    Color aliceblue = new Color(200, 235, 255);
-    JButton[][] jButtons = new JButton[4][15];
-    JTextField activeTextfield;
+    private Color aliceblue = new Color(200, 235, 255);
+    private JButton[][] jButtons = new JButton[4][15];
+    private JTextField activeTextfield;
 
     private static final String[][] key = {
             {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "Backspace"},

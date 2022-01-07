@@ -20,8 +20,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 
-public class OfflineMenuView extends View implements ActionListener, MouseListener
-{
+public class OfflineMenuView extends View implements ActionListener, MouseListener {
+
     ViewManager viewManager;
 
     JButton startButton;
@@ -107,8 +107,6 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
         panelStartGame.add(startLabelHuman);
         panelStartGame.add(startSwitchButton);
         panelStartGame.add(startLabelComputer);
-
-
 
         computerLevelLabel = new JLabel("Spielstärke Computer:");
         computerLevelRadioButton = new JRadioButton();

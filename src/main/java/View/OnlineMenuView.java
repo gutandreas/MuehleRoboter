@@ -124,15 +124,9 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
         panelCenter.add(joinButton);
         panelCenter.add(watchButton);
 
-
-
-
-
-
         startButton.addActionListener(this);
         joinButton.addActionListener(this);
         watchButton.addActionListener(this);
-
 
 
         //panelBottom
@@ -148,9 +142,6 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
         mainPanel.add(panelBottom);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBackground(background);
-
-
-
 
         this.add(mainPanel);
         this.getContentPane().setBackground( background );
@@ -168,20 +159,18 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
     public void actionPerformed (ActionEvent ae){
 
         if(ae.getSource() == this.startButton){
-
             sendHTTPRequest(0);
         }
-        else if(ae.getSource() == this.joinButton){
-
+        if(ae.getSource() == this.joinButton){
             sendHTTPRequest(1);
         }
-        else if (ae.getSource() == this.watchButton){
+        if (ae.getSource() == this.watchButton){
             sendHTTPRequest(2);
         }
-        else if (ae.getSource() == this.gamecodeTextfield){
+        if (ae.getSource() == this.gamecodeTextfield){
             keyboard.setActiveTextfield(gamecodeTextfield);
         }
-        else if (ae.getSource() == this.nameTextfield){
+        if (ae.getSource() == this.nameTextfield){
             keyboard.setActiveTextfield(nameTextfield);
         }
 
@@ -214,19 +203,17 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
                 jsonObject.put("player1Name", name);
                 jsonObject.put("player1Color", player1Color.toString());
                 break;
+
             case 1:
-
-
-
                 urlAsString = "http://" + ipAdress + ":" + port + "/index/controller/menschVsMensch/join";
                 jsonObject.put("player2Name", name);
                 break;
+
             case 2:
                 urlAsString = "http://" + ipAdress + ":" + port + "/index/controller/gameWatch";
                 jsonObject.put("modus", "Game Watch");
                 break;
         }
-
 
         jsonObject.put("gameCode", gameCode);
 
@@ -240,8 +227,6 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
             return;
         }
 
-
-
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(urlAsString))
                 .POST(HttpRequest.BodyPublishers.ofString(jsonObject.toString()))
@@ -252,8 +237,16 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
 
         JSONObject jsonResponseObject = null;
 
+
+
         try {
             response = client.send(request,HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 417) {
+
+                informationLabel.setText(response.body().toString());
+
+            }
 
             String body = (String) response.body();
             jsonResponseObject = new JSONObject(body);
@@ -275,6 +268,7 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
             e.printStackTrace();
         }
 
+
         if (response.statusCode() == 200){
             try {
                 URI uri = new URI("ws://" + ipAdress + ":" + port + "/board");
@@ -290,7 +284,6 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
                         game = new Game(gameView, new HumanPlayer(gameView, nameTextfield.getText(), uuid, player1Color, true),
                                 new HumanPlayer(gameView, " ", " ", player2Color, false),
                                 gamecodeTextfield.getText(), null, false, false);
-
                         break;
 
                     case 1:
@@ -326,7 +319,6 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
                         break;
                 }
 
-
                 WebsocketClient websocketClient = new WebsocketClient(viewManager, uri, game);
                 game.setWebsocketClient(websocketClient);
                 websocketClient.connect();
@@ -348,8 +340,8 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == this.gamecodeTextfield) {
-            keyboard.setActiveTextfield(gamecodeTextfield);
-        } else if (e.getSource() == this.nameTextfield) {
+            keyboard.setActiveTextfield(gamecodeTextfield);}
+        if (e.getSource() == this.nameTextfield) {
             keyboard.setActiveTextfield(nameTextfield);
         }
     }

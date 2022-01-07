@@ -17,19 +17,19 @@ import java.awt.event.ActionListener;
 
 public class GameView extends View implements ActionListener {
 
-    ViewManager viewManager;
+    private ViewManager viewManager;
 
-    JPanel mainPanel, panelInformation, panelInformationTop, panelInformationCenter, panelInformationBottom, panelCenter, panelCenterLeft, panelCenterCenter, panelCenterRight;
-    JLabel informationLabel, gamcodeTitleLabel, gamecodeLabel, nameTitleLabel, nameLabel, roundTitleLabel, roundLabel, enemyTitleLabel, enemyLabel, nextStepLabel;
-    JButton scanButton, cameraSettingsButton, exitButton;
-    JTextArea chatTextArea;
-    String textAreaPromtText = "Chatnachrichten...";
-    JScrollPane scroll;
-    BoardImage boardImage;
-    Color aliceblue = new Color(161, 210, 255);
-    Color background = new Color(60,60,60);
-    STONECOLOR player0StoneColor;
-    STONECOLOR player1StoneColor;
+    private JPanel mainPanel, panelInformation, panelInformationTop, panelInformationCenter, panelInformationBottom, panelCenter, panelCenterLeft, panelCenterCenter, panelCenterRight;
+    private JLabel informationLabel, gamcodeTitleLabel, gamecodeLabel, nameTitleLabel, nameLabel, roundTitleLabel, roundLabel, enemyTitleLabel, enemyLabel, nextStepLabel;
+    private JButton scanButton, cameraSettingsButton, exitButton;
+    private JTextArea chatTextArea;
+    private String textAreaPromtText = "Chatnachrichten...";
+    private JScrollPane scroll;
+    private BoardImage boardImage;
+    private Color aliceblue = new Color(161, 210, 255);
+    private Color background = new Color(60,60,60);
+    private STONECOLOR player0StoneColor;
+    private STONECOLOR player1StoneColor;
     private int ownIndex;
 
     String[] args;
@@ -208,15 +208,13 @@ public class GameView extends View implements ActionListener {
         chatTextArea.setWrapStyleWord(true);
         chatTextArea.setEditable(false);
         chatTextArea.setHighlighter(null);
-        scroll = new JScrollPane (chatTextArea,
-                JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scroll = new JScrollPane (chatTextArea, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
         cameraSettingsButton = new JButton("Kameraoptionen");
         cameraSettingsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         cameraSettingsButton.addActionListener(this);
-
 
         exitButton = new JButton("Spiel verlassen");
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -232,7 +230,6 @@ public class GameView extends View implements ActionListener {
         panelCenter.add(panelCenterCenter);
         panelCenter.add(panelCenterRight);
         panelCenter.setOpaque(false);
-
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -318,7 +315,6 @@ public class GameView extends View implements ActionListener {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         HoughCirclesRun houghCirclesRun = new HoughCirclesRun(this, viewManager.getrPiCamera());
 
-
         try {
             Position position = houghCirclesRun.detectPut(args, game.getBoard());
             Messenger.sendPutMessage(viewManager, position, false);
@@ -335,8 +331,6 @@ public class GameView extends View implements ActionListener {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         HoughCirclesRun houghCirclesRun = new HoughCirclesRun(this, viewManager.getrPiCamera());
 
-
-
         try {
             Move move = houghCirclesRun.detectMove(args, game.getBoard());
             Messenger.sendMoveMessage(viewManager, move, false);
@@ -351,7 +345,6 @@ public class GameView extends View implements ActionListener {
         System.out.println("Scan des Spielfelds");
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         HoughCirclesRun houghCirclesRun = new HoughCirclesRun(this, viewManager.getrPiCamera());
-
 
         try {
             Position position = houghCirclesRun.detectKill(args, game.getBoard());

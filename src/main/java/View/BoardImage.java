@@ -11,10 +11,9 @@ import javax.swing.*;
 
 public class BoardImage extends Label {
 
-    HashMap<Position, Coordinates> coordinatesMap = new HashMap<>();
-    ImageIcon[][] imageIcons;
-    JLabel mainLabel;
-    JFrame frame;
+    private HashMap<Position, Coordinates> coordinatesMap = new HashMap<>();
+    private ImageIcon[][] imageIcons;
+    private JLabel mainLabel;
 
 
     public static class Coordinates{
