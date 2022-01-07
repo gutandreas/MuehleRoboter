@@ -125,13 +125,13 @@ public class Connection {
 
     public void xyMove(int x, int y, int speed) throws MotorException{
 
-        xCoord += x;
-        yCoord += y;
-
-        if (xCoord < 0 || yCoord < 0 || xCoord > 42 || yCoord > 28){
+        if (xCoord + x < 0 || yCoord + y < 0 || xCoord + x > 42 || yCoord + y > 28){
             throw new MotorException("Dieser Weg würde über den Rand hinaus führen");
         }
         else {
+
+        xCoord += x;
+        yCoord += y;
 
         int factorForCm = 800;
         int duration = (int) (Math.sqrt(x*x + y*y) / speed * 1000);
@@ -150,7 +150,7 @@ public class Connection {
         }
 
         int tempX2 = 0;
-        int tempY2= 0;
+        int tempY2 = 0;
 
         tempX2 += tempX;
         tempY2 += tempX;
