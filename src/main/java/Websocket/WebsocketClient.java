@@ -29,23 +29,18 @@ public class WebsocketClient extends WebSocketClient {
 
         if (game.isWatchGame()){
             System.out.println("watch");
-            jsonObject.put("gameCode", game.getGameCode());
-            jsonObject.put("command", "watch");
+            Messenger.sendWatchMessage(viewManager);
+
         }
         else {
             if (game.isJoiningToExistingGame()) {
                 System.out.println("join");
-                jsonObject.put("gameCode", game.getGameCode());
-                jsonObject.put("command", "join");
-                jsonObject.put("player2Name", game.getPlayer1().getName());
+                Messenger.sendJoinMessage(viewManager);
             } else {
                 System.out.println("start");
-                jsonObject.put("gameCode", game.getGameCode());
-                jsonObject.put("command", "start");
+                Messenger.sendStartMessage(viewManager);
             }
         }
-
-        send(jsonObject.toString());
     }
 
     @Override
@@ -221,12 +216,6 @@ public class WebsocketClient extends WebSocketClient {
         // Websocket wieder neu aufbauen
     }
 
-    public void watchGame(String gameCode){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("command", "watch");
-        jsonObject.put("gameCode", gameCode);
-        send(jsonObject.toString());
-    }
 
 
 }

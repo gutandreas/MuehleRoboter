@@ -96,6 +96,12 @@ EiBotBoard/MotorException.java
  EiBotBoard.MotorException
 Websocket/RunWebsocket.java
  Websocket.RunWebsocket
+View/Run.java
+ View.Run
+EiBotBoard/Controller.java
+ EiBotBoard.Controller
+EiBotBoard/Connection.java
+ EiBotBoard.Connection
 Websocket/WebsocketClient.java
  Websocket.WebsocketClient
 game/Game.java
@@ -104,10 +110,6 @@ View/OfflineMenuView.java
  View.OfflineMenuView
 View/GameView.java
  View.GameView
-EiBotBoard/Controller.java
- EiBotBoard.Controller
-EiBotBoard/Connection.java
- EiBotBoard.Connection
 View/OnlineMenuView.java
  View.OnlineMenuView
 game/Player.java
@@ -122,8 +124,6 @@ View/ViewManager.java
  View.ViewManager
 Websocket/Messenger.java
  Websocket.Messenger
-View/Run.java
- View.Run
 View/CameraView.java
  View.CameraView
  View.CameraView$1
