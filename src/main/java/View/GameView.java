@@ -300,6 +300,9 @@ public class GameView extends View implements ActionListener {
             if (!game.isWatchGame()) {
                 Messenger.sendGiveUpMessage(viewManager);
             }
+
+            Messenger.sendRoboterConnectionMessage(viewManager, false, false, false);
+
             connection.resetVariables();
             StartMenuView startMenuView = new StartMenuView(viewManager, args, connection);
             viewManager.setCurrentView(startMenuView);

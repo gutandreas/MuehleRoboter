@@ -1,6 +1,5 @@
 package Websocket;
 
-import View.BoardImage;
 import View.GameView;
 import View.StartMenuView;
 import View.ViewManager;
@@ -25,7 +24,7 @@ public class Messenger {
         jsonObject.put("gameCode", game.getGameCode());
         jsonObject.put("command", "start");
         sendMessage(viewManager, jsonObject.toString());
-        sendRoboterConnectedMessage(viewManager, false);
+        sendRoboterConnectionMessage(viewManager, true, false,true);
     }
 
     public static void sendJoinMessage(ViewManager viewManager){
@@ -36,7 +35,7 @@ public class Messenger {
         jsonObject.put("command", "join");
         jsonObject.put("player2Name", game.getPlayer1().getName());
         sendMessage(viewManager, jsonObject.toString());
-        sendRoboterConnectedMessage(viewManager, false);
+        sendRoboterConnectionMessage(viewManager, true, false, true);
     }
 
     public static void sendWatchMessage(ViewManager viewManager){
@@ -46,7 +45,7 @@ public class Messenger {
         jsonObject.put("gameCode", game.getGameCode());
         jsonObject.put("command", "watch");
         sendMessage(viewManager, jsonObject.toString());
-        sendRoboterConnectedMessage(viewManager, true);
+        sendRoboterConnectionMessage(viewManager, true, true, false);
     }
 
     public static void sendPutMessage(ViewManager viewManager, Position position, boolean triggerAxidraw){
@@ -128,7 +127,7 @@ public class Messenger {
         sendMessage(viewManager, jsonObject.toString());
     }
 
-    public static void sendRoboterConnectedMessage(ViewManager viewManager, boolean waitingTime){
+    public static void sendRoboterConnectionMessage(ViewManager viewManager, boolean connected, boolean watching, boolean playing){
 
         JSONObject jsonObject = new JSONObject();
         Game game = ((GameView) viewManager.getCurrentView()).getGame();
@@ -136,8 +135,10 @@ public class Messenger {
         jsonObject.put("gameCode", game.getGameCode());
         jsonObject.put("playerUuid", game.getCurrentPlayer().getUuid());
         jsonObject.put("playerIndex", game.getCurrentPlayerIndex());
-        jsonObject.put("command", "roboterConnected");
-        jsonObject.put("roboterWaitingTime", waitingTime);
+        jsonObject.put("command", "roboterConnection");
+        jsonObject.put("connected", connected);
+        jsonObject.put("watching", watching);
+        jsonObject.put("playing", playing);
         sendMessage(viewManager, jsonObject.toString());
     }
 
