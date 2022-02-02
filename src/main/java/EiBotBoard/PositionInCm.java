@@ -1,11 +1,11 @@
 package EiBotBoard;
 
-public class XyCoordsCm {
+public class PositionInCm {
 
     int x;
     int y;
 
-    public XyCoordsCm(int x, int y) {
+    public PositionInCm(int x, int y) {
         this.x = x;
         this.y = y;
     }

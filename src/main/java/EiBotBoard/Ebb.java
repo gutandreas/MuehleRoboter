@@ -8,6 +8,7 @@ public class Ebb extends Ubw implements EbbCommand {
 
 	public Ebb() {
 	}
+
 	public Ebb(String port) {
 		super(port);
 	}

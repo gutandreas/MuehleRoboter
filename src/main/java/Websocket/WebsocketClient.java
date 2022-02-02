@@ -25,7 +25,6 @@ public class WebsocketClient extends WebSocketClient {
     @Override
     public void onOpen(ServerHandshake handshakedata) {
         System.out.println("Verbunden mit Server");
-        JSONObject jsonObject = new JSONObject();
 
         if (game.isWatchGame()){
             System.out.println("watch");

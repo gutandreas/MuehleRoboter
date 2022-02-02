@@ -1,15 +1,8 @@
 package EiBotBoard;
 
-import Camera.HoughCirclesRun;
 import com.fazecast.jSerialComm.SerialPort;
-import game.Position;
 import gnu.io.CommPortIdentifier;
-import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.handshake.ServerHandshake;
-import org.opencv.core.Core;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Enumeration;
 
 public class Controller {
@@ -23,7 +16,7 @@ public class Controller {
 
 
 
-        RingAndFieldCoordsCm ringAndFieldCoordsCm = new RingAndFieldCoordsCm();
+        RingAndFieldToCm ringAndFieldToCm = new RingAndFieldToCm();
         //ebb.execute("SC," + 4 + "," + 19500);
 
 
