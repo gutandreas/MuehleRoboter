@@ -22,10 +22,10 @@ public class CameraView extends View implements ActionListener {
     private JLabel brightnessLabel = new JLabel("Helligkeit (0 bis 100):");
     private JTextField brightnessTextfield = new JTextField();
     private JButton brightnessPlusButton = new JButton("+");
-    private JButton brightnessMinusButton = new JButton("-");
+    private JButton brightnessMinusButton = new JButton("–");
     private JLabel contrastLabel = new JLabel("Kontrast (-100 bis 100):");
     private JButton contrastPlusButton = new JButton("+");
-    private JButton contrastMinusButton = new JButton("-");
+    private JButton contrastMinusButton = new JButton("–");
     private JLabel imageLabel;
     private JLabel drcLabel = new JLabel("Dynamic Range Compression: ");
     private SwitchButton drcSwitchButton = new SwitchButton(Color.RED, Color.GREEN, aliceblue);
@@ -37,12 +37,16 @@ public class CameraView extends View implements ActionListener {
     private JLabel numberOfStonesLabel = new JLabel("Anzahl Steine:");
     private JTextField numberOfStonesTextfield = new JTextField();
     private JButton numberOfStonesPlusButton = new JButton("+");
-    private JButton numberOfStonesMinusButton = new JButton("-");
-    private JButton automaticScanButton = new JButton("Automatisch einstellen");
+    private JButton numberOfStonesMinusButton = new JButton("–");
+    private JButton automaticScanButton = new JButton("Automatisch kalibrieren");
+    private JButton closeWindowButton = new JButton("Zurück zum Spiel");
     private ViewManager viewManager;
     private HoughCirclesRun houghCirclesRun;
     private RPiCamera previewCamera;
     private Font font = new Font("Roboto", 0, 12);
+
+
+
 
     public CameraView(ViewManager viewManager) {
         this.viewManager = viewManager;
@@ -67,8 +71,10 @@ public class CameraView extends View implements ActionListener {
         brightnessTextfield.setText(viewManager.getrPiCamera().getBrightness());
         brightnessPanel.add(brightnessTextfield);
         brightnessPlusButton.addActionListener(this);
+        brightnessPlusButton.setFont(new Font("Roboto", 0, 13));
         brightnessPanel.add(brightnessPlusButton);
         brightnessMinusButton.addActionListener(this);
+        brightnessMinusButton.setFont(new Font("Roboto", 0, 13));
         brightnessPanel.add(brightnessMinusButton);
         brightnessPanel.setOpaque(false);
 
@@ -80,8 +86,10 @@ public class CameraView extends View implements ActionListener {
         contrastTextfield.setText(viewManager.getrPiCamera().getContrast());
         contrastPanel.add(contrastTextfield);
         contrastPlusButton.addActionListener(this);
+        contrastPlusButton.setFont(new Font("Roboto", Font.BOLD, 13));
         contrastPanel.add(contrastPlusButton);
         contrastMinusButton.addActionListener(this);
+        contrastMinusButton.setFont(new Font("Roboto", Font.BOLD, 13));
         contrastPanel.add(contrastMinusButton);
         contrastPanel.setOpaque(false);
 
@@ -115,9 +123,9 @@ public class CameraView extends View implements ActionListener {
         numberOfStonesLabel.setFont(font);
         numberOfStonesLabel.setForeground(aliceblue);
         numberOfStonesPlusButton.addActionListener(this);
-        numberOfStonesPlusButton.setFont(new Font("Roboto", 0, 13));
+        numberOfStonesPlusButton.setFont(new Font("Roboto", Font.BOLD, 13));
         numberOfStonesMinusButton.addActionListener(this);
-        numberOfStonesMinusButton.setFont(new Font("Roboto", 0, 13));
+        numberOfStonesMinusButton.setFont(new Font("Roboto", Font.BOLD, 13));
         numberOfStonesTextfield.setText("5");
         numberOfStonesTextfield.setColumns(2);
         JPanel automaticScanPanel1 = new JPanel();
@@ -134,6 +142,14 @@ public class CameraView extends View implements ActionListener {
         automaticScanPanel2.add(automaticScanButton);
         automaticScanPanel2.setOpaque(false);
 
+        JPanel closeWindowPanel = new JPanel();
+        closeWindowButton.addActionListener(this);
+        closeWindowButton.setPreferredSize(new Dimension(200, 50));
+        closeWindowButton.setFont(new Font("Roboto", 0, 13));
+        closeWindowPanel.add(closeWindowButton);
+        closeWindowPanel.setOpaque(false);
+
+
 
         JPanel settingsPanel = new JPanel();
         settingsPanel.add(brightnessPanel);
@@ -143,6 +159,7 @@ public class CameraView extends View implements ActionListener {
         settingsPanel.add(buttonPanel);
         settingsPanel.add(automaticScanPanel1);
         settingsPanel.add(automaticScanPanel2);
+        settingsPanel.add(closeWindowPanel);
         settingsPanel.setOpaque(false);
         settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.Y_AXIS));
         settingsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -163,7 +180,7 @@ public class CameraView extends View implements ActionListener {
             System.out.println("preview Button");
             previewCamera.setBrightness(Integer.parseInt(brightnessTextfield.getText()));
             previewCamera.setContrast(Integer.parseInt(contrastTextfield.getText()));
-            Mat preview = houghCirclesRun.takePhoto(previewCamera, "preview", true);
+            Mat preview = houghCirclesRun.takePhoto(previewCamera, "preview", false);
             loadAndAddOrUpdatePreviewImage(preview, true);
 
             if (drcSwitchButton.isSelected()){
@@ -240,8 +257,12 @@ public class CameraView extends View implements ActionListener {
 
         if (e.getSource() == automaticScanButton){
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            scanAutomatically();
+            calibrateAutomatically();
             setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        }
+
+        if (e.getSource() == closeWindowButton){
+            this.dispose();
         }
     }
 
@@ -270,7 +291,7 @@ public class CameraView extends View implements ActionListener {
         mainPanel.repaint();
     }
 
-    private void scanAutomatically(){
+    private void calibrateAutomatically(){
 
         boolean confirmed = false;
 
@@ -286,6 +307,7 @@ public class CameraView extends View implements ActionListener {
                     System.out.println("Alle Steine gefunden mit Helligkeit " + brightness + " und Kontrast " + contrast);
                     saveButton.setVisible(true);
                     loadAndAddOrUpdatePreviewImage(preview, true);
+
                     if (confirmed){
                         brightnessTextfield.setText("" + brightness);
                         contrastTextfield.setText("" + contrast);
@@ -301,7 +323,6 @@ public class CameraView extends View implements ActionListener {
                 }
             }
         }
-
         automaticScanButton.setBackground(Color.RED);
     }
 

@@ -2,8 +2,6 @@
 package Camera;// https://docs.opencv.org/4.5.3/d4/d70/tutorial_hough_circle.html 30.7.2021
 
 import Camera.jrpicam.RPiCamera;
-import Camera.jrpicam.exceptions.FailedToRunRaspistillException;
-import View.CameraView;
 import View.GameView;
 import game.Board;
 import game.Move;
@@ -11,15 +9,12 @@ import game.Position;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
-import org.opencv.core.Size;
 import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.LinkedList;
 
 public class HoughCirclesRun {
 
@@ -40,7 +35,7 @@ public class HoughCirclesRun {
         rPiCamera = camera;
     }
 
-    public Position detectPut(String[] args, Board board){
+    public Position detectPut(Board board){
         Mat src = takePhoto(rPiCamera, "spielfoto", false);
         Position[] positions = detectCircles(src);
         Position[] changes = getChanges(board, positions);
@@ -57,14 +52,10 @@ public class HoughCirclesRun {
             throw new InvalidBoardException("Es wurde kein Stein hinzugefügt");
         }
 
-        if (!board.checkPut(changes[0])){
-            throw new InvalidBoardException("Es wurde ein unerlaubter Stein gesetzt");
-        }
-
         return changes[0];
     }
 
-    public Move detectMove(String[] args, Board board){
+    public Move detectMove(Board board){
         Mat src = takePhoto(rPiCamera, "spielfoto", false);
         Position[] positions = detectCircles(src);
         Position[] changes = getChanges(board, positions);
@@ -92,7 +83,7 @@ public class HoughCirclesRun {
 
     }
 
-    public Position detectKill(String[] args, Board board){
+    public Position detectKill(Board board){
         Mat src = takePhoto(rPiCamera, "spielfoto", false);
         Position[] positions = detectCircles(src);
         Position[] changes = getChanges(board, positions);
@@ -122,7 +113,6 @@ public class HoughCirclesRun {
 
     public Mat takePhoto(RPiCamera camera, String name, boolean preview) {
 
-
         Mat src = null;
 
         try {
@@ -135,7 +125,6 @@ public class HoughCirclesRun {
         }
 
         return src;
-
     }
 
     public Position[] detectCircles(Mat src){
@@ -147,7 +136,6 @@ public class HoughCirclesRun {
                 (double)gray.rows()/16, // change this value to detect circles with different distances to each other
                 100.0, 30.0, MIN_RADIUS, MAX_RADIUS); // change the last two parameters
 
-
         Position[] positions = new Position[circles.cols()];
         int counter = 0;
 
@@ -156,7 +144,6 @@ public class HoughCirclesRun {
             double[] c = circles.get(0, x);
             Point center = new Point(Math.round(c[0]), Math.round(c[1]));
             System.out.println("Kreis an Position x=" + center.x + " / y=" + center.y + " erkannt");
-
 
             Position position = getPosition(center.x, center.y, 100);
             if (position != null){
@@ -231,14 +218,12 @@ public class HoughCirclesRun {
 
     private Position getPosition(double x, double y, double tolerance) {
 
-        RingAndFieldCoordsPx pxMap = new RingAndFieldCoordsPx();
-
         for (int ring = 0; ring<3; ring++){
             for (int field = 0; field<8; field++){
                 Position position = new Position(ring, field);
-                XyCoordsPx xyCoordsPx = RingAndFieldCoordsPx.getCoord(position);
-                int xPos = xyCoordsPx.getX();
-                int yPos = xyCoordsPx.getY();
+                PositionInPixel positionInPixel = RingAndFieldToPixel.getCoord(position);
+                int xPos = positionInPixel.getX();
+                int yPos = positionInPixel.getY();
                 double delta = Math.sqrt((x-xPos)*(x-xPos) + (y-yPos)*(y-yPos));
                 if (delta <= tolerance){
                     return position;
@@ -255,7 +240,7 @@ public class HoughCirclesRun {
 
         for (Position p : positions){
             if (p != null){
-                tempBoard.putStone(p, 3);}
+                tempBoard.putStone(p, 2);}
         }
 
         System.out.println("Gescanntes Board: \n" + tempBoard);

@@ -16,7 +16,7 @@ public class Connection {
 
     public Connection(Ebb ebb) {
         this.ebb = ebb;
-        RingAndFieldToCm ringAndFieldToCm = new RingAndFieldToCm();
+
         goHome(5);
         try {
             Thread.sleep(1000);
@@ -48,7 +48,6 @@ public class Connection {
 
         goToPositionInLinesBring(position, playerIndex,6);
         goHome(15);
-
     }
 
     public void move(Move move, boolean jump){
@@ -151,7 +150,6 @@ public class Connection {
     }
 
     private void goToPositionInLinesBring(Position stonePosition, int playerindex, int speed){
-
 
         try {
             if (playerindex == 1){

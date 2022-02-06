@@ -145,14 +145,8 @@ public class RPiCamera {
 		prevCommand = command.toString();
 		pb = new ProcessBuilder(command);
 		
-// 		System.out.println("Executed this command:\n\t" + command.toString());
-// 		pb.redirectErrorStream(true);
-// 		pb.redirectOutput(
-// 				new File(System.getProperty("user.home") + File.separator +
-// 						"Desktop" + File.separator + "RPiCamera.out"));
-		
 		p = pb.start();
-		System.out.println("Prozess beendet: 0=ok  -> " + p.waitFor()); //Schauen wie lange das wartet! gibt int zurück, um zu schauen, ob fertig (0=ok)
+		p.waitFor();
 		return new File(saveDir + File.separator + pictureName);
 	}
 	

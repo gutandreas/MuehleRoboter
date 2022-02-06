@@ -1,11 +1,11 @@
 package Camera;
 
-public class XyCoordsPx {
+public class PositionInPixel {
 
     private int x;
     private int y;
 
-    public XyCoordsPx(int x, int y) {
+    public PositionInPixel(int x, int y) {
         this.x = x;
         this.y = y;
     }

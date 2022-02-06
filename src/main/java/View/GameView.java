@@ -319,7 +319,7 @@ public class GameView extends View implements ActionListener {
         HoughCirclesRun houghCirclesRun = new HoughCirclesRun(this, viewManager.getrPiCamera());
 
         try {
-            Position position = houghCirclesRun.detectPut(args, game.getBoard());
+            Position position = houghCirclesRun.detectPut(game.getBoard());
             Messenger.sendPutMessage(viewManager, position, false);
 
         }
@@ -335,7 +335,7 @@ public class GameView extends View implements ActionListener {
         HoughCirclesRun houghCirclesRun = new HoughCirclesRun(this, viewManager.getrPiCamera());
 
         try {
-            Move move = houghCirclesRun.detectMove(args, game.getBoard());
+            Move move = houghCirclesRun.detectMove(game.getBoard());
             Messenger.sendMoveMessage(viewManager, move, false);
         }
         catch (InvalidBoardException ibe){
@@ -350,7 +350,7 @@ public class GameView extends View implements ActionListener {
         HoughCirclesRun houghCirclesRun = new HoughCirclesRun(this, viewManager.getrPiCamera());
 
         try {
-            Position position = houghCirclesRun.detectKill(args, game.getBoard());
+            Position position = houghCirclesRun.detectKill(game.getBoard());
             Messenger.sendKillMessage(viewManager, position, false);
 
         }

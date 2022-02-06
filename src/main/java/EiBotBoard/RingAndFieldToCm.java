@@ -8,7 +8,7 @@ public class RingAndFieldToCm {
 
     private static HashMap<Position, PositionInCm> positionMap = new HashMap<>();
 
-    public RingAndFieldToCm() {
+    static {
 
         int xBorder = 2;
         int yBorder = 2;
