@@ -10,8 +10,8 @@ public class RingAndFieldToCm {
 
     static {
 
-        int xBorder = 2;
-        int yBorder = 2;
+        final int xBorder = 2;
+        final int yBorder = 2;
 
         //Feldpositionen
         positionMap.put(new Position(0,0), new PositionInCm(32+xBorder, 0+yBorder));
@@ -23,7 +23,6 @@ public class RingAndFieldToCm {
         positionMap.put(new Position(0,6), new PositionInCm(32+xBorder, 24+yBorder));
         positionMap.put(new Position(0,7), new PositionInCm(32+xBorder, 12+yBorder));
 
-
         positionMap.put(new Position(1,0), new PositionInCm(28+xBorder, 4+yBorder));
         positionMap.put(new Position(1,1), new PositionInCm(20+xBorder, 4+yBorder));
         positionMap.put(new Position(1,2), new PositionInCm(12+xBorder, 4+yBorder));
@@ -33,7 +32,6 @@ public class RingAndFieldToCm {
         positionMap.put(new Position(1,6), new PositionInCm(28+xBorder, 20+yBorder));
         positionMap.put(new Position(1,7), new PositionInCm(28+xBorder, 12+yBorder));
 
-
         positionMap.put(new Position(2,0), new PositionInCm(24+xBorder, 8+yBorder));
         positionMap.put(new Position(2,1), new PositionInCm(20+xBorder, 8+yBorder));
         positionMap.put(new Position(2,2), new PositionInCm(16+xBorder, 8+yBorder));
@@ -42,7 +40,6 @@ public class RingAndFieldToCm {
         positionMap.put(new Position(2,5), new PositionInCm(20+xBorder, 16+yBorder));
         positionMap.put(new Position(2,6), new PositionInCm(24+xBorder, 16+yBorder));
         positionMap.put(new Position(2,7), new PositionInCm(24+xBorder, 12+yBorder));
-
 
         //Wartebank Player1
         positionMap.put(new Position(-1,0), new PositionInCm(40+xBorder, 0+yBorder));
@@ -72,17 +69,11 @@ public class RingAndFieldToCm {
         positionMap.put(new Position(-11,2), new PositionInCm(34+xBorder, 14+yBorder));
         positionMap.put(new Position(-11,3), new PositionInCm(34+xBorder, 22+yBorder));
 
-
         //Startposition für Bahnen (Move in Line), B0 bis B3 Player 2
         positionMap.put(new Position(-12,0), new PositionInCm(6+xBorder, 2+yBorder));
         positionMap.put(new Position(-12,1), new PositionInCm(6+xBorder,10+yBorder));
         positionMap.put(new Position(-12,2), new PositionInCm(6+xBorder, 14+yBorder));
         positionMap.put(new Position(-12,3), new PositionInCm(6+xBorder, 22+yBorder));
-
-
-
-
-
     }
 
     public static PositionInCm getPositionInCm(Position position){

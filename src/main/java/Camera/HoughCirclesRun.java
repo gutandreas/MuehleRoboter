@@ -1,5 +1,6 @@
+// https://docs.opencv.org/4.5.3/d4/d70/tutorial_hough_circle.html 30.7.2021
 //Schritt damit es funktionierte: libopencv_java453.dylib von /usr/local/Cellar/opencv/4.5.3_1/share/java/opencv4 kopiert und in /Library/Java/Extensions/ eingefügt
-package Camera;// https://docs.opencv.org/4.5.3/d4/d70/tutorial_hough_circle.html 30.7.2021
+package Camera;
 
 import Camera.jrpicam.RPiCamera;
 import View.GameView;
@@ -18,22 +19,21 @@ import java.io.IOException;
 
 public class HoughCirclesRun {
 
-
     GameView gameView;
     RPiCamera rPiCamera;
     private final int MIN_RADIUS = 65;
     private final int MAX_RADIUS = 85;
 
-
     public HoughCirclesRun(GameView gameView, RPiCamera camera) {
        this.gameView = gameView;
        rPiCamera = camera;
-
     }
+
 
     public HoughCirclesRun(RPiCamera camera) {
         rPiCamera = camera;
     }
+
 
     public Position detectPut(Board board){
         Mat src = takePhoto(rPiCamera, "spielfoto", false);
@@ -41,19 +41,18 @@ public class HoughCirclesRun {
         Position[] changes = getChanges(board, positions);
 
         if (changes[0] != null && changes[1] != null){
-            throw new InvalidBoardException("Es wurde unerlaubt ein Stein auf " + changes[1] + " verschoben");
+            throw new InvalidBoardException("Es wurde unerlaubt ein Stein auf " + changes[0] + " verschoben");
         }
-
         if (changes[0] == null && changes[1] != null){
             throw new InvalidBoardException("Es wurde unerlaubt ein Stein von " + changes[1] + " entfernt");
         }
-
         if (changes[0] == null && changes[1] == null){
             throw new InvalidBoardException("Es wurde kein Stein hinzugefügt");
         }
 
         return changes[0];
     }
+
 
     public Move detectMove(Board board){
         Mat src = takePhoto(rPiCamera, "spielfoto", false);
@@ -63,11 +62,9 @@ public class HoughCirclesRun {
         if (changes[0] != null && changes[1] == null){
             throw new InvalidBoardException("Es wurde unerlaubt ein Stein auf " + changes[0] + " hinzugefügt");
         }
-
         if (changes[0] == null && changes[1] != null){
             throw new InvalidBoardException("Es wurde unerlaubt ein Stein von " + changes[1] + " entfernt");
         }
-
         if (changes[0] == null && changes[1] == null){
             throw new InvalidBoardException("Es wurde kein Stein verschoben");
         }
@@ -80,8 +77,8 @@ public class HoughCirclesRun {
         }
 
         return move;
-
     }
+
 
     public Position detectKill(Board board){
         Mat src = takePhoto(rPiCamera, "spielfoto", false);
@@ -91,24 +88,18 @@ public class HoughCirclesRun {
         if (changes[0] != null && changes[1] != null){
             throw new InvalidBoardException("Es wurde unerlaubt ein Stein auf " + changes[0] + " verschoben");
         }
-
         if (changes[0] != null && changes[1] == null){
             throw new InvalidBoardException("Es wurde unerlaubt ein Stein auf " + changes[0] + " hinzugefügt");
         }
-
         if (changes[0] == null && changes[1] == null){
             throw new InvalidBoardException("Es wurde kein Stein entfernt");
         }
-
         if (!board.checkKill(changes[1], gameView.getGame().getOtherPlayerIndex())){
             throw new InvalidBoardException("Es wurde ein unerlaubter Stein von " + changes[1] + " entfernt");
         }
 
         return changes[1];
     }
-
-
-
 
 
     public Mat takePhoto(RPiCamera camera, String name, boolean preview) {
@@ -126,6 +117,7 @@ public class HoughCirclesRun {
 
         return src;
     }
+
 
     public Position[] detectCircles(Mat src){
         Mat gray = new Mat();
@@ -159,14 +151,12 @@ public class HoughCirclesRun {
         return positions;
     }
 
+
     public Image paintCircles(Mat src){
         Mat gray = new Mat();
         Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
         Imgproc.medianBlur(gray, gray, 5);
         Mat circles = new Mat();
-        /*Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1.0,
-                (double)gray.rows()/16, // change this value to detect circles with different distances to each other
-                100.0, 30.0, 22, 40); // change the last two parameters*/
 
         Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1.0,
                 (double)gray.rows()/16, // change this value to detect circles with different distances to each other
@@ -181,11 +171,9 @@ public class HoughCirclesRun {
             Point center = new Point(Math.round(c[0]), Math.round(c[1]));
             System.out.println("Kreis an Position x=" + center.x + " / y=" + center.y + " erkannt");
 
-
             Position position = getPosition(center.x, center.y, 100);
             if (position != null){
                 positions[counter] = position;
-
 
             Scalar scalar;
 
@@ -208,13 +196,13 @@ public class HoughCirclesRun {
 
             counter++;
             }
-
         }
 
         Image img = HighGui.toBufferedImage(src);
 
         return img;
     }
+
 
     private Position getPosition(double x, double y, double tolerance) {
 
@@ -233,6 +221,7 @@ public class HoughCirclesRun {
 
         return null;
     }
+
 
     private Position[] getChanges(Board board, Position[] positions) {
 
@@ -269,7 +258,6 @@ public class HoughCirclesRun {
         }
         return changes;
     }
-
 
 }
 

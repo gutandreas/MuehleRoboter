@@ -1,14 +1,5 @@
 package Websocket;
 
-import EiBotBoard.Connection;
-import EiBotBoard.Controller;
-import EiBotBoard.Ebb;
-import game.Board;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Scanner;
-
 public class RunWebsocket {
 
     /*public static void main(String[] args) throws InterruptedException, URISyntaxException{

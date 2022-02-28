@@ -1,15 +1,11 @@
-View/Keyboard.java
- View.Keyboard
-Camera/jrpicam/enums/DRC.java
- Camera.jrpicam.enums.DRC
-game/OpenMorris.java
- game.OpenMorris
-EiBotBoard/UbwCommand.java
- EiBotBoard.UbwCommand
- EiBotBoard.UbwCommand$PinDirection
- EiBotBoard.UbwCommand$Port
- EiBotBoard.UbwCommand$TimerListener
- EiBotBoard.UbwCommand$TimerMode
+View/View.java
+ View.View
+Camera/jrpicam/examples/ShootTimelapse.java
+ Camera.jrpicam.examples.ShootTimelapse
+game/ClosedMorris.java
+ game.ClosedMorris
+EiBotBoard/EbbCommand.java
+ EiBotBoard.EbbCommand
 game/GameTreeNode.java
  game.GameTreeNode
 game/Move.java
@@ -20,14 +16,18 @@ View/BoardImage.java
  View.BoardImage
  View.BoardImage$1
  View.BoardImage$Coordinates
-EiBotBoard/Ebb.java
- EiBotBoard.Ebb
+EiBotBoard/UbwCommand.java
+ EiBotBoard.UbwCommand
+ EiBotBoard.UbwCommand$PinDirection
+ EiBotBoard.UbwCommand$Port
+ EiBotBoard.UbwCommand$TimerListener
+ EiBotBoard.UbwCommand$TimerMode
 Camera/jrpicam/enums/Exposure.java
  Camera.jrpicam.enums.Exposure
-EiBotBoard/EbbCommand.java
- EiBotBoard.EbbCommand
-game/ClosedMorris.java
- game.ClosedMorris
+View/Keyboard.java
+ View.Keyboard
+Camera/jrpicam/RPiCamera.java
+ Camera.jrpicam.RPiCamera
 EiBotBoard/UbwException.java
  EiBotBoard.UbwException
  EiBotBoard.UbwException$ErrorCode
@@ -35,10 +35,15 @@ game/Advisor.java
  game.Advisor
 game/Position.java
  game.Position
-EiBotBoard/TestAxidrawConnection.java
- EiBotBoard.TestAxidrawConnection
-EiBotBoard/MotorException.java
- EiBotBoard.MotorException
+game/OpenMorris.java
+ game.OpenMorris
+Camera/jrpicam/exceptions/FailedToRunRaspistillException.java
+ Camera.jrpicam.exceptions.FailedToRunRaspistillException
+Camera/jrpicam/examples/DemoView.java
+ Camera.jrpicam.examples.DemoView
+ Camera.jrpicam.examples.DemoView$1
+ Camera.jrpicam.examples.DemoView$2
+ Camera.jrpicam.examples.DemoView$3
 View/SwitchButton.java
  View.SwitchButton
  View.SwitchButton$1
@@ -46,10 +51,8 @@ View/SwitchButton.java
  View.SwitchButton$EventSwitchSelected
 game/ScorePoints.java
  game.ScorePoints
-Camera/jrpicam/exceptions/FailedToRunRaspistillException.java
- Camera.jrpicam.exceptions.FailedToRunRaspistillException
-Websocket/RunWebsocket.java
- Websocket.RunWebsocket
+Camera/jrpicam/enums/MeteringMode.java
+ Camera.jrpicam.enums.MeteringMode
 Camera/jrpicam/enums/Encoding.java
  Camera.jrpicam.enums.Encoding
 game/GameTree.java
@@ -58,14 +61,12 @@ game/Line.java
  game.Line
 Camera/jrpicam/enums/AWB.java
  Camera.jrpicam.enums.AWB
-EiBotBoard/PositionInCm.java
- EiBotBoard.PositionInCm
+Camera/jrpicam/enums/DRC.java
+ Camera.jrpicam.enums.DRC
 Camera/jrpicam/enums/ImageEffect.java
  Camera.jrpicam.enums.ImageEffect
-EiBotBoard/TwoWaysSerialCommunication.java
- EiBotBoard.TwoWaysSerialCommunication
- EiBotBoard.TwoWaysSerialCommunication$SerialReader
- EiBotBoard.TwoWaysSerialCommunication$SerialWriter
+EiBotBoard/MotorException.java
+ EiBotBoard.MotorException
 EiBotBoard/Ubw.java
  EiBotBoard.Ubw
  EiBotBoard.Ubw$SerialReader
@@ -73,35 +74,20 @@ Camera/InvalidBoardException.java
  Camera.InvalidBoardException
 game/STONECOLOR.java
  game.STONECOLOR
-View/View.java
- View.View
-Camera/jrpicam/enums/MeteringMode.java
- Camera.jrpicam.enums.MeteringMode
-Camera/jrpicam/examples/ShootBufferedStill.java
- Camera.jrpicam.examples.ShootBufferedStill
-Camera/jrpicam/examples/ShootTimelapse.java
- Camera.jrpicam.examples.ShootTimelapse
-Camera/jrpicam/examples/DemoView.java
- Camera.jrpicam.examples.DemoView
- Camera.jrpicam.examples.DemoView$1
- Camera.jrpicam.examples.DemoView$2
- Camera.jrpicam.examples.DemoView$3
 Camera/jrpicam/examples/ShootStill.java
  Camera.jrpicam.examples.ShootStill
-Camera/PositionInPixel.java
- Camera.PositionInPixel
-Camera/jrpicam/RPiCamera.java
- Camera.jrpicam.RPiCamera
+Camera/jrpicam/examples/ShootBufferedStill.java
+ Camera.jrpicam.examples.ShootBufferedStill
 Websocket/WebsocketClient.java
  Websocket.WebsocketClient
 game/Game.java
  game.Game
 View/OfflineMenuView.java
  View.OfflineMenuView
+Camera/PositionInPixel.java
+ Camera.PositionInPixel
 View/GameView.java
  View.GameView
-EiBotBoard/Controller.java
- EiBotBoard.Controller
 EiBotBoard/RingAndFieldToCm.java
  EiBotBoard.RingAndFieldToCm
 EiBotBoard/Connection.java
@@ -114,8 +100,12 @@ Websocket/MessageHandler.java
  Websocket.MessageHandler
 Camera/HoughCirclesRun.java
  Camera.HoughCirclesRun
+EiBotBoard/Ebb.java
+ EiBotBoard.Ebb
 game/ComputerPlayer.java
  game.ComputerPlayer
+EiBotBoard/PositionInCm.java
+ EiBotBoard.PositionInCm
 View/ViewManager.java
  View.ViewManager
 Websocket/Messenger.java
@@ -127,6 +117,8 @@ View/CameraView.java
  View.CameraView$1
 game/HumanPlayer.java
  game.HumanPlayer
+Websocket/RunWebsocket.java
+ Websocket.RunWebsocket
 Camera/RingAndFieldToPixel.java
  Camera.RingAndFieldToPixel
 View/StartMenuView.java

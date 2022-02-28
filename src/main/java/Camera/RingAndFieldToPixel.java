@@ -10,8 +10,8 @@ public class RingAndFieldToPixel {
 
     static {
 
-        int xBorder = 0;
-        int yBorder = 0;
+        final int xBorder = 0;
+        final int yBorder = 0;
 
         //Feldpositionen
         positionMap.put(new Position(0,0), new PositionInPixel(427+xBorder, 2312+yBorder));
@@ -32,7 +32,6 @@ public class RingAndFieldToPixel {
         positionMap.put(new Position(1,6), new PositionInPixel(829+xBorder, 442+yBorder));
         positionMap.put(new Position(1,7), new PositionInPixel(824+xBorder, 1206+yBorder));
 
-
         positionMap.put(new Position(2,0), new PositionInPixel(1186+xBorder, 1567+yBorder));
         positionMap.put(new Position(2,1), new PositionInPixel(1555+xBorder, 1560+yBorder));
         positionMap.put(new Position(2,2), new PositionInPixel(1933+xBorder, 1567+yBorder));
@@ -41,13 +40,10 @@ public class RingAndFieldToPixel {
         positionMap.put(new Position(2,5), new PositionInPixel(1565+xBorder, 842+yBorder));
         positionMap.put(new Position(2,6), new PositionInPixel(1192+xBorder, 838+yBorder));
         positionMap.put(new Position(2,7), new PositionInPixel(1196+xBorder, 1205+yBorder));
-
-
     }
 
     public static PositionInPixel getCoord(Position position){
         return positionMap.get(position);
     }
-
 
 }

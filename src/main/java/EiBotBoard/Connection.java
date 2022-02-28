@@ -12,7 +12,7 @@ public class Connection {
     private static int player2PutNumber = 0;
     private static int player1KillNumber = 0;
     private static int player2KillNumber = 0;
-    Ebb ebb;
+    private Ebb ebb;
 
     public Connection(Ebb ebb) {
         this.ebb = ebb;
@@ -23,10 +23,8 @@ public class Connection {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        ebb.execute("SC," + 4 + "," + 12000); //connect
-        ebb.execute("SC," + 5 + "," + 25000); //disconnect
-
-
+        ebb.execute("SC," + 4 + "," + 12000); //pen position connect
+        ebb.execute("SC," + 5 + "," + 25000); //pen position disconnect
     }
 
     public void put(Position position, int playerIndex){
@@ -138,6 +136,7 @@ public class Connection {
         ebb.stepperMotorMove(duration, tempX2, tempY2);}
     }
 
+
     private void goToPositionDirectly(Position position, int speed){
         int x = RingAndFieldToCm.getPositionInCm(position).getX();
         int y = RingAndFieldToCm.getPositionInCm(position).getY();
@@ -148,6 +147,7 @@ public class Connection {
             System.out.println(e.getMessage());
         }
     }
+
 
     private void goToPositionInLinesBring(Position stonePosition, int playerindex, int speed){
 
@@ -198,6 +198,7 @@ public class Connection {
             System.out.println(e.getMessage());
         }
     }
+
 
     private void goToPositionInLinesBack(Position killPosition, Position bringBackPosition, int playerindex, int speed) {
 
@@ -250,8 +251,6 @@ public class Connection {
         catch (Exception e){
             System.out.println(e.getMessage());
         }
-
-
     }
 
 
@@ -272,6 +271,7 @@ public class Connection {
 
     }
 
+
     public void resetVariables(){
         player1PutNumber = 0;
         player2PutNumber = 0;
@@ -279,9 +279,11 @@ public class Connection {
         player2KillNumber = 0;
     }
 
+
     private void disableMotors(){
         ebb.enableMotor(0,0);
     }
+
 
     public void connectToStone(boolean connect){
         if (connect){
@@ -290,9 +292,5 @@ public class Connection {
         else {
             ebb.setPenState(false);
         }
-    }
-
-    public Ebb getEbb() {
-        return ebb;
     }
 }

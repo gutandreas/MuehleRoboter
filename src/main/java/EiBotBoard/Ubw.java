@@ -26,33 +26,11 @@ public class Ubw implements UbwCommand {
 
 	public Ubw() {
 		connectJSerialCom();
-        /*Enumeration thePorts = CommPortIdentifier.getPortIdentifiers();
-        while (thePorts.hasMoreElements()) {
-            CommPortIdentifier com = (CommPortIdentifier) thePorts.nextElement();
-            if (com.getPortType() == CommPortIdentifier.PORT_SERIAL) {
-            	try {
-            		connect(com); // Wurde von RaspberryPi nicht unterstützt...
-        		} catch (Exception e) {
-        			throw new UbwException("Error opening port: " + com.getName(), e, UbwException.ErrorCode.COMM_ERROR);
-        		}
-            }
-        }*/
         if (serialPort == null)
         	throw new UbwException("No serial port found to open", UbwException.ErrorCode.COMM_ERROR);
 	}
-	public Ubw(String port) {
-		try {
-			//connectJSerialCom();
-			//connect(CommPortIdentifier.getPortIdentifier(port)); // Wurde von RaspberryPi nicht unterstützt...
-		} catch (UbwException e) {
-			throw e;
-		} catch (Exception e) {
-			throw new UbwException("Error opening port: " + port, e, UbwException.ErrorCode.COMM_ERROR);
-		}
-	}
 
 
-	//Versuch zum Ausprobieren: Bei jedem Command zuerst Prüfung, ob Port offen ist mit .isOpen und falls nicht, Verbindung wieder aufbauen
 	public void connectJSerialCom(){
 
 		for (com.fazecast.jSerialComm.SerialPort s : com.fazecast.jSerialComm.SerialPort.getCommPorts()){
@@ -80,36 +58,6 @@ public class Ubw implements UbwCommand {
 			e.printStackTrace();
 		}
 	}
-
-
-	/*private void connect(CommPortIdentifier portIdentifier) throws NoSuchPortException,
-			PortInUseException, UnsupportedCommOperationException, IOException, TooManyListenersException {
-		CommPort commPort = portIdentifier.open(this.getClass().getName(), 2000);
-		if (commPort instanceof SerialPort) {
-			serialPort = (SerialPort) commPort;
-			serialPort.setSerialPortParams(9600, SerialPort.DATABITS_8,
-					SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
-			reader = new SerialReader(new InputStreamReader(serialPort.getInputStream()));
-			serialPort.addEventListener(reader);
-            serialPort.notifyOnDataAvailable(true);
-			out = new BufferedOutputStream(serialPort.getOutputStream());
-			reset();
-		} else {
-			throw new UbwException("Port " + portIdentifier.getName() + " is not a serial port", UbwException.ErrorCode.COMM_ERROR);
-		}
-	}*/
-	
-	/*public void close() {
-        serialPort.notifyOnDataAvailable(false);
-        serialPort.removeEventListener();
-		try {
-			reader.close();
-		} catch (IOException ex) {}
-		try {
-			out.close();
-		} catch (IOException ex) {}
-		serialPort.close();
-	}*/
 
 	@Override
 	public void configure(int dirA, int dirB, int dirC, int analogEnableCount) {

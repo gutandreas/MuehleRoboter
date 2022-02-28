@@ -24,7 +24,7 @@ dependencies {
     implementation group: 'org.json', name: 'json', version: '20201115' //Um JSONObject zu verwenden
     implementation "org.java-websocket:Java-WebSocket:1.5.1"
     implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
-    implementation 'com.fazecast:jSerialComm:[2.0.0,3.0.0)'
+    implementation 'com.fazecast:jSerialComm:2.9.1'
 
     implementation name: 'opencv-453'
     //implementation name: 'opencv-3414'

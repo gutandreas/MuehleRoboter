@@ -2,8 +2,8 @@ package Camera;
 
 public class PositionInPixel {
 
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     public PositionInPixel(int x, int y) {
         this.x = x;
