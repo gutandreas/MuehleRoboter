@@ -35,7 +35,6 @@ public class BoardImage extends Label {
         }
     }
 
-
     public BoardImage() {
 
         setupHashMap();
@@ -70,7 +69,6 @@ public class BoardImage extends Label {
             mainLabel.add(jLabel, c);
         }}
 
-
     }
 
     private void setupHashMap(){
@@ -101,9 +99,6 @@ public class BoardImage extends Label {
         coordinatesMap.put(new Position(2,5), new Coordinates(6,8));
         coordinatesMap.put(new Position(2,6), new Coordinates(4,8));
         coordinatesMap.put(new Position(2,7), new Coordinates(4,6));
-
-
-
     }
 
     public void put(Position position, STONECOLOR stonecolor){
@@ -113,7 +108,6 @@ public class BoardImage extends Label {
             imageIcons[coordinates.getX()][coordinates.getY()] = new ImageIcon(getClass().getResource("/StoneBlack.png"));}
         if (stonecolor == STONECOLOR.WHITE){
             imageIcons[coordinates.getX()][coordinates.getY()] = new ImageIcon(getClass().getResource("/StoneWhite.png"));}
-
 
         updateImage();
     }
@@ -157,19 +151,5 @@ public class BoardImage extends Label {
         return mainLabel;
     }
 
-    /*public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-
-                    BoardImage boardLabel = new BoardImage();
-                    //boardLabel.initUI();
-                    boardLabel.put(new Position(0,0), STONECOLOR.BLACK);
-
-
-            }
-        });
-    }*/
 
 }

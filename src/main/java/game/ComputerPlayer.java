@@ -2,8 +2,8 @@ package game;
 
 import View.GameView;
 import View.ViewManager;
-import Websocket.MessageHandler;
-import Websocket.Messenger;
+import Communication.MessageHandler;
+import Communication.Messenger;
 
 
 public class ComputerPlayer extends Player implements MessageHandler {

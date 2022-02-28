@@ -1,8 +1,6 @@
-// https://stackoverflow.com/questions/24622279/laying-out-a-keyboard-in-swing 10.9.21
+// https://stackoverflow.com/questions/24622279/laying-out-a-keyboard-in-swing, 10.September 2021
 
 package View;
-
-import game.Position;
 
 import javax.swing.*;   // JFrame, JPanel, JLabel, JButton
 import java.awt.*;      // GridBagLayout, GridBagConstraints, Insets, Font
@@ -38,7 +36,6 @@ public class Keyboard implements ActionListener {
         cRow.anchor = GridBagConstraints.WEST;
         cButton.ipady = 21;
 
-
         // first dimension of the key array
         // representing a row on the keyboard
         for (int row = 0, i = 0; row < key.length; ++row) {
@@ -46,7 +43,6 @@ public class Keyboard implements ActionListener {
             pRow.setOpaque(false);
 
             cRow.gridy = row;
-
 
             // second dimension representing each key
             for (int col = 0; col < key[row].length; ++col, ++i) {
@@ -106,11 +102,9 @@ public class Keyboard implements ActionListener {
                         return;
                     }
                     activeTextfield.setText(activeTextfield.getText().concat(value));
-
-
+                }
             }
         }
-
-        }
     }
+
 }

@@ -1,3 +1,5 @@
+// https://stackoverflow.com/questions/30479695/how-to-change-fonts-of-all-components, 28. Februar 2022
+
 package View;
 
 import javax.swing.*;

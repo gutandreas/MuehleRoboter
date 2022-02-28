@@ -2,7 +2,7 @@ package game;
 
 import View.GameView;
 import View.ViewManager;
-import Websocket.MessageHandler;
+import Communication.MessageHandler;
 
 
 public class HumanPlayer extends Player implements MessageHandler {

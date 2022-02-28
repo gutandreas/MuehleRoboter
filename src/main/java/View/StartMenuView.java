@@ -1,10 +1,8 @@
 package View;
 
 import EiBotBoard.Connection;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -22,25 +20,14 @@ public class StartMenuView extends View implements MouseListener {
     String[] args;
 
 
-    public static void main(String[] args) {
-        ViewManager viewManager = new ViewManager();
-        StartMenuView startMenuView = new StartMenuView(viewManager, args, null);
-        viewManager.setCurrentView(startMenuView);
-        viewManager.getCurrentView().setVisible(true);
-    }
-
     public StartMenuView(ViewManager viewManager, String[] args, Connection connection) {
 
         this.viewManager = viewManager;
         this.connection = connection;
         this.args = args;
-
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setUndecorated(true);
         this.getContentPane().setBackground( background );
-
-
-
 
         mainPanel = new JPanel();
         mainPanel.setOpaque(false);
@@ -65,10 +52,7 @@ public class StartMenuView extends View implements MouseListener {
         mainPanel.add(buttonPanel);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
-
         this.add(mainPanel);
-
-
     }
 
 

@@ -7,7 +7,6 @@ import Camera.jrpicam.enums.DRC;
 import Camera.jrpicam.exceptions.FailedToRunRaspistillException;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -44,8 +43,6 @@ public class CameraView extends View implements ActionListener {
     private HoughCirclesRun houghCirclesRun;
     private RPiCamera previewCamera;
     private Font font = new Font("Roboto", 0, 12);
-
-
 
 
     public CameraView(ViewManager viewManager) {
@@ -149,8 +146,6 @@ public class CameraView extends View implements ActionListener {
         closeWindowPanel.add(closeWindowButton);
         closeWindowPanel.setOpaque(false);
 
-
-
         JPanel settingsPanel = new JPanel();
         settingsPanel.add(brightnessPanel);
         settingsPanel.add(contrastPanel);
@@ -204,7 +199,6 @@ public class CameraView extends View implements ActionListener {
             System.out.println("save Button");
             viewManager.setrPiCamera(previewCamera);
             saveButton.setVisible(false);
-
         }
 
         if (e.getSource() == brightnessPlusButton){
@@ -272,10 +266,6 @@ public class CameraView extends View implements ActionListener {
         imageLabel = new JLabel(previewIcon) {
             @Override
             public Dimension getPreferredSize() {
-                /*Dimension size = super.getPreferredSize();
-                Dimension lmPrefSize = getLayout().preferredLayoutSize(this);
-                size.width = Math.max(size.width, lmPrefSize.width);
-                size.height = Math.max(size.height, lmPrefSize.height);*/
                 Dimension size = new Dimension(460, 400);
                 return size;
             }
@@ -286,7 +276,6 @@ public class CameraView extends View implements ActionListener {
         }
 
         mainPanel.add(imageLabel, 0);
-
         mainPanel.revalidate();
         mainPanel.repaint();
     }

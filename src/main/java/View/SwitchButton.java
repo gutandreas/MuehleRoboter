@@ -1,11 +1,10 @@
-//https://github.com/DJ-Raven/java-swing-switch-button 14. Oktober 2021
+//https://github.com/DJ-Raven/java-swing-switch-button, 14. Oktober 2021
 
 package View;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -20,8 +19,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 public class SwitchButton extends Component {
-
-    Color aliceblue = new Color(161, 210, 255);
 
     public boolean isSelected() {
         return selected;

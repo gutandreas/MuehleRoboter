@@ -1,8 +1,8 @@
 package game;
 
 import View.GameView;
-import Websocket.Messenger;
-import Websocket.WebsocketClient;
+import Communication.Messenger;
+import Communication.WebsocketClient;
 import java.util.ArrayList;
 
 public class Game {

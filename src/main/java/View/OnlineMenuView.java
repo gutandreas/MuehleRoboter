@@ -1,7 +1,7 @@
 package View;
 
 import EiBotBoard.Connection;
-import Websocket.WebsocketClient;
+import Communication.WebsocketClient;
 import game.*;
 import org.json.JSONObject;
 
@@ -20,8 +20,8 @@ import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 
 
-public class OnlineMenuView extends View implements ActionListener, MouseListener
-{
+public class OnlineMenuView extends View implements ActionListener, MouseListener {
+
     ViewManager viewManager;
 
     JButton startButton;
@@ -29,30 +29,17 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
     JButton watchButton;
     SwitchButton colorSwitchButton;
     JTextField gamecodeTextfield, nameTextfield;
-    JLabel informationLabel, gameCodeLabel, nameLabel, colorLabel, label;
+    JLabel informationLabel, gameCodeLabel, nameLabel, colorLabel;
     JPanel mainPanel, panelInformation, panelTop, panelCenter, panelBottom, panelStartGame, panelColor;
-    JRadioButton gameModeRadioButtonStart, gameModeRadioButtonJoin, gameModeRadioButtonWatch;
 
     Keyboard keyboard;
     Color aliceblue = new Color(161, 210, 255);
     Color background = new Color(60,60,60);
 
-
-
     Connection connection;
     String[] args;
     String ipAdress = "192.168.0.11";
     String port = "443";
-    //String ipAdress = "localhost";
-
-    public static void main(String[] args) {
-        ViewManager viewManager = new ViewManager();
-        OnlineMenuView onlineMenuView = new OnlineMenuView(viewManager, args, null);
-        viewManager.setCurrentView(onlineMenuView);
-        onlineMenuView.setVisible(true);
-
-
-    }
 
     public OnlineMenuView(ViewManager viewManager, String[] args, Connection connection){
 
@@ -72,14 +59,11 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
         panelBottom = new JPanel();
         panelInformation = new JPanel();
 
-
         //panelInformation
         informationLabel = new JLabel(" ");
         informationLabel.setForeground(Color.RED);
         panelInformation.add(informationLabel);
         panelInformation.setOpaque(false);
-
-
 
         //panelTop
         nameLabel = new JLabel("Name:");
@@ -99,7 +83,6 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
         panelTop.add(gamecodeTextfield);
         panelTop.setOpaque(false);
         //panelTop.setBackground(background);
-
 
         //panelCenter
         startButton = new JButton("Spiel starten");
@@ -128,12 +111,10 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
         joinButton.addActionListener(this);
         watchButton.addActionListener(this);
 
-
         //panelBottom
         keyboard = new Keyboard(nameTextfield);
         panelBottom.add(keyboard.getKeyboard());
         panelBottom.setOpaque(false);
-
 
         //mainPanel füllen
         mainPanel.add(panelInformation);
@@ -148,12 +129,7 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
 
         this.connection = connection;
         this.args = args;
-        }
-
-
-
-
-
+    }
 
 
     public void actionPerformed (ActionEvent ae){
@@ -237,20 +213,15 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
 
         JSONObject jsonResponseObject = null;
 
-
-
         try {
             response = client.send(request,HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 417) {
-
                 informationLabel.setText(response.body().toString());
-
             }
 
             String body = (String) response.body();
             jsonResponseObject = new JSONObject(body);
-
 
             switch (modus){
                 case 0: uuid = jsonResponseObject.getString("player1Uuid");
@@ -259,15 +230,11 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
                 case 1: uuid = jsonResponseObject.getString("player2Uuid");
                     break;
             }
-
-            System.out.println(uuid);
-
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
 
         if (response.statusCode() == 200){
             try {
@@ -279,7 +246,6 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
                 switch (modus){
 
                     case 0:
-                        //gameView = new GameView(viewManager, args, nameTextfield.getText(), connection, player1Color, player2Color, 0);
                         gameView = new GameView(viewManager, args, gameCode, name, connection, player1Color, player2Color, 0);
                         game = new Game(gameView, new HumanPlayer(gameView, nameTextfield.getText(), uuid, player1Color, true),
                                 new HumanPlayer(gameView, " ", " ", player2Color, false),
@@ -298,21 +264,16 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
                         gameView = new GameView(viewManager, args, gameCode, name, connection, player1Color, player2Color, 1);
                         game = new Game(gameView, new HumanPlayer(gameView, jsonResponseObject.getString("player1Name"), " ", STONECOLOR.valueOf(jsonResponseObject.getString("player2Color" )), false),
                                 new HumanPlayer(gameView, nameTextfield.getText(), uuid, player2Color, true), gamecodeTextfield.getText(), null, true, false);
-
                         gameView.setEnemyLabel(jsonResponseObject.getString("player1Name"));
                         break;
 
                     case 2:
-
                         player1Color = STONECOLOR.valueOf(jsonResponseObject.getString("player1Color"));
-
                         if (player1Color == STONECOLOR.BLACK){
                             player2Color = STONECOLOR.WHITE;}
                         else {
                             player2Color = STONECOLOR.BLACK;}
-
                         gameCode = jsonResponseObject.getString("gameCodeWatch");
-
                         gameView = new GameView(viewManager, args, gameCode, jsonResponseObject.getString("player1Name"), jsonResponseObject.getString("player2Name"), connection, player1Color, player2Color, 0);
                         game = new Game(gameView, new HumanPlayer(gameView, jsonResponseObject.getString("player1Name"), "", player1Color, false),
                                 new HumanPlayer(gameView, jsonResponseObject.getString("player2Name"), "", player2Color, false), gameCode, null, true, true);
@@ -336,6 +297,7 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
             informationLabel.setText("Die Serveranfrage konnte nicht beantwortet werden...");
         }
     }
+
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -365,4 +327,5 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
     public void mouseExited(MouseEvent e) {
 
     }
+
 }

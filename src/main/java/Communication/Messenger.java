@@ -1,4 +1,4 @@
-package Websocket;
+package Communication;
 
 import View.GameView;
 import View.StartMenuView;
@@ -20,7 +20,6 @@ public class Messenger {
     public static void sendStartMessage(ViewManager viewManager){
         JSONObject jsonObject = new JSONObject();
         Game game = ((GameView) viewManager.getCurrentView()).getGame();
-
         jsonObject.put("gameCode", game.getGameCode());
         jsonObject.put("command", "start");
         sendMessage(viewManager, jsonObject.toString());
@@ -30,7 +29,6 @@ public class Messenger {
     public static void sendJoinMessage(ViewManager viewManager){
         JSONObject jsonObject = new JSONObject();
         Game game = ((GameView) viewManager.getCurrentView()).getGame();
-
         jsonObject.put("gameCode", game.getGameCode());
         jsonObject.put("command", "join");
         jsonObject.put("player2Name", game.getPlayer1().getName());
@@ -41,7 +39,6 @@ public class Messenger {
     public static void sendWatchMessage(ViewManager viewManager){
         JSONObject jsonObject = new JSONObject();
         Game game = ((GameView) viewManager.getCurrentView()).getGame();
-
         jsonObject.put("gameCode", game.getGameCode());
         jsonObject.put("command", "watch");
         sendMessage(viewManager, jsonObject.toString());
@@ -51,9 +48,6 @@ public class Messenger {
     public static void sendPutMessage(ViewManager viewManager, Position position, boolean triggerAxidraw){
         JSONObject jsonObject = new JSONObject();
         Game game = ((GameView) viewManager.getCurrentView()).getGame();
-        System.out.println(game.getCurrentPlayer().getUuid());
-
-
         jsonObject.put("gameCode", game.getGameCode());
         jsonObject.put("command", "update");
         jsonObject.put("action", "put");
@@ -70,7 +64,6 @@ public class Messenger {
 
         JSONObject jsonObject = new JSONObject();
         Game game = ((GameView) viewManager.getCurrentView()).getGame();
-
         jsonObject.put("gameCode", game.getGameCode());
         jsonObject.put("command", "update");
         jsonObject.put("action", "move");
@@ -89,7 +82,6 @@ public class Messenger {
 
         JSONObject jsonObject = new JSONObject();
         Game game = ((GameView) viewManager.getCurrentView()).getGame();
-
         jsonObject.put("gameCode", game.getGameCode());
         jsonObject.put("command", "update");
         jsonObject.put("action", "kill");
@@ -106,7 +98,6 @@ public class Messenger {
 
         JSONObject jsonObject = new JSONObject();
         Game game = ((GameView) viewManager.getCurrentView()).getGame();
-
         jsonObject.put("gameCode", game.getGameCode());
         jsonObject.put("command", "giveup");
         jsonObject.put("name", game.getOwnPlayer().getName());
@@ -118,7 +109,6 @@ public class Messenger {
 
         JSONObject jsonObject = new JSONObject();
         Game game = ((GameView) viewManager.getCurrentView()).getGame();
-
         jsonObject.put("gameCode", game.getGameCode());
         jsonObject.put("playerUuid", game.getCurrentPlayer().getUuid());
         jsonObject.put("playerIndex", game.getCurrentPlayerIndex());
@@ -131,7 +121,6 @@ public class Messenger {
 
         JSONObject jsonObject = new JSONObject();
         Game game = ((GameView) viewManager.getCurrentView()).getGame();
-
         jsonObject.put("gameCode", game.getGameCode());
         jsonObject.put("playerUuid", game.getCurrentPlayer().getUuid());
         jsonObject.put("playerIndex", game.getCurrentPlayerIndex());
@@ -144,7 +133,6 @@ public class Messenger {
 
 
     public static void receiveMessage(ViewManager viewManager, String message){
-
 
         System.out.println(message);
         JSONObject jsonObject = new JSONObject(message);
@@ -252,7 +240,6 @@ public class Messenger {
                     Move move = new Move(new Position(moveFromRing, moveFromField), new Position(moveToRing, moveToField));
                     boolean jump = board.numberOfStonesOf(game.getCurrentPlayerIndex()) == 3;
 
-
                     if (board.isMovePossibleAt(move, jump)){
                         board.moveStone(move, playerIndex);
                         System.out.println(board);
@@ -332,4 +319,5 @@ public class Messenger {
             return gameView.getPlayer1StoneColor();
         }
     }
+
 }

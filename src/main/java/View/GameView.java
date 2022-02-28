@@ -3,11 +3,10 @@ package View;
 import Camera.HoughCirclesRun;
 import Camera.InvalidBoardException;
 import EiBotBoard.Connection;
-import Websocket.Messenger;
-import Websocket.WebsocketClient;
+import Communication.Messenger;
+import Communication.WebsocketClient;
 import game.*;
 import org.opencv.core.Core;
-
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
@@ -36,25 +35,6 @@ public class GameView extends View implements ActionListener {
     Game game;
     Connection connection;
     WebsocketClient websocketClient;
-
-    public static void main(String[] args) {
-
-        ViewManager viewManager = new ViewManager();
-        GameView gameView = new GameView(viewManager, args, "000", "Peter", null, STONECOLOR.BLACK, STONECOLOR.WHITE, 0);
-        ScorePoints putPoints = new ScorePoints(0,0,0,0,0,0,0,0,0,0,0,0);
-        ScorePoints movePoints = new ScorePoints(0,0,0,0,0,0,0,0,0,0,0,0);
-
-        ComputerPlayer computerPlayer = new ComputerPlayer(gameView, "COMPUTER", STONECOLOR.WHITE, putPoints, movePoints, 3 );
-        Game game = new Game(gameView, computerPlayer, new HumanPlayer(gameView, "Peter", "", STONECOLOR.BLACK, true),
-
-                "gamecode", null, false, false);
-        viewManager.setCurrentView(gameView);
-        gameView.setGame(game);
-        //gameView.enableScanButton(true);
-        gameView.setVisible(true);
-        computerPlayer.triggerPut(viewManager);
-    }
-
 
     //offline
     public GameView(ViewManager viewManager, String[] args, String name, Connection connection, STONECOLOR player0StoneColor, STONECOLOR player1StoneColor, int ownIndex){
@@ -89,8 +69,8 @@ public class GameView extends View implements ActionListener {
         this.ownIndex = ownIndex;
 
         setupView(name, "---", gameCode);
-
     }
+
 
     //online watch Game
     public GameView(ViewManager viewManager, String[] args, String gameCode, String name0, String name1, Connection connection, STONECOLOR player0StoneColor, STONECOLOR player1StoneColor, int ownIndex) throws HeadlessException {
@@ -109,6 +89,7 @@ public class GameView extends View implements ActionListener {
 
     }
 
+
     public void setupView(String name0, String name1, String gameCode){
         View.setUIFont(new FontUIResource(new Font("Roboto", 0, 20)));
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -123,9 +104,9 @@ public class GameView extends View implements ActionListener {
         panelInformationTop.setLayout(new BoxLayout(panelInformationTop, BoxLayout.X_AXIS));
         informationLabel = new JLabel(" ");
         informationLabel.setForeground(Color.RED);
+
         panelInformationTop.add(informationLabel);
         panelInformationTop.setOpaque(false);
-
 
         //panelInformationCenter
         panelInformationCenter = new JPanel();
@@ -138,7 +119,6 @@ public class GameView extends View implements ActionListener {
         roundTitleLabel.setForeground(aliceblue);
         roundLabel = new JLabel("0");
         roundLabel.setForeground(aliceblue);
-
 
         panelInformationCenter.add(gamcodeTitleLabel);
         panelInformationCenter.add(gamecodeLabel);
@@ -157,19 +137,16 @@ public class GameView extends View implements ActionListener {
         enemyTitleLabel.setForeground(aliceblue);
         enemyLabel = new JLabel(name1);
         enemyLabel.setForeground(aliceblue);
-
         panelInformationBottom.add(nameTitleLabel);
         panelInformationBottom.add(nameLabel);
         panelInformationBottom.add(enemyTitleLabel);
         panelInformationBottom.add(enemyLabel);
         panelInformationBottom.setOpaque(false);
 
-
         panelInformation.add(panelInformationTop);
         panelInformation.add(panelInformationCenter);
         panelInformation.add(panelInformationBottom);
         panelInformation.setOpaque(false);
-
 
         //panelCenter
         panelCenter = new JPanel();
@@ -186,8 +163,6 @@ public class GameView extends View implements ActionListener {
         panelCenterLeft.add(boardImage.getMainLabel());
         panelCenterLeft.add(nextStepLabel);
 
-
-
         //center
         panelCenterCenter = new JPanel();
         panelCenterCenter.setOpaque(false);
@@ -195,7 +170,6 @@ public class GameView extends View implements ActionListener {
         scanButton.setPreferredSize(new Dimension(290,290));
         scanButton.setEnabled(false);
         scanButton.addActionListener(this);
-
         panelCenterCenter.add(scanButton);
 
         //right
@@ -210,7 +184,6 @@ public class GameView extends View implements ActionListener {
         chatTextArea.setHighlighter(null);
         scroll = new JScrollPane (chatTextArea, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.setAlignmentX(Component.CENTER_ALIGNMENT);
-
 
         cameraSettingsButton = new JButton("Kameraoptionen");
         cameraSettingsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -239,78 +212,6 @@ public class GameView extends View implements ActionListener {
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.add(mainPanel);
     }
-
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
-    public void setWebsocketClient(WebsocketClient websocketClient) {
-        this.websocketClient = websocketClient;
-    }
-
-    public BoardImage getBoardImage() {
-        return boardImage;
-    }
-
-    public STONECOLOR getPlayer0StoneColor() {
-        return player0StoneColor;
-    }
-
-    public STONECOLOR getPlayer1StoneColor() {
-        return player1StoneColor;
-    }
-
-    public Connection getConnection() {
-        return connection;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-        if(e.getSource() == this.scanButton){
-
-            if (game.isKillPhase()){
-                killScan();
-                return;
-            }
-
-            if (game.isPutPhase() && !game.isKillPhase()){
-                putScan();
-                return;
-            }
-            if (game.isMovePhase() && !game.isKillPhase()){
-                moveScan();
-                return;
-            }
-        }
-
-        if (e.getSource() == cameraSettingsButton){
-            new CameraView(viewManager);
-        }
-
-        if (e.getSource() == exitButton) {
-
-            System.out.println("Spiel verlassen");
-
-            if (!game.isWatchGame()) {
-                Messenger.sendGiveUpMessage(viewManager);
-            }
-
-            Messenger.sendRoboterConnectionMessage(viewManager, false, false, false);
-
-            connection.resetVariables();
-            StartMenuView startMenuView = new StartMenuView(viewManager, args, connection);
-            viewManager.setCurrentView(startMenuView);
-            startMenuView.setVisible(true);
-            this.setVisible(false);
-        }
-    }
-
 
     private void putScan(){
 
@@ -374,19 +275,17 @@ public class GameView extends View implements ActionListener {
     public void clearInformationLabel(){
         informationLabel.setText(" ");
     }
+
     public void setNextStepLabelPut(String name) {
         nextStepLabel.setText(name + " darf einen Stein setzen");
-
     }
 
     public void setNextStepLabelMove(String name) {
         nextStepLabel.setText(name + " darf einen Stein verschieben");
-
     }
 
     public void setNextStepLabelKill(String name) {
         nextStepLabel.setText(name + " darf einen Stein entfernen");
-
     }
 
     public void enableScanButton(boolean enable){
@@ -402,8 +301,78 @@ public class GameView extends View implements ActionListener {
             chatTextArea.setText(name + ": " + message +"\n" + chatTextArea.getText());}
     }
 
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setWebsocketClient(WebsocketClient websocketClient) {
+        this.websocketClient = websocketClient;
+    }
+
+    public BoardImage getBoardImage() {
+        return boardImage;
+    }
+
+    public STONECOLOR getPlayer0StoneColor() {
+        return player0StoneColor;
+    }
+
+    public STONECOLOR getPlayer1StoneColor() {
+        return player1StoneColor;
+    }
+
+    public Connection getConnection() {
+        return connection;
+    }
 
     public ViewManager getViewManager() {
         return viewManager;
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        if(e.getSource() == this.scanButton){
+
+            if (game.isKillPhase()){
+                killScan();
+                return;
+            }
+
+            if (game.isPutPhase() && !game.isKillPhase()){
+                putScan();
+                return;
+            }
+            if (game.isMovePhase() && !game.isKillPhase()){
+                moveScan();
+                return;
+            }
+        }
+
+        if (e.getSource() == cameraSettingsButton){
+            new CameraView(viewManager);
+        }
+
+        if (e.getSource() == exitButton) {
+
+            System.out.println("Spiel verlassen");
+
+            if (!game.isWatchGame()) {
+                Messenger.sendGiveUpMessage(viewManager);
+            }
+
+            Messenger.sendRoboterConnectionMessage(viewManager, false, false, false);
+
+            connection.resetVariables();
+            StartMenuView startMenuView = new StartMenuView(viewManager, args, connection);
+            viewManager.setCurrentView(startMenuView);
+            startMenuView.setVisible(true);
+            this.setVisible(false);
+        }
+    }
+
 }

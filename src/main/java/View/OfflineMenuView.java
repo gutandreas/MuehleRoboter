@@ -1,9 +1,7 @@
 package View;
 
 import EiBotBoard.Connection;
-import Websocket.WebsocketClient;
 import game.*;
-import org.json.JSONObject;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
@@ -12,12 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 
 
 public class OfflineMenuView extends View implements ActionListener, MouseListener {
@@ -27,7 +19,7 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
     JButton startButton;
     SwitchButton colorSwitchButton, startSwitchButton;
     JTextField nameTextfield;
-    JLabel informationLabel, nameLabel, colorLabel, label, computerLevelLabel, startLabelHuman, startLabelComputer;
+    JLabel informationLabel, nameLabel, colorLabel, computerLevelLabel, startLabelHuman, startLabelComputer;
     JPanel mainPanel, panelInformation, panelTop, panelCenter, panelBottom, panelStartGame, panelColor;
     JRadioButton computerLevelRadioButton;
 
@@ -37,21 +29,9 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
 
     Connection connection;
     String[] args;
-    String ipAdress = "192.168.0.11";
-    //String ipAdress = "localhost";
 
     ScorePoints putPoints = new ScorePoints(3000, 1000,30, 200, 300,6, -3000, -1000, -30, -200, -300, -6);
     ScorePoints movePoints = new ScorePoints(2000, 300,250, 200, 300,3, -2000, -300, -250, -200, -300, -3);
-
-
-    public static void main(String[] args) {
-        ViewManager viewManager = new ViewManager();
-        OfflineMenuView onlineMenuView = new OfflineMenuView(viewManager, args, null);
-        viewManager.setCurrentView(onlineMenuView);
-        onlineMenuView.setVisible(true);
-
-
-    }
 
     public OfflineMenuView(ViewManager viewManager, String[] args, Connection connection){
 
@@ -71,14 +51,11 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
         panelBottom = new JPanel();
         panelInformation = new JPanel();
 
-
         //panelInformation
         informationLabel = new JLabel(" ");
         informationLabel.setForeground(Color.RED);
         panelInformation.add(informationLabel);
         panelInformation.setOpaque(false);
-
-
 
         //panelTop
         nameLabel = new JLabel("Name:");
@@ -120,7 +97,6 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
         panelTop.setOpaque(false);
         //panelTop.setBackground(background);
 
-
         //panelCenter
         startButton = new JButton("Spiel starten");
         panelCenter.setOpaque(false);
@@ -128,13 +104,10 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
         panelCenter.add(startButton);
         startButton.addActionListener(this);
 
-
-
         //panelBottom
         keyboard = new Keyboard(nameTextfield);
         panelBottom.add(keyboard.getKeyboard());
         panelBottom.setOpaque(false);
-
 
         //mainPanel füllen
         mainPanel.add(panelInformation);
@@ -144,9 +117,6 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBackground(background);
 
-
-
-
         this.add(mainPanel);
         this.getContentPane().setBackground( background );
 
@@ -155,15 +125,9 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
         }
 
 
-
-
-
-
-
     public void actionPerformed (ActionEvent ae){
 
         if(ae.getSource() == this.startButton){
-
 
             if (nameTextfield.getText().length() == 0){
                 informationLabel.setText("Geben Sie einen Spielernamen ein");
@@ -204,8 +168,6 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
             gameView.setVisible(true);
             this.setVisible(false);
         }
-
-
     }
 
 

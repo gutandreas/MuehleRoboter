@@ -1,4 +1,4 @@
-package Websocket;
+package Communication;
 
 import View.ViewManager;
 
