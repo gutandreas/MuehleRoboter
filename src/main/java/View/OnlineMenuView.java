@@ -38,7 +38,9 @@ public class OnlineMenuView extends View implements ActionListener, MouseListene
 
     Connection connection;
     String[] args;
-    String ipAdress = "192.168.0.11";
+    //String ipAdress = "192.168.0.11";
+    String ipAdress = "217.160.10.113";
+
     String port = "443";
 
     public OnlineMenuView(ViewManager viewManager, String[] args, Connection connection){

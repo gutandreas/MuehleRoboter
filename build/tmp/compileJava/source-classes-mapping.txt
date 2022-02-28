@@ -94,8 +94,8 @@ View/GameView.java
  View.GameView
 EiBotBoard/Connection.java
  EiBotBoard.Connection
-View/OnlineMenuView.java
- View.OnlineMenuView
+game/OpenMorris.java
+ game.OpenMorris
 Communication/MessageHandler.java
  Communication.MessageHandler
 Camera/jrpicam/enums/MeteringMode.java
@@ -115,7 +115,7 @@ View/View.java
  View.View
 game/HumanPlayer.java
  game.HumanPlayer
-game/OpenMorris.java
- game.OpenMorris
+View/OnlineMenuView.java
+ View.OnlineMenuView
 View/StartMenuView.java
  View.StartMenuView
