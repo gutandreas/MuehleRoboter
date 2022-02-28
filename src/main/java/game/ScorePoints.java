@@ -111,7 +111,6 @@ public class ScorePoints {
                 break;
             case 11: enemyPossibleMovesPoints = value;
                 break;
-
         }
     }
 
@@ -124,4 +123,5 @@ public class ScorePoints {
         stringRepresentation = stringRepresentation.substring(0, stringRepresentation.length()-2);
         return stringRepresentation;
     }
+
 }

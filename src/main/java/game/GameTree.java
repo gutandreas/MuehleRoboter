@@ -5,26 +5,18 @@ import java.util.*;
 
 public class GameTree {
     public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
     private GameTreeNode root;
 
 
-    public GameTree() {
+    public GameTree(Board board) {
         root = new GameTreeNode();
+        root.setBoard(board);
     }
 
-    public void initializeRoot(Board board){
-        root.setBoard(board);
-        root.getChildren().clear();
-        root.setVisited(false);
-    }
 
 
     public LinkedList<GameTreeNode> getLeaves() {
@@ -44,8 +36,8 @@ public class GameTree {
         });
 
         return leaves;
-
     }
+
 
     private void getLeavesRecursive(GameTreeNode currentNode, LinkedList<GameTreeNode> leaves){
         if (currentNode.getChildren().isEmpty() && !leaves.contains(currentNode)) {
@@ -56,6 +48,7 @@ public class GameTree {
             }
         }
     }
+
 
     private GameTreeNode getBestChild(GameTreeNode node){
         int max = Integer.MIN_VALUE;
@@ -70,6 +63,7 @@ public class GameTree {
         return bestChild;
     }
 
+
     private GameTreeNode getWorstChild(GameTreeNode node){
         int min = Integer.MAX_VALUE;
         GameTreeNode worstChild = null;
@@ -83,6 +77,7 @@ public class GameTree {
 
         return worstChild;
     }
+
 
     public void evaluateGameTree(){
 
@@ -133,11 +128,9 @@ public class GameTree {
             }
         }
 
-
         Random random = new Random();
         return bestList.get(random.nextInt(bestList.size())).getPut();
     }
-
 
 
     public Move getBestMove(){
@@ -145,7 +138,6 @@ public class GameTree {
         evaluateGameTree();
 
         LinkedList<GameTreeNode> bestList = new LinkedList<>();
-
 
         for (GameTreeNode node : root.getChildren()){
             System.out.println(node);
@@ -157,6 +149,7 @@ public class GameTree {
         Random random = new Random();
         return bestList.get(random.nextInt(bestList.size())).getMove();
     }
+
 
     public Position getBestKill(){
 
@@ -172,6 +165,7 @@ public class GameTree {
         Random random = new Random();
         return bestList.get(random.nextInt(bestList.size())).getKill();
     }
+
 
     public void keepOnlyWorstChildren(GameTreeNode parent, int numberOfChildren){
         parent.getChildren().sort((o1,o2) -> {
@@ -195,8 +189,8 @@ public class GameTree {
                 iterator.remove();
             }
         }
-
     }
+
 
     public void keepOnlyBestChildren(GameTreeNode parent, int numberOfChildren){
         parent.getChildren().sort((o1, o2) -> {
@@ -221,16 +215,14 @@ public class GameTree {
                 iterator.remove();
             }
         }
-
     }
-
-
 
 
     public void addNode(GameTreeNode parent, GameTreeNode child){
         parent.getChildren().add(child);
         child.setParent(parent);
     }
+
 
     public GameTreeNode getRoot() {
         return root;
@@ -240,8 +232,6 @@ public class GameTree {
     @Override
     public String toString(){
         String string = "Gametree: \n \n";
-
-        //return toStringRecursive(root, string);
 
         int counter1 = 0;
 
@@ -331,20 +321,6 @@ public class GameTree {
 
                     }}}}
         return string;
-    }
-
-    private String toStringRecursive(GameTreeNode node, String string){
-
-        for (GameTreeNode currentSet : node.getChildren()) {
-            string += "Level: " + currentSet.getLevel() + "\n";
-            string += currentSet.getBoard();
-            string += "Resultierender Score: " + currentSet.getScore() + "\n \n";
-            toStringRecursive(currentSet, string);
-        }
-
-        return string;
-
-
     }
 
 }

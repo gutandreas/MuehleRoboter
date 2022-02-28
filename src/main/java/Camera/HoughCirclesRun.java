@@ -71,8 +71,8 @@ public class HoughCirclesRun {
 
         Move move = new Move(changes[1], changes[0]);
 
-        boolean allowedToJump = board.countPlayersStones(gameView.getGame().getCurrentPlayerIndex()) == 3;
-        if (!board.checkMove(move, allowedToJump)){
+        boolean allowedToJump = board.numberOfStonesOf(gameView.getGame().getCurrentPlayerIndex()) == 3;
+        if (!board.isMovePossibleAt(move, allowedToJump)){
             throw new InvalidBoardException("Es wurde ein unerlaubter Zug gemacht");
         }
 
@@ -94,7 +94,7 @@ public class HoughCirclesRun {
         if (changes[0] == null && changes[1] == null){
             throw new InvalidBoardException("Es wurde kein Stein entfernt");
         }
-        if (!board.checkKill(changes[1], gameView.getGame().getOtherPlayerIndex())){
+        if (!board.isKillPossibleAt(changes[1], gameView.getGame().getOtherPlayerIndex())){
             throw new InvalidBoardException("Es wurde ein unerlaubter Stein von " + changes[1] + " entfernt");
         }
 

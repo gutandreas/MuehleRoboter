@@ -5,12 +5,12 @@ public class ClosedMorris {
     private Position firstPosition, secondPosition, thirdPosition;
 
     public ClosedMorris(Board board, Position firstPosition, Position secondPosition, Position thirdPosition) {
-        if (firstPosition.compareTo(secondPosition) > 0 || firstPosition.compareTo(thirdPosition) >0
+        if (firstPosition.compareTo(secondPosition) > 0 || firstPosition.compareTo(thirdPosition) > 0
             || secondPosition.compareTo(thirdPosition) > 0){
             throw new IllegalArgumentException();
         }
 
-        if (!(board.checkMorris(firstPosition) && board.checkMorris(secondPosition) && board.checkMorris(thirdPosition))){
+        if (!(board.isPositionPartOfMorris(firstPosition) && board.isPositionPartOfMorris(secondPosition) && board.isPositionPartOfMorris(thirdPosition))){
             throw new IllegalArgumentException();
         }
 

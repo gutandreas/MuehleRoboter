@@ -1,6 +1,7 @@
 package game;
 
 public class Move {
+
     private Position from, to;
 
     public Move() {
@@ -26,7 +27,6 @@ public class Move {
     public void setTo(Position to) {
         this.to = to;
     }
-
 
     @Override
     public String toString(){

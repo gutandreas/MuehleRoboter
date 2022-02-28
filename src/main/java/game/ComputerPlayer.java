@@ -9,10 +9,11 @@ import Websocket.Messenger;
 public class ComputerPlayer extends Player implements MessageHandler {
 
 
-    GameTree gameTree = new GameTree();
-    ScorePoints putPoints;
-    ScorePoints movePoints;
-    int levelLimit;
+    private GameTree gameTree;
+    private ScorePoints putPoints;
+    private ScorePoints movePoints;
+    private int levelLimit;
+
 
     public ComputerPlayer(GameView gameView, String name, STONECOLOR stonecolor, ScorePoints putPoints, ScorePoints movePoints, int levelLimit) {
         super(gameView, name, " ", stonecolor);
@@ -21,17 +22,15 @@ public class ComputerPlayer extends Player implements MessageHandler {
         this.levelLimit = levelLimit;
     }
 
+
     Position put(Board board, int playerIndex) {
 
-        gameTree.initializeRoot(board);
-
+        gameTree = new GameTree(board);
         recursivePutBfs(gameTree.getRoot(), putPoints, movePoints, playerIndex, playerIndex, levelLimit);
-
-        //System.out.println(gameTree);
-
 
         return gameTree.getBestPut();
     }
+
 
     private void recursivePutBfs(GameTreeNode node, ScorePoints putPoints, ScorePoints movePoints, int scorePlayerIndex, int currentPlayerIndex, int levelLimit){
 
@@ -48,7 +47,7 @@ public class ComputerPlayer extends Player implements MessageHandler {
             tempCurrentPlayerIndex = 1 - scorePlayerIndex;
         }
 
-        for (Position freeField : Advisor.getAllFreeFields(node.getBoard())){
+        for (Position freeField : Advisor.getFreePositions(node.getBoard())){
             pretendPut(node.getBoard(), freeField, putPoints, node, scorePlayerIndex, tempCurrentPlayerIndex, node.getLevel()+1);
         }
 
@@ -65,7 +64,6 @@ public class ComputerPlayer extends Player implements MessageHandler {
             else {
                 recursiveMoveBfs(child, movePoints, scorePlayerIndex, tempCurrentPlayerIndex, levelLimit);
             }
-
         }
     }
 
@@ -80,11 +78,9 @@ public class ComputerPlayer extends Player implements MessageHandler {
         clonedBoard1.putStone(put, currentPlayerIndex);
 
         gameTreeNode1.setBoard(clonedBoard1);
-        gameTreeNode1.setScore(Advisor.getScore(gameTreeNode1, scorePoints, scorePlayerIndex, false));
+        gameTreeNode1.setScore(Advisor.getScore(gameTreeNode1, scorePoints, scorePlayerIndex));
 
-
-
-        if (gameTreeNode1.getBoard().checkMorris(gameTreeNode1.getPut())){
+        if (gameTreeNode1.getBoard().isPositionPartOfMorris(gameTreeNode1.getPut())){
             for (Position killPosition : Advisor.getAllPossibleKills(clonedBoard1,currentPlayerIndex)){
                 GameTreeNode gameTreeNode2 = new GameTreeNode();
                 gameTreeNode2.setPut(put);
@@ -92,10 +88,10 @@ public class ComputerPlayer extends Player implements MessageHandler {
                 gameTreeNode2.setKill(killPosition);
 
                 Board clonedBoard2 = (Board) clonedBoard1.clone();
-                clonedBoard2.clearStone(killPosition);
+                clonedBoard2.removeStone(killPosition);
 
                 gameTreeNode2.setBoard(clonedBoard2);
-                gameTreeNode2.setScore(Advisor.getScore(gameTreeNode2, scorePoints, scorePlayerIndex, false));
+                gameTreeNode2.setScore(Advisor.getScore(gameTreeNode2, scorePoints, scorePlayerIndex));
                 gameTree.addNode(parent, gameTreeNode2);
             }
         }
@@ -108,16 +104,12 @@ public class ComputerPlayer extends Player implements MessageHandler {
 
     Move move(Board board, int playerIndex, boolean allowedToJump) {
 
-
-        gameTree.initializeRoot(board);
-
+        gameTree = new GameTree(board);
         recursiveMoveBfs(gameTree.getRoot(), movePoints, playerIndex, playerIndex, levelLimit);
 
-        //System.out.println(gameTree);
-
         return gameTree.getBestMove();
-
     }
+
 
     private void recursiveMoveBfs(GameTreeNode set, ScorePoints scorePoints, int scorePlayerIndex, int currentPlayerIndex, int levelLimit){
 
@@ -157,14 +149,12 @@ public class ComputerPlayer extends Player implements MessageHandler {
         gameTreeNode1.setLevel(level);
 
         Board clonedBoard1 = (Board) board.clone();
-        clonedBoard1.move(move, currentPlayerIndex);
+        clonedBoard1.moveStone(move, currentPlayerIndex);
 
         gameTreeNode1.setBoard(clonedBoard1);
-        gameTreeNode1.setScore(Advisor.getScore(gameTreeNode1, scorePoints, scorePlayerIndex, false));
+        gameTreeNode1.setScore(Advisor.getScore(gameTreeNode1, scorePoints, scorePlayerIndex));
 
-
-
-        if (gameTreeNode1.getBoard().checkMorris(gameTreeNode1.getMove().getTo())){
+        if (gameTreeNode1.getBoard().isPositionPartOfMorris(gameTreeNode1.getMove().getTo())){
             for (Position killPosition : Advisor.getAllPossibleKills(clonedBoard1,currentPlayerIndex)){
                 GameTreeNode gameTreeNode2 = new GameTreeNode();
                 gameTreeNode2.setMove(move);
@@ -172,10 +162,10 @@ public class ComputerPlayer extends Player implements MessageHandler {
                 gameTreeNode2.setKill(killPosition);
 
                 Board clonedBoard2 = (Board) clonedBoard1.clone();
-                clonedBoard2.clearStone(killPosition);
+                clonedBoard2.removeStone(killPosition);
 
                 gameTreeNode2.setBoard(clonedBoard2);
-                gameTreeNode2.setScore(Advisor.getScore(gameTreeNode2, scorePoints, scorePlayerIndex, false));
+                gameTreeNode2.setScore(Advisor.getScore(gameTreeNode2, scorePoints, scorePlayerIndex));
                 gameTree.addNode(parent, gameTreeNode2);
             }
         }
@@ -185,9 +175,7 @@ public class ComputerPlayer extends Player implements MessageHandler {
     }
 
 
-
     Position kill(Board board, int ownPlayerIndex, int otherPlayerIndex) {
-
         return gameTree.getBestKill();
     }
 
@@ -205,8 +193,8 @@ public class ComputerPlayer extends Player implements MessageHandler {
         else {
             triggerMove(viewManager);
         }
-
     }
+
 
     public void triggerPut(ViewManager viewManager){
         Game game = gameView.getGame();
@@ -214,12 +202,14 @@ public class ComputerPlayer extends Player implements MessageHandler {
         Messenger.sendPutMessage(viewManager, putPosition, true);
     }
 
+
     public void triggerMove(ViewManager viewManager){
         Game game = gameView.getGame();
-        boolean allowedToJump = game.getBoard().countPlayersStones(game.getCurrentPlayerIndex()) == 3;
+        boolean allowedToJump = game.getBoard().numberOfStonesOf(game.getCurrentPlayerIndex()) == 3;
         Move move = move(game.getBoard(), game.getCurrentPlayerIndex(), allowedToJump);
         Messenger.sendMoveMessage(viewManager, move, true);
     }
+
 
     public void triggerKill(ViewManager viewManager){
         Game game = gameView.getGame();

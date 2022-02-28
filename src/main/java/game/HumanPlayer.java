@@ -1,15 +1,13 @@
 package game;
 
-
 import View.GameView;
 import View.ViewManager;
 import Websocket.MessageHandler;
 
-import java.awt.*;
 
 public class HumanPlayer extends Player implements MessageHandler {
 
-    boolean local;
+    private boolean local;
 
     public HumanPlayer(GameView gameView, String name, String uuid, STONECOLOR stonecolor, boolean local) {
         super(gameView, name, uuid, stonecolor);
@@ -45,4 +43,5 @@ public class HumanPlayer extends Player implements MessageHandler {
             gameView.enableScanButton(false);
         }
     }
+
 }

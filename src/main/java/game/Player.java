@@ -30,7 +30,4 @@ public abstract class Player implements MessageHandler {
         return uuid;
     }
 
-
-
-
 }

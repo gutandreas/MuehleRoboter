@@ -205,7 +205,7 @@ public class Messenger {
                     Position position = new Position(ring, field);
                     System.out.println(position);
 
-                    if (board.checkPut(position)){
+                    if (board.isPutPossibleAt(position)){
                         board.putStone(position, playerIndex);
                         System.out.println(board);
 
@@ -219,7 +219,7 @@ public class Messenger {
                         System.out.println("update GUI");
 
                         //führt zu Mühle
-                        if (board.checkMorris(position) && board.isThereStoneToKill(1-playerIndex)){
+                        if (board.isPositionPartOfMorris(position) && board.canPlayerKill(playerIndex)){
                             game.updateGameState(true);
                             System.out.println("Mühle");
 
@@ -250,11 +250,11 @@ public class Messenger {
                     boolean triggerAxidraw = jsonObject.getBoolean("triggerAxidraw");
 
                     Move move = new Move(new Position(moveFromRing, moveFromField), new Position(moveToRing, moveToField));
-                    boolean jump = board.countPlayersStones(game.getCurrentPlayerIndex()) == 3;
+                    boolean jump = board.numberOfStonesOf(game.getCurrentPlayerIndex()) == 3;
 
 
-                    if (board.checkMove(move, jump)){
-                        board.move(move, playerIndex);
+                    if (board.isMovePossibleAt(move, jump)){
+                        board.moveStone(move, playerIndex);
                         System.out.println(board);
 
                         if (triggerAxidraw){
@@ -265,7 +265,7 @@ public class Messenger {
                         gameView.clearInformationLabel();
 
                         //führt zu Mühle
-                        if (board.checkMorris(move.getTo()) && board.isThereStoneToKill(1-playerIndex)){
+                        if (board.isPositionPartOfMorris(move.getTo()) && board.canPlayerKill(playerIndex)){
                             game.updateGameState(true);
                             if (triggerAxidraw){
                                 waitToAvoidAxidrawEventQueueOverflow();
@@ -290,11 +290,11 @@ public class Messenger {
                     int field = jsonObject.getInt("field");
                     boolean triggerAxidraw = jsonObject.getBoolean("triggerAxidraw");
 
-                    int playerIndex = board.getNumberOnPosition(ring, field);
                     Position position = new Position(ring, field);
+                    int playerIndex = board.getNumberOnPosition(position);
 
-                    if (board.checkKill(position, playerIndex)){
-                        board.clearStone(position);
+                    if (board.isKillPossibleAt(position, playerIndex)){
+                        board.removeStone(position);
                         System.out.println(board);
 
                         if (triggerAxidraw){

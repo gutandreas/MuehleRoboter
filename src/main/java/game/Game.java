@@ -9,15 +9,12 @@ public class Game {
 
     private final Player player0;
     private final Player player1;
-    private Player winner;
     private int round;
     private final int NUMBEROFSTONES = 9;
     private Player currentPlayer;
     private final Board board;
     private boolean putPhase = true;
     private boolean movePhase = false;
-    private boolean movePhaseTake = true;
-    private boolean movePhaseRelase = false;
     private boolean killPhase = false;
     private boolean watchGame;
     private boolean player2starts;
@@ -67,20 +64,30 @@ public class Game {
     }
 
 
-    /*public Game(Player player0, boolean player2starts) {
-        this.player0 = player0;
-        this.player1 = new ComputerPlayer(viewManager, "COMPUTER");
-        this.player2starts = player2starts;
-        playerArrayList.add(0, player0);
-        playerArrayList.add(1, player1);
-        round = 0;
-        if (player2starts){
-            currentPlayer=playerArrayList.get(1);}
-        else {
-            currentPlayer=playerArrayList.get(0);}
-        board = new Board(this);
-    }*/
+    public void updateGameState(boolean killPhase){
 
+        if (killPhase){
+            gameView.setNextStepLabelKill(currentPlayer.getName());
+            gameView.getGame().setKillPhase(true);
+        }
+
+        else {
+            gameView.getGame().setKillPhase(false);
+            increaseRound();
+            updateCurrentPlayer();
+            updatePhaseBooleans();
+            if (putPhase) {
+                gameView.setNextStepLabelPut(currentPlayer.getName());
+            }
+            if (movePhase) {
+                gameView.setNextStepLabelMove(currentPlayer.getName());
+            }
+        }
+
+        System.out.println(round);
+
+        checkWinner();
+    }
 
     public Player getCurrentPlayer() {
         return currentPlayer;
@@ -124,40 +131,16 @@ public class Game {
         return null;
     }
 
+
     public void setWebsocketClient(WebsocketClient websocketClient) {
         this.websocketClient = websocketClient;
     }
 
-    public void updateGameState(boolean killPhase){
-
-        if (killPhase){
-            gameView.setNextStepLabelKill(currentPlayer.getName());
-            gameView.getGame().setKillPhase(true);
-        }
-
-        else {
-            gameView.getGame().setKillPhase(false);
-            increaseRound();
-            updateCurrentPlayer();
-            setGamesPhaseBooleans();
-                if (putPhase) {
-                    gameView.setNextStepLabelPut(currentPlayer.getName());
-                }
-                if (movePhase) {
-                    gameView.setNextStepLabelMove(currentPlayer.getName());
-                }
-            }
-
-        System.out.println(round);
-
-        checkWinner();
-
-    }
 
     private void checkWinner(){
 
-        boolean lessThan3Stones = movePhase && board.countPlayersStones(getCurrentPlayerIndex()) < 3;
-        boolean unableToMove = movePhase && !board.checkIfAbleToMove(getCurrentPlayerIndex());
+        boolean lessThan3Stones = movePhase && board.numberOfStonesOf(getCurrentPlayerIndex()) < 3;
+        boolean unableToMove = movePhase && !board.canPlayerMove(getCurrentPlayerIndex());
 
         if (lessThan3Stones || unableToMove){
             gameOver = true;
@@ -176,6 +159,26 @@ public class Game {
             }
         }
 
+    }
+
+    public void increaseRound(){
+        round++;
+        updatePhaseBooleans();
+        gameView.increaseRoundLabel();
+    }
+
+    private void updatePhaseBooleans(){
+        if (round >= NUMBEROFSTONES*2){
+            putPhase = false;
+            movePhase = true;}
+    }
+
+    public void updateCurrentPlayer(){
+        if(player2starts){
+            currentPlayer = playerArrayList.get((round+1)%2);}
+        else {
+            currentPlayer = playerArrayList.get(round%2);
+        }
     }
 
     public int getOwnIndex() {
@@ -216,38 +219,8 @@ public class Game {
     }
 
 
-    public void updateCurrentPlayer(){
-        if(player2starts){
-            currentPlayer = playerArrayList.get((round+1)%2);}
-        else {
-            currentPlayer = playerArrayList.get(round%2);
-        }
-    }
-
-
     public Board getBoard() {
         return board;
     }
-
-    public void setGameCode(String gameCode) {
-        this.gameCode = gameCode;
-    }
-
-    public void increaseRound(){
-        round++;
-        setGamesPhaseBooleans();
-        gameView.increaseRoundLabel();
-    }
-
-    private void setGamesPhaseBooleans(){
-        if (round >= NUMBEROFSTONES*2){
-            putPhase = false;
-            movePhase = true;}
-    }
-
-    public void changeToMovePhase(){
-        movePhase = true;
-    }
-
 
 }

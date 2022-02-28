@@ -40,7 +40,6 @@ public class Position implements Comparable<Position> {
         return field;
     }
 
-
     @Override
     public int compareTo(Position position) {
         if (ring == position.getRing() && field == position.getField()) return 0;
