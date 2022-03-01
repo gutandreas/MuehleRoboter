@@ -2,7 +2,7 @@ package game;
 
 public class OpenMorris {
 
-    private Position firstPosition, secondPosition, thirdPosition, gapPosition;
+    private final Position firstPosition, secondPosition, thirdPosition, gapPosition;
 
     public OpenMorris(Position firstPosition, Position secondPosition, Position thirdPosition, Position gapPosition) {
         if (firstPosition.compareTo(secondPosition) > 0 || firstPosition.compareTo(thirdPosition) > 0

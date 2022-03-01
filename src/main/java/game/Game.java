@@ -18,29 +18,14 @@ public class Game {
     private boolean killPhase = false;
     private boolean watchGame;
     private boolean player2starts;
-    private boolean clickOkay = true;
     private boolean joiningToExistingGame;
     private boolean gameOver = false;
-    private String gameCode;
-    private GameView gameView;
-    private int ownIndex;
+    private final String gameCode;
+    private final GameView gameView;
+    private final int ownIndex;
     private WebsocketClient websocketClient;
+    private ArrayList<Player> playerArrayList = new ArrayList<>();
 
-
-    ArrayList<Player> playerArrayList = new ArrayList<>();
-
-    public Game(GameView gameView, Player player0, Player player1) {
-        this.gameView = gameView;
-        this.player0 = player0;
-        this.player1 = player1;
-
-        playerArrayList.add(0, player0);
-        playerArrayList.add(1, player1);
-        round = 0;
-        currentPlayer=playerArrayList.get(0);
-        board = new Board();
-
-    }
 
     public Game(GameView gameView, Player player0, Player player1, String gameCode, WebsocketClient websocketClient, boolean joiningToExistingGame, boolean watchGame) {
         this.gameView = gameView;
@@ -70,7 +55,6 @@ public class Game {
             gameView.setNextStepLabelKill(currentPlayer.getName());
             gameView.getGame().setKillPhase(true);
         }
-
         else {
             gameView.getGame().setKillPhase(false);
             increaseRound();

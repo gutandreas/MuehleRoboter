@@ -3,10 +3,7 @@ package game;
 
 public class Position implements Comparable<Position> {
 
-    private int ring, field;
-
-    public Position() {
-    }
+    private final int ring, field;
 
     public Position(int ring, int field) {
         this.ring = ring;
@@ -19,14 +16,6 @@ public class Position implements Comparable<Position> {
 
     public int getField() {
         return field;
-    }
-
-    public void setRing(int ring) {
-        this.ring = ring;
-    }
-
-    public void setField(int field) {
-        this.field = field;
     }
 
     @Override

@@ -4,19 +4,19 @@ import java.util.*;
 
 
 public class GameTree {
+    
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_PURPLE = "\u001B[35m";
-    private GameTreeNode root;
+    private final GameTreeNode root;
 
 
     public GameTree(Board board) {
         root = new GameTreeNode();
         root.setBoard(board);
     }
-
 
 
     public LinkedList<GameTreeNode> getLeaves() {

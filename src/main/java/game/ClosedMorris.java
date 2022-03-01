@@ -2,7 +2,7 @@ package game;
 
 public class ClosedMorris {
 
-    private Position firstPosition, secondPosition, thirdPosition;
+    private final Position firstPosition, secondPosition, thirdPosition;
 
     public ClosedMorris(Board board, Position firstPosition, Position secondPosition, Position thirdPosition) {
         if (firstPosition.compareTo(secondPosition) > 0 || firstPosition.compareTo(thirdPosition) > 0

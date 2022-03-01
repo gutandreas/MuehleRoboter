@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 public class Advisor {
 
+
     static public int numberOfOwnStones(Board board, int playerIndex){
         return board.numberOfStonesOf(playerIndex);
     }

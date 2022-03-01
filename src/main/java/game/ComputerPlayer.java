@@ -10,9 +10,9 @@ public class ComputerPlayer extends Player implements MessageHandler {
 
 
     private GameTree gameTree;
-    private ScorePoints putPoints;
-    private ScorePoints movePoints;
-    private int levelLimit;
+    private final ScorePoints putPoints;
+    private final ScorePoints movePoints;
+    private final int levelLimit;
 
 
     public ComputerPlayer(GameView gameView, String name, STONECOLOR stonecolor, ScorePoints putPoints, ScorePoints movePoints, int levelLimit) {

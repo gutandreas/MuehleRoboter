@@ -7,7 +7,7 @@ import Communication.MessageHandler;
 
 public class HumanPlayer extends Player implements MessageHandler {
 
-    private boolean local;
+    private final boolean local;
 
     public HumanPlayer(GameView gameView, String name, String uuid, STONECOLOR stonecolor, boolean local) {
         super(gameView, name, uuid, stonecolor);
