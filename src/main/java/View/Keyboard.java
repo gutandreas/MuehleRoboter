@@ -1,4 +1,4 @@
-// https://stackoverflow.com/questions/24622279/laying-out-a-keyboard-in-swing, 10.September 2021
+// https://stackoverflow.com/questions/24622279/laying-out-a-keyboard-in-swing, 10. September 2021
 
 package View;
 

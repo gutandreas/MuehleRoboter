@@ -4,7 +4,6 @@ import EiBotBoard.Connection;
 import Communication.WebsocketClient;
 import game.*;
 import org.json.JSONObject;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

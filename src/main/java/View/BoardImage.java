@@ -3,10 +3,8 @@ package View;
 import game.Move;
 import game.Position;
 import game.STONECOLOR;
-
 import java.awt.*;
 import java.util.HashMap;
-
 import javax.swing.*;
 
 public class BoardImage extends Label {

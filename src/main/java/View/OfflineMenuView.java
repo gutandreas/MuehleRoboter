@@ -2,7 +2,6 @@ package View;
 
 import EiBotBoard.Connection;
 import game.*;
-
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
@@ -11,22 +10,18 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-
 public class OfflineMenuView extends View implements ActionListener, MouseListener {
 
     ViewManager viewManager;
-
     JButton startButton;
     SwitchButton colorSwitchButton, startSwitchButton;
     JTextField nameTextfield;
     JLabel informationLabel, nameLabel, colorLabel, computerLevelLabel, startLabelHuman, startLabelComputer;
     JPanel mainPanel, panelInformation, panelTop, panelCenter, panelBottom, panelStartGame, panelColor;
     JRadioButton computerLevelRadioButton;
-
     Keyboard keyboard;
     Color aliceblue = new Color(161, 210, 255);
     Color background = new Color(60,60,60);
-
     Connection connection;
     String[] args;
 
@@ -167,6 +162,10 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
             gameView.setGame(game);
             gameView.setVisible(true);
             this.setVisible(false);
+
+            if (startSwitchButton.isSelected()){
+                game.getPlayer0().preparePutOrMove(viewManager);
+            }
         }
     }
 

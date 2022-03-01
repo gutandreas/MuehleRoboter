@@ -3,7 +3,6 @@ package View;
 import EiBotBoard.Connection;
 import EiBotBoard.Ebb;
 
-
 public class Run {
 
     public static void main(String[] args) {
