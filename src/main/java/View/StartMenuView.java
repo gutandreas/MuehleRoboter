@@ -39,10 +39,12 @@ public class StartMenuView extends View implements MouseListener {
         buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
         buttonPanel.setLayout(new FlowLayout());
-        onlineButton = new JButton("Online spielen");
+        onlineButton = new JButton("Online");
         onlineButton.setPreferredSize(new Dimension(300,300));
+        onlineButton.setFont(new Font("Roboto", 0, 24));
         onlineButton.addMouseListener(this);
-        offlineButton = new JButton("Offline spielen");
+        offlineButton = new JButton("Offline");
+        offlineButton.setFont(new Font("Roboto", 0, 24));
         offlineButton.addMouseListener(this);
         offlineButton.setPreferredSize(new Dimension(300,300));
 
@@ -51,6 +53,9 @@ public class StartMenuView extends View implements MouseListener {
         mainPanel.add(titleLabel);
         mainPanel.add(buttonPanel);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
+        mainPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(40, 10, 10, 10));
 
         this.add(mainPanel);
     }

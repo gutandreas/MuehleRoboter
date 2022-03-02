@@ -69,7 +69,7 @@ public class Connection {
         }
         else {
             goToPositionDirectly(to, 8);
-            }
+        }
 
         goHome(15);
     }
