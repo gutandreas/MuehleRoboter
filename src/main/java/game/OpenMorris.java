@@ -6,7 +6,7 @@ public class OpenMorris {
 
     public OpenMorris(Position firstPosition, Position secondPosition, Position thirdPosition, Position gapPosition) {
         if (firstPosition.compareTo(secondPosition) > 0 || firstPosition.compareTo(thirdPosition) > 0
-                || secondPosition.compareTo(thirdPosition) > 0){
+                || secondPosition.compareTo(thirdPosition) > 0) {
             throw new IllegalArgumentException();
         }
 
@@ -33,7 +33,7 @@ public class OpenMorris {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Offene Mühle mit den Positionen " + firstPosition.getRing() + "/" + firstPosition.getField() +
                 ", " + secondPosition.getRing() + "/" + secondPosition.getField() +
                 ", " + thirdPosition.getRing() + "/" + thirdPosition.getField() +

@@ -19,14 +19,14 @@ import java.io.IOException;
 
 public class HoughCirclesRun {
 
-    private GameView gameView;
-    private RPiCamera rPiCamera;
     private final int MIN_RADIUS = 65;
     private final int MAX_RADIUS = 85;
+    private GameView gameView;
+    private final RPiCamera rPiCamera;
 
     public HoughCirclesRun(GameView gameView, RPiCamera camera) {
-       this.gameView = gameView;
-       rPiCamera = camera;
+        this.gameView = gameView;
+        rPiCamera = camera;
     }
 
 
@@ -35,18 +35,18 @@ public class HoughCirclesRun {
     }
 
 
-    public Position detectPut(Board board){
+    public Position detectPut(Board board) {
         Mat src = takePhoto(rPiCamera, "spielfoto", false);
         Position[] positions = detectCircles(src);
         Position[] changes = getChanges(board, positions);
 
-        if (changes[0] != null && changes[1] != null){
+        if (changes[0] != null && changes[1] != null) {
             throw new InvalidBoardException("Es wurde unerlaubt ein Stein auf " + changes[0] + " verschoben");
         }
-        if (changes[0] == null && changes[1] != null){
+        if (changes[0] == null && changes[1] != null) {
             throw new InvalidBoardException("Es wurde unerlaubt ein Stein von " + changes[1] + " entfernt");
         }
-        if (changes[0] == null && changes[1] == null){
+        if (changes[0] == null && changes[1] == null) {
             throw new InvalidBoardException("Es wurde kein Stein hinzugefügt");
         }
 
@@ -54,25 +54,25 @@ public class HoughCirclesRun {
     }
 
 
-    public Move detectMove(Board board){
+    public Move detectMove(Board board) {
         Mat src = takePhoto(rPiCamera, "spielfoto", false);
         Position[] positions = detectCircles(src);
         Position[] changes = getChanges(board, positions);
 
-        if (changes[0] != null && changes[1] == null){
+        if (changes[0] != null && changes[1] == null) {
             throw new InvalidBoardException("Es wurde unerlaubt ein Stein auf " + changes[0] + " hinzugefügt");
         }
-        if (changes[0] == null && changes[1] != null){
+        if (changes[0] == null && changes[1] != null) {
             throw new InvalidBoardException("Es wurde unerlaubt ein Stein von " + changes[1] + " entfernt");
         }
-        if (changes[0] == null && changes[1] == null){
+        if (changes[0] == null && changes[1] == null) {
             throw new InvalidBoardException("Es wurde kein Stein verschoben");
         }
 
         Move move = new Move(changes[1], changes[0]);
 
         boolean allowedToJump = board.numberOfStonesOf(gameView.getGame().getCurrentPlayerIndex()) == 3;
-        if (!board.isMovePossibleAt(move, allowedToJump)){
+        if (!board.isMovePossibleAt(move, allowedToJump)) {
             throw new InvalidBoardException("Es wurde ein unerlaubter Zug gemacht");
         }
 
@@ -80,21 +80,21 @@ public class HoughCirclesRun {
     }
 
 
-    public Position detectKill(Board board){
+    public Position detectKill(Board board) {
         Mat src = takePhoto(rPiCamera, "spielfoto", false);
         Position[] positions = detectCircles(src);
         Position[] changes = getChanges(board, positions);
 
-        if (changes[0] != null && changes[1] != null){
+        if (changes[0] != null && changes[1] != null) {
             throw new InvalidBoardException("Es wurde unerlaubt ein Stein auf " + changes[0] + " verschoben");
         }
-        if (changes[0] != null && changes[1] == null){
+        if (changes[0] != null && changes[1] == null) {
             throw new InvalidBoardException("Es wurde unerlaubt ein Stein auf " + changes[0] + " hinzugefügt");
         }
-        if (changes[0] == null && changes[1] == null){
+        if (changes[0] == null && changes[1] == null) {
             throw new InvalidBoardException("Es wurde kein Stein entfernt");
         }
-        if (!board.isKillPossibleAt(changes[1], gameView.getGame().getOtherPlayerIndex())){
+        if (!board.isKillPossibleAt(changes[1], gameView.getGame().getOtherPlayerIndex())) {
             throw new InvalidBoardException("Es wurde ein unerlaubter Stein von " + changes[1] + " entfernt");
         }
 
@@ -119,13 +119,13 @@ public class HoughCirclesRun {
     }
 
 
-    public Position[] detectCircles(Mat src){
+    public Position[] detectCircles(Mat src) {
         Mat gray = new Mat();
         Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
         Imgproc.medianBlur(gray, gray, 5);
         Mat circles = new Mat();
         Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1.0,
-                (double)gray.rows()/16, // change this value to detect circles with different distances to each other
+                (double) gray.rows() / 16, // change this value to detect circles with different distances to each other
                 100.0, 30.0, MIN_RADIUS, MAX_RADIUS); // change the last two parameters
 
         Position[] positions = new Position[circles.cols()];
@@ -138,13 +138,13 @@ public class HoughCirclesRun {
             System.out.println("Kreis an Position x=" + center.x + " / y=" + center.y + " erkannt");
 
             Position position = getPosition(center.x, center.y, 100);
-            if (position != null){
+            if (position != null) {
                 positions[counter] = position;
                 counter++;
             }
         }
 
-        for (Position pos : positions){
+        for (Position pos : positions) {
             System.out.println(pos);
         }
 
@@ -152,14 +152,14 @@ public class HoughCirclesRun {
     }
 
 
-    public Image paintCircles(Mat src){
+    public Image paintCircles(Mat src) {
         Mat gray = new Mat();
         Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
         Imgproc.medianBlur(gray, gray, 5);
         Mat circles = new Mat();
 
         Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1.0,
-                (double)gray.rows()/16, // change this value to detect circles with different distances to each other
+                (double) gray.rows() / 16, // change this value to detect circles with different distances to each other
                 100.0, 30.0, MIN_RADIUS, MAX_RADIUS); // change the last two parameters
 
         Position[] positions = new Position[circles.cols()];
@@ -172,29 +172,29 @@ public class HoughCirclesRun {
             System.out.println("Kreis an Position x=" + center.x + " / y=" + center.y + " erkannt");
 
             Position position = getPosition(center.x, center.y, 100);
-            if (position != null){
+            if (position != null) {
                 positions[counter] = position;
 
-            Scalar scalar;
+                Scalar scalar;
 
-            if (positions[counter] != null) {
-                scalar = new Scalar(0, 255, 0);
-                for (Position pos : positions) {
-                    if (pos != null && pos != positions[counter] && pos.equals(positions[counter])) {
-                        scalar = new Scalar(0, 255, 255);
+                if (positions[counter] != null) {
+                    scalar = new Scalar(0, 255, 0);
+                    for (Position pos : positions) {
+                        if (pos != null && pos != positions[counter] && pos.equals(positions[counter])) {
+                            scalar = new Scalar(0, 255, 255);
+                        }
                     }
+                } else {
+                    scalar = new Scalar(0, 0, 255);
                 }
-            } else {
-                scalar = new Scalar(0, 0, 255);
-            }
 
-            // circle center
-            Imgproc.circle(src, center, 0, new Scalar(255, 255, 255), 3, 8, 0);
-            // circle outline
-            int radius = (int) Math.round(c[2]);
-            Imgproc.circle(src, center, radius, scalar, 30, 8, 0);
+                // circle center
+                Imgproc.circle(src, center, 0, new Scalar(255, 255, 255), 3, 8, 0);
+                // circle outline
+                int radius = (int) Math.round(c[2]);
+                Imgproc.circle(src, center, radius, scalar, 30, 8, 0);
 
-            counter++;
+                counter++;
             }
         }
 
@@ -206,14 +206,14 @@ public class HoughCirclesRun {
 
     private Position getPosition(double x, double y, double tolerance) {
 
-        for (int ring = 0; ring<3; ring++){
-            for (int field = 0; field<8; field++){
+        for (int ring = 0; ring < 3; ring++) {
+            for (int field = 0; field < 8; field++) {
                 Position position = new Position(ring, field);
                 PositionInPixel positionInPixel = RingAndFieldToPixel.getCoord(position);
                 int xPos = positionInPixel.getX();
                 int yPos = positionInPixel.getY();
-                double delta = Math.sqrt((x-xPos)*(x-xPos) + (y-yPos)*(y-yPos));
-                if (delta <= tolerance){
+                double delta = Math.sqrt((x - xPos) * (x - xPos) + (y - yPos) * (y - yPos));
+                if (delta <= tolerance) {
                     return position;
                 }
             }
@@ -227,9 +227,10 @@ public class HoughCirclesRun {
 
         Board tempBoard = new Board();
 
-        for (Position p : positions){
-            if (p != null){
-                tempBoard.putStone(p, 2);}
+        for (Position p : positions) {
+            if (p != null) {
+                tempBoard.putStone(p, 2);
+            }
         }
 
         System.out.println("Gescanntes Board: \n" + tempBoard);
@@ -239,18 +240,18 @@ public class HoughCirclesRun {
             for (int field = 0; field < 8; field++) {
                 Position tempPosition = new Position(ring, field);
                 if (board.isFieldFree(tempPosition) && !tempBoard.isFieldFree(tempPosition)) {
-                    if (changes[0] == null){
+                    if (changes[0] == null) {
                         changes[0] = tempPosition;
-                        System.out.println("Stein hinzugefügt auf " + tempPosition);}
-                    else {
+                        System.out.println("Stein hinzugefügt auf " + tempPosition);
+                    } else {
                         throw new InvalidBoardException("Es wurde mehr als 1 Stein hinzugefügt");
                     }
                 }
                 if (!board.isFieldFree(tempPosition) && tempBoard.isFieldFree(tempPosition)) {
-                    if (changes[1] == null){
+                    if (changes[1] == null) {
                         changes[1] = tempPosition;
-                        System.out.println("Stein entfernt auf " + tempPosition);}
-                    else {
+                        System.out.println("Stein entfernt auf " + tempPosition);
+                    } else {
                         throw new InvalidBoardException("Es wurde mehr als 1 Stein entfernt");
                     }
                 }

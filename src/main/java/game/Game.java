@@ -1,8 +1,9 @@
 package game;
 
-import View.GameView;
 import Communication.Messenger;
 import Communication.WebsocketClient;
+import View.GameView;
+
 import java.util.ArrayList;
 
 public class Game {
@@ -16,15 +17,15 @@ public class Game {
     private boolean putPhase = true;
     private boolean movePhase = false;
     private boolean killPhase = false;
-    private boolean watchGame;
+    private final boolean watchGame;
     private boolean player2starts;
-    private boolean joiningToExistingGame;
+    private final boolean joiningToExistingGame;
     private boolean gameOver = false;
     private final String gameCode;
     private final GameView gameView;
     private final int ownIndex;
     private WebsocketClient websocketClient;
-    private ArrayList<Player> playerArrayList = new ArrayList<>();
+    private final ArrayList<Player> playerArrayList = new ArrayList<>();
 
 
     public Game(GameView gameView, Player player0, Player player1, String gameCode, WebsocketClient websocketClient, boolean joiningToExistingGame, boolean watchGame) {
@@ -36,26 +37,24 @@ public class Game {
         playerArrayList.add(0, player0);
         playerArrayList.add(1, player1);
         round = 0;
-        currentPlayer=playerArrayList.get(0);
+        currentPlayer = playerArrayList.get(0);
         this.gameCode = gameCode;
         this.joiningToExistingGame = joiningToExistingGame;
         board = new Board();
-        if (joiningToExistingGame){
+        if (joiningToExistingGame) {
             ownIndex = 1;
-        }
-        else {
+        } else {
             ownIndex = 0;
         }
     }
 
 
-    public void updateGameState(boolean killPhase){
+    public void updateGameState(boolean killPhase) {
 
-        if (killPhase){
+        if (killPhase) {
             gameView.setNextStepLabelKill(currentPlayer.getName());
             gameView.getGame().setKillPhase(true);
-        }
-        else {
+        } else {
             gameView.getGame().setKillPhase(false);
             increaseRound();
             updateCurrentPlayer();
@@ -105,11 +104,11 @@ public class Game {
         return player1;
     }
 
-    public Player getPlayerByIndex(int index){
-        if (index == 0){
+    public Player getPlayerByIndex(int index) {
+        if (index == 0) {
             return player0;
         }
-        if (index == 1){
+        if (index == 1) {
             return player1;
         }
         return null;
@@ -121,12 +120,12 @@ public class Game {
     }
 
 
-    private void checkWinner(){
+    private void checkWinner() {
 
         boolean lessThan3Stones = movePhase && board.numberOfStonesOf(getCurrentPlayerIndex()) < 3;
         boolean unableToMove = movePhase && !board.canPlayerMove(getCurrentPlayerIndex());
 
-        if (lessThan3Stones || unableToMove){
+        if (lessThan3Stones || unableToMove) {
             gameOver = true;
         }
 
@@ -145,23 +144,24 @@ public class Game {
 
     }
 
-    public void increaseRound(){
+    public void increaseRound() {
         round++;
         updatePhaseBooleans();
         gameView.increaseRoundLabel();
     }
 
-    private void updatePhaseBooleans(){
-        if (round >= NUMBEROFSTONES*2){
+    private void updatePhaseBooleans() {
+        if (round >= NUMBEROFSTONES * 2) {
             putPhase = false;
-            movePhase = true;}
+            movePhase = true;
+        }
     }
 
-    public void updateCurrentPlayer(){
-        if(player2starts){
-            currentPlayer = playerArrayList.get((round+1)%2);}
-        else {
-            currentPlayer = playerArrayList.get(round%2);
+    public void updateCurrentPlayer() {
+        if (player2starts) {
+            currentPlayer = playerArrayList.get((round + 1) % 2);
+        } else {
+            currentPlayer = playerArrayList.get(round % 2);
         }
     }
 
@@ -193,12 +193,12 @@ public class Game {
         this.killPhase = killPhase;
     }
 
-    public int getCurrentPlayerIndex(){
+    public int getCurrentPlayerIndex() {
         return currentPlayer.equals(playerArrayList.get(0)) ? 0 : 1;
     }
 
 
-    public int getOtherPlayerIndex(){
+    public int getOtherPlayerIndex() {
         return currentPlayer.equals(playerArrayList.get(0)) ? 1 : 0;
     }
 

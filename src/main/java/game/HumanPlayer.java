@@ -1,8 +1,8 @@
 package game;
 
+import Communication.MessageHandler;
 import View.GameView;
 import View.ViewManager;
-import Communication.MessageHandler;
 
 
 public class HumanPlayer extends Player implements MessageHandler {
@@ -23,12 +23,7 @@ public class HumanPlayer extends Player implements MessageHandler {
 
         GameView gameView = ((GameView) viewManager.getCurrentView());
 
-        if (local){
-            gameView.enableScanButton(true);
-        }
-        else {
-            gameView.enableScanButton(false);
-        }
+        gameView.enableScanButton(local);
     }
 
     @Override
@@ -36,12 +31,7 @@ public class HumanPlayer extends Player implements MessageHandler {
 
         GameView gameView = ((GameView) viewManager.getCurrentView());
 
-        if (local){
-            gameView.enableScanButton(true);
-        }
-        else {
-            gameView.enableScanButton(false);
-        }
+        gameView.enableScanButton(local);
     }
 
 }

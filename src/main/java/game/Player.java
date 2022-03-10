@@ -1,8 +1,8 @@
 package game;
 
 
-import View.GameView;
 import Communication.MessageHandler;
+import View.GameView;
 
 public abstract class Player implements MessageHandler {
 

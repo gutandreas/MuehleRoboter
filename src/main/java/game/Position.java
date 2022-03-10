@@ -19,13 +19,13 @@ public class Position implements Comparable<Position> {
     }
 
     @Override
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         Position position = (Position) o;
         return ring == position.getRing() && field == position.getField();
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return field;
     }
 
@@ -38,7 +38,7 @@ public class Position implements Comparable<Position> {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Position " + getRing() + "/" + getField();
     }
 }
