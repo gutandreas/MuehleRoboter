@@ -19,8 +19,8 @@ import java.io.IOException;
 
 public class HoughCirclesRun {
 
-    GameView gameView;
-    RPiCamera rPiCamera;
+    private GameView gameView;
+    private RPiCamera rPiCamera;
     private final int MIN_RADIUS = 65;
     private final int MAX_RADIUS = 85;
 

@@ -147,6 +147,7 @@ public class Messenger {
                 if (!jsonObject.getString("playerUuid").equals(ownUuid)){
                     System.out.println("Spiel beigetreten");
                     gameView.setEnemyLabel(jsonObject.getString("player2Name"));
+                    game.getPlayer1().setName(jsonObject.getString("player2Name"));
                     gameView.enableScanButton(true);}
                 break;
 

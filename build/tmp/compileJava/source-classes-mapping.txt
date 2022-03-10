@@ -2,8 +2,10 @@ Camera/jrpicam/examples/ShootTimelapse.java
  Camera.jrpicam.examples.ShootTimelapse
 game/OpenMorris.java
  game.OpenMorris
-EiBotBoard/Connection.java
- EiBotBoard.Connection
+View/BoardImage.java
+ View.BoardImage
+ View.BoardImage$1
+ View.BoardImage$Coordinates
 game/GameTreeNode.java
  game.GameTreeNode
 game/Move.java
@@ -89,33 +91,31 @@ EiBotBoard/UbwCommand.java
  EiBotBoard.UbwCommand$Port
  EiBotBoard.UbwCommand$TimerListener
  EiBotBoard.UbwCommand$TimerMode
-game/HumanPlayer.java
- game.HumanPlayer
+View/Keyboard.java
+ View.Keyboard
+Communication/Messenger.java
+ Communication.Messenger
+game/ComputerPlayer.java
+ game.ComputerPlayer
 game/Game.java
  game.Game
 View/OfflineMenuView.java
  View.OfflineMenuView
-View/Keyboard.java
- View.Keyboard
-View/OnlineMenuView.java
- View.OnlineMenuView
-game/Player.java
- game.Player
-View/BoardImage.java
- View.BoardImage
- View.BoardImage$1
- View.BoardImage$Coordinates
-game/ComputerPlayer.java
- game.ComputerPlayer
-Camera/HoughCirclesRun.java
- Camera.HoughCirclesRun
-Communication/Messenger.java
- Communication.Messenger
 View/GameView.java
  View.GameView
+EiBotBoard/Connection.java
+ EiBotBoard.Connection
+View/OnlineMenuView.java
+ View.OnlineMenuView
 View/Run.java
  View.Run
+game/HumanPlayer.java
+ game.HumanPlayer
+game/Player.java
+ game.Player
 View/StartMenuView.java
  View.StartMenuView
 Communication/WebsocketClient.java
  Communication.WebsocketClient
+Camera/HoughCirclesRun.java
+ Camera.HoughCirclesRun
