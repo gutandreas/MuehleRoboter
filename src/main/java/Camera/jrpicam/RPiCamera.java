@@ -2,16 +2,15 @@
 
 package Camera.jrpicam;
 
+import Camera.jrpicam.enums.*;
+import Camera.jrpicam.exceptions.FailedToRunRaspistillException;
+
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-
-import javax.imageio.ImageIO;
-
-import Camera.jrpicam.enums.*;
-import Camera.jrpicam.exceptions.FailedToRunRaspistillException;
 
 
 /**
@@ -129,22 +128,23 @@ public class RPiCamera {
 		command.add("-h");
 		command.add("" + height);
 
-		if (!preview){
-		command.add("-n");} //Keine Vorschau
+		if (!preview) {
+			command.add("-n");
+		} //Keine Vorschau
 
 		command.add("-t"); //Delay (Minimum: 500)
 		command.add("" + 1000);
 
 		for (Map.Entry<String, String[]> entry : options.entrySet()) {
-			if (entry.getValue() != null        &&
-                !"width".equals(entry.getKey()) &&
-                !"height".equals(entry.getKey())) {
-                command.addAll(Arrays.asList(entry.getValue()));
+			if (entry.getValue() != null &&
+					!"width".equals(entry.getKey()) &&
+					!"height".equals(entry.getKey())) {
+				command.addAll(Arrays.asList(entry.getValue()));
 			}
 		}
 		prevCommand = command.toString();
 		pb = new ProcessBuilder(command);
-		
+
 		p = pb.start();
 		p.waitFor();
 		return new File(saveDir + File.separator + pictureName);

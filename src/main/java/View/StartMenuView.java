@@ -1,6 +1,7 @@
 package View;
 
 import EiBotBoard.Connection;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -15,7 +16,7 @@ public class StartMenuView extends View implements MouseListener {
     JLabel titleLabel;
 
     Color aliceblue = new Color(161, 210, 255);
-    Color background = new Color(60,60,60);
+    Color background = new Color(60, 60, 60);
 
     String[] args;
 
@@ -27,7 +28,7 @@ public class StartMenuView extends View implements MouseListener {
         this.args = args;
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setUndecorated(true);
-        this.getContentPane().setBackground( background );
+        this.getContentPane().setBackground(background);
 
         mainPanel = new JPanel();
         mainPanel.setOpaque(false);
@@ -40,13 +41,13 @@ public class StartMenuView extends View implements MouseListener {
         buttonPanel.setOpaque(false);
         buttonPanel.setLayout(new FlowLayout());
         onlineButton = new JButton("Online");
-        onlineButton.setPreferredSize(new Dimension(300,300));
+        onlineButton.setPreferredSize(new Dimension(300, 300));
         onlineButton.setFont(new Font("Roboto", 0, 24));
         onlineButton.addMouseListener(this);
         offlineButton = new JButton("Offline");
         offlineButton.setFont(new Font("Roboto", 0, 24));
         offlineButton.addMouseListener(this);
-        offlineButton.setPreferredSize(new Dimension(300,300));
+        offlineButton.setPreferredSize(new Dimension(300, 300));
 
         buttonPanel.add(onlineButton);
         buttonPanel.add(offlineButton);
@@ -63,14 +64,14 @@ public class StartMenuView extends View implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == onlineButton){
+        if (e.getSource() == onlineButton) {
             OnlineMenuView onlineMenuView = new OnlineMenuView(viewManager, args, connection);
             viewManager.setCurrentView(onlineMenuView);
             onlineMenuView.setVisible(true);
             this.setVisible(false);
         }
 
-        if (e.getSource() == offlineButton){
+        if (e.getSource() == offlineButton) {
             OfflineMenuView offlineMenuView = new OfflineMenuView(viewManager, args, connection);
             viewManager.setCurrentView(offlineMenuView);
             offlineMenuView.setVisible(true);

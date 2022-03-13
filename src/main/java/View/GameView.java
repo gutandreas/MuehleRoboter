@@ -2,11 +2,15 @@ package View;
 
 import Camera.HoughCirclesRun;
 import Camera.InvalidBoardException;
-import EiBotBoard.Connection;
 import Communication.Messenger;
 import Communication.WebsocketClient;
-import game.*;
+import EiBotBoard.Connection;
+import game.Game;
+import game.Move;
+import game.Position;
+import game.STONECOLOR;
 import org.opencv.core.Core;
+
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
@@ -15,8 +19,11 @@ import java.awt.event.ActionListener;
 
 public class GameView extends View implements ActionListener {
 
+    String[] args;
+    Game game;
+    Connection connection;
+    WebsocketClient websocketClient;
     private ViewManager viewManager;
-
     private JPanel mainPanel, panelInformation, panelInformationTop, panelInformationCenter, panelInformationBottom, panelCenter, panelCenterLeft, panelCenterCenter, panelCenterRight;
     private JLabel informationLabel, gamcodeTitleLabel, gamecodeLabel, nameTitleLabel, nameLabel, roundTitleLabel, roundLabel, enemyTitleLabel, enemyLabel, nextStepLabel;
     private JButton scanButton, cameraSettingsButton, exitButton;
@@ -25,18 +32,13 @@ public class GameView extends View implements ActionListener {
     private JScrollPane scroll;
     private BoardImage boardImage;
     private Color aliceblue = new Color(161, 210, 255);
-    private Color background = new Color(60,60,60);
+    private Color background = new Color(60, 60, 60);
     private STONECOLOR player0StoneColor;
     private STONECOLOR player1StoneColor;
     private int ownIndex;
 
-    String[] args;
-    Game game;
-    Connection connection;
-    WebsocketClient websocketClient;
-
     //offline
-    public GameView(ViewManager viewManager, String[] args, String name, Connection connection, STONECOLOR player0StoneColor, STONECOLOR player1StoneColor, int ownIndex){
+    public GameView(ViewManager viewManager, String[] args, String name, Connection connection, STONECOLOR player0StoneColor, STONECOLOR player1StoneColor, int ownIndex) {
 
         this.viewManager = viewManager;
         this.args = args;
@@ -89,7 +91,7 @@ public class GameView extends View implements ActionListener {
     }
 
 
-    public void setupView(String name0, String name1, String gameCode){
+    public void setupView(String name0, String name1, String gameCode) {
         View.setUIFont(new FontUIResource(new Font("Roboto", 0, 20)));
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setUndecorated(false);
@@ -166,7 +168,7 @@ public class GameView extends View implements ActionListener {
         panelCenterCenter = new JPanel();
         panelCenterCenter.setOpaque(false);
         scanButton = new JButton("SCAN");
-        scanButton.setPreferredSize(new Dimension(290,290));
+        scanButton.setPreferredSize(new Dimension(290, 290));
         scanButton.setEnabled(false);
         scanButton.addActionListener(this);
         panelCenterCenter.add(scanButton);
@@ -181,7 +183,7 @@ public class GameView extends View implements ActionListener {
         chatTextArea.setWrapStyleWord(true);
         chatTextArea.setEditable(false);
         chatTextArea.setHighlighter(null);
-        scroll = new JScrollPane (chatTextArea, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scroll = new JScrollPane(chatTextArea, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         cameraSettingsButton = new JButton("Kameraoptionen");
@@ -212,7 +214,7 @@ public class GameView extends View implements ActionListener {
         this.add(mainPanel);
     }
 
-    private void putScan(){
+    private void putScan() {
 
         System.out.println("Scan des Spielfelds");
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -222,13 +224,12 @@ public class GameView extends View implements ActionListener {
             Position position = houghCirclesRun.detectPut(game.getBoard());
             Messenger.sendPutMessage(viewManager, position, false);
 
-        }
-        catch (InvalidBoardException ibe){
+        } catch (InvalidBoardException ibe) {
             setInformationLabel(ibe.getMessage());
         }
     }
 
-    private void moveScan(){
+    private void moveScan() {
 
         System.out.println("Scan des Spielfelds");
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -237,13 +238,12 @@ public class GameView extends View implements ActionListener {
         try {
             Move move = houghCirclesRun.detectMove(game.getBoard());
             Messenger.sendMoveMessage(viewManager, move, false);
-        }
-        catch (InvalidBoardException ibe){
+        } catch (InvalidBoardException ibe) {
             setInformationLabel(ibe.getMessage());
         }
     }
 
-    private void killScan(){
+    private void killScan() {
 
         System.out.println("Scan des Spielfelds");
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -253,25 +253,24 @@ public class GameView extends View implements ActionListener {
             Position position = houghCirclesRun.detectKill(game.getBoard());
             Messenger.sendKillMessage(viewManager, position, false);
 
-        }
-        catch (InvalidBoardException ibe){
+        } catch (InvalidBoardException ibe) {
             setInformationLabel(ibe.getMessage());
         }
     }
 
-    public void increaseRoundLabel(){
+    public void increaseRoundLabel() {
         roundLabel.setText(String.valueOf(game.getRound()));
     }
 
-    public void setEnemyLabel(String enemyName){
+    public void setEnemyLabel(String enemyName) {
         enemyLabel.setText(enemyName);
     }
 
-    public void setInformationLabel(String information){
+    public void setInformationLabel(String information) {
         informationLabel.setText(information);
     }
 
-    public void clearInformationLabel(){
+    public void clearInformationLabel() {
         informationLabel.setText(" ");
     }
 
@@ -287,25 +286,25 @@ public class GameView extends View implements ActionListener {
         nextStepLabel.setText(name + " darf einen Stein entfernen");
     }
 
-    public void enableScanButton(boolean enable){
+    public void enableScanButton(boolean enable) {
         scanButton.setEnabled(enable);
     }
 
-    public void addChatMessageToTextarea(String name, String message){
+    public void addChatMessageToTextarea(String name, String message) {
 
-        if (chatTextArea.getText().equals(textAreaPromtText)){
+        if (chatTextArea.getText().equals(textAreaPromtText)) {
             chatTextArea.setText(name + ": " + message + "\n");
+        } else {
+            chatTextArea.setText(name + ": " + message + "\n" + chatTextArea.getText());
         }
-        else {
-            chatTextArea.setText(name + ": " + message +"\n" + chatTextArea.getText());}
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
     }
 
     public Game getGame() {
         return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 
     public void setWebsocketClient(WebsocketClient websocketClient) {
@@ -335,24 +334,24 @@ public class GameView extends View implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if(e.getSource() == this.scanButton){
+        if (e.getSource() == this.scanButton) {
 
-            if (game.isKillPhase()){
+            if (game.isKillPhase()) {
                 killScan();
                 return;
             }
 
-            if (game.isPutPhase() && !game.isKillPhase()){
+            if (game.isPutPhase() && !game.isKillPhase()) {
                 putScan();
                 return;
             }
-            if (game.isMovePhase() && !game.isKillPhase()){
+            if (game.isMovePhase() && !game.isKillPhase()) {
                 moveScan();
                 return;
             }
         }
 
-        if (e.getSource() == cameraSettingsButton){
+        if (e.getSource() == cameraSettingsButton) {
             new CameraView(viewManager);
         }
 

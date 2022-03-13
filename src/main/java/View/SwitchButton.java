@@ -2,21 +2,14 @@
 
 package View;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
 
 public class SwitchButton extends Component {
 
@@ -30,14 +23,14 @@ public class SwitchButton extends Component {
         runEvent();
     }
 
-    private Timer timer;
+    private final Timer timer;
     private float location;
     private boolean selected;
     private boolean mouseOver;
-    private float speed = 0.3f;
-    private List<EventSwitchSelected> events;
-    private Color onColor;
-    private Color offColor;
+    private final float speed = 0.3f;
+    private final List<EventSwitchSelected> events;
+    private final Color onColor;
+    private final Color offColor;
 
     public SwitchButton(Color offColor, Color onColor, Color toggleColor) {
         this.onColor = onColor;
@@ -141,6 +134,6 @@ public class SwitchButton extends Component {
 
     public interface EventSwitchSelected {
 
-        public void onSelected(boolean selected);
+        void onSelected(boolean selected);
     }
 }

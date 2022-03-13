@@ -2,6 +2,7 @@ package View;
 
 import EiBotBoard.Connection;
 import game.*;
+
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
@@ -21,14 +22,14 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
     JRadioButton computerLevelRadioButton;
     Keyboard keyboard;
     Color aliceblue = new Color(161, 210, 255);
-    Color background = new Color(60,60,60);
+    Color background = new Color(60, 60, 60);
     Connection connection;
     String[] args;
 
-    ScorePoints putPoints = new ScorePoints(3000, 1000,30, 200, 300,6, -3000, -1000, -30, -200, -300, -6);
-    ScorePoints movePoints = new ScorePoints(2000, 300,250, 200, 300,3, -2000, -300, -250, -200, -300, -3);
+    ScorePoints putPoints = new ScorePoints(3000, 1000, 30, 200, 300, 6, -3000, -1000, -30, -200, -300, -6);
+    ScorePoints movePoints = new ScorePoints(2000, 300, 250, 200, 300, 3, -2000, -300, -250, -200, -300, -3);
 
-    public OfflineMenuView(ViewManager viewManager, String[] args, Connection connection){
+    public OfflineMenuView(ViewManager viewManager, String[] args, Connection connection) {
 
         this.viewManager = viewManager;
 
@@ -113,29 +114,28 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
         mainPanel.setBackground(background);
 
         this.add(mainPanel);
-        this.getContentPane().setBackground( background );
+        this.getContentPane().setBackground(background);
 
         this.connection = connection;
         this.args = args;
-        }
+    }
 
 
-    public void actionPerformed (ActionEvent ae){
+    public void actionPerformed(ActionEvent ae) {
 
-        if(ae.getSource() == this.startButton){
+        if (ae.getSource() == this.startButton) {
 
-            if (nameTextfield.getText().length() == 0){
+            if (nameTextfield.getText().length() == 0) {
                 informationLabel.setText("Geben Sie einen Spielernamen ein");
                 return;
             }
 
             STONECOLOR player1Color;
             STONECOLOR player2Color;
-            if (colorSwitchButton.isSelected()){
+            if (colorSwitchButton.isSelected()) {
                 player1Color = STONECOLOR.WHITE;
                 player2Color = STONECOLOR.BLACK;
-            }
-            else {
+            } else {
                 player1Color = STONECOLOR.BLACK;
                 player2Color = STONECOLOR.WHITE;
             }
@@ -145,7 +145,7 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
             Game game = null;
             int levelLimit = 3;
 
-            switch (ownIndex){
+            switch (ownIndex) {
                 case 0:
                     game = new Game(gameView, new HumanPlayer(gameView, nameTextfield.getText(), " ", player1Color, true),
                             new ComputerPlayer(gameView, "Computer", player2Color, putPoints, movePoints, levelLimit),
@@ -163,7 +163,7 @@ public class OfflineMenuView extends View implements ActionListener, MouseListen
             gameView.setVisible(true);
             this.setVisible(false);
 
-            if (startSwitchButton.isSelected()){
+            if (startSwitchButton.isSelected()) {
                 game.getPlayer0().preparePutOrMove(viewManager);
             }
         }

@@ -7,6 +7,7 @@ import Camera.jrpicam.enums.DRC;
 import Camera.jrpicam.exceptions.FailedToRunRaspistillException;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,35 +15,35 @@ import java.awt.event.ActionListener;
 
 public class CameraView extends View implements ActionListener {
 
-    private Color aliceblue = new Color(161, 210, 255);
-    private Color background = new Color(60,60,60);
+    private final Color aliceblue = new Color(161, 210, 255);
+    private final Color background = new Color(60, 60, 60);
     private ImageIcon previewIcon;
-    private JPanel mainPanel = new JPanel();
-    private JLabel brightnessLabel = new JLabel("Helligkeit (0 bis 100):");
-    private JTextField brightnessTextfield = new JTextField();
-    private JButton brightnessPlusButton = new JButton("+");
-    private JButton brightnessMinusButton = new JButton("–");
-    private JLabel contrastLabel = new JLabel("Kontrast (-100 bis 100):");
-    private JButton contrastPlusButton = new JButton("+");
-    private JButton contrastMinusButton = new JButton("–");
+    private final JPanel mainPanel = new JPanel();
+    private final JLabel brightnessLabel = new JLabel("Helligkeit (0 bis 100):");
+    private final JTextField brightnessTextfield = new JTextField();
+    private final JButton brightnessPlusButton = new JButton("+");
+    private final JButton brightnessMinusButton = new JButton("–");
+    private final JLabel contrastLabel = new JLabel("Kontrast (-100 bis 100):");
+    private final JButton contrastPlusButton = new JButton("+");
+    private final JButton contrastMinusButton = new JButton("–");
     private JLabel imageLabel;
-    private JLabel drcLabel = new JLabel("Dynamic Range Compression: ");
-    private SwitchButton drcSwitchButton = new SwitchButton(Color.RED, Color.GREEN, aliceblue);
-    private JLabel awbLabel = new JLabel("Automatic White Balance: ");
-    private SwitchButton awbSwitchButton = new SwitchButton(Color.RED, Color.GREEN, aliceblue);
-    private JTextField contrastTextfield = new JTextField();
-    private JButton previewButton = new JButton("Vorschau");
-    private JButton saveButton = new JButton("Speichern");
-    private JLabel numberOfStonesLabel = new JLabel("Anzahl Steine:");
-    private JTextField numberOfStonesTextfield = new JTextField();
-    private JButton numberOfStonesPlusButton = new JButton("+");
-    private JButton numberOfStonesMinusButton = new JButton("–");
-    private JButton automaticScanButton = new JButton("Automatisch kalibrieren");
-    private JButton closeWindowButton = new JButton("Zurück zum Spiel");
-    private ViewManager viewManager;
-    private HoughCirclesRun houghCirclesRun;
+    private final JLabel drcLabel = new JLabel("Dynamic Range Compression: ");
+    private final SwitchButton drcSwitchButton = new SwitchButton(Color.RED, Color.GREEN, aliceblue);
+    private final JLabel awbLabel = new JLabel("Automatic White Balance: ");
+    private final SwitchButton awbSwitchButton = new SwitchButton(Color.RED, Color.GREEN, aliceblue);
+    private final JTextField contrastTextfield = new JTextField();
+    private final JButton previewButton = new JButton("Vorschau");
+    private final JButton saveButton = new JButton("Speichern");
+    private final JLabel numberOfStonesLabel = new JLabel("Anzahl Steine:");
+    private final JTextField numberOfStonesTextfield = new JTextField();
+    private final JButton numberOfStonesPlusButton = new JButton("+");
+    private final JButton numberOfStonesMinusButton = new JButton("–");
+    private final JButton automaticScanButton = new JButton("Automatisch kalibrieren");
+    private final JButton closeWindowButton = new JButton("Zurück zum Spiel");
+    private final ViewManager viewManager;
+    private final HoughCirclesRun houghCirclesRun;
     private RPiCamera previewCamera;
-    private Font font = new Font("Roboto", 0, 12);
+    private final Font font = new Font("Roboto", 0, 12);
 
 
     public CameraView(ViewManager viewManager) {
@@ -111,7 +112,7 @@ public class CameraView extends View implements ActionListener {
         saveButton.setPreferredSize(new Dimension(100, 50));
         saveButton.setFont(new Font("Roboto", 0, 13));
         saveButton.setVisible(false);
-        JPanel buttonPanel  = new JPanel();
+        JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
         buttonPanel.add(previewButton);
         buttonPanel.add(saveButton);
@@ -171,96 +172,94 @@ public class CameraView extends View implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == previewButton){
+        if (e.getSource() == previewButton) {
             System.out.println("preview Button");
             previewCamera.setBrightness(Integer.parseInt(brightnessTextfield.getText()));
             previewCamera.setContrast(Integer.parseInt(contrastTextfield.getText()));
             Mat preview = houghCirclesRun.takePhoto(previewCamera, "preview", false);
             loadAndAddOrUpdatePreviewImage(preview, true);
 
-            if (drcSwitchButton.isSelected()){
+            if (drcSwitchButton.isSelected()) {
                 previewCamera.setDRC(DRC.HIGH);
-            }
-            else {
+            } else {
                 previewCamera.setDRC(DRC.OFF);
             }
 
-            if (awbSwitchButton.isSelected()){
+            if (awbSwitchButton.isSelected()) {
                 previewCamera.setAWB(AWB.FLASH);
-            }
-            else {
+            } else {
                 previewCamera.setAWB(AWB.AUTO);
             }
 
             saveButton.setVisible(true);
         }
 
-        if (e.getSource() == saveButton){
+        if (e.getSource() == saveButton) {
             System.out.println("save Button");
             viewManager.setrPiCamera(previewCamera);
             saveButton.setVisible(false);
         }
 
-        if (e.getSource() == brightnessPlusButton){
+        if (e.getSource() == brightnessPlusButton) {
             int value = Integer.parseInt(brightnessTextfield.getText());
-            if (value + 5 <= 100){
+            if (value + 5 <= 100) {
                 value = value + 5;
             }
             brightnessTextfield.setText("" + value);
         }
 
-        if (e.getSource() == brightnessMinusButton){
+        if (e.getSource() == brightnessMinusButton) {
             int value = Integer.parseInt(brightnessTextfield.getText());
-            if (value - 5 >= 0){
+            if (value - 5 >= 0) {
                 value = value - 5;
             }
             brightnessTextfield.setText("" + value);
         }
 
-        if (e.getSource() == contrastPlusButton){
+        if (e.getSource() == contrastPlusButton) {
             int value = Integer.parseInt(contrastTextfield.getText());
-            if (value + 5 <= 100){
+            if (value + 5 <= 100) {
                 value = value + 5;
             }
             contrastTextfield.setText("" + value);
         }
 
-        if (e.getSource() == contrastMinusButton){
+        if (e.getSource() == contrastMinusButton) {
             int value = Integer.parseInt(contrastTextfield.getText());
-            if (value - 5 >= -100){
+            if (value - 5 >= -100) {
                 value = value - 5;
             }
             contrastTextfield.setText("" + value);
         }
 
-        if (e.getSource() == numberOfStonesPlusButton){
+        if (e.getSource() == numberOfStonesPlusButton) {
             int value = Integer.parseInt(numberOfStonesTextfield.getText());
-            if (value + 1 <= 18){
+            if (value + 1 <= 18) {
                 value = value + 1;
             }
             numberOfStonesTextfield.setText("" + value);
         }
 
-        if (e.getSource() == numberOfStonesMinusButton){
+        if (e.getSource() == numberOfStonesMinusButton) {
             int value = Integer.parseInt(numberOfStonesTextfield.getText());
-            if (value - 1 >= 1){
+            if (value - 1 >= 1) {
                 value = value - 1;
             }
             numberOfStonesTextfield.setText("" + value);
         }
 
-        if (e.getSource() == automaticScanButton){
+        if (e.getSource() == automaticScanButton) {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             calibrateAutomatically();
             setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
 
-        if (e.getSource() == closeWindowButton){
+        if (e.getSource() == closeWindowButton) {
             this.dispose();
         }
     }
 
-    private void loadAndAddOrUpdatePreviewImage(Mat src, boolean update){
+    private void loadAndAddOrUpdatePreviewImage(Mat src, boolean update) {
         previewIcon = new ImageIcon(houghCirclesRun.paintCircles(src).getScaledInstance(460, 400, 0));
 
         imageLabel = new JLabel(previewIcon) {
@@ -271,7 +270,7 @@ public class CameraView extends View implements ActionListener {
             }
         };
 
-        if (update){
+        if (update) {
             mainPanel.remove(0);
         }
 
@@ -280,34 +279,34 @@ public class CameraView extends View implements ActionListener {
         mainPanel.repaint();
     }
 
-    private void calibrateAutomatically(){
+    private void calibrateAutomatically() {
 
         boolean confirmed = false;
 
-        for (int brightness = 30; brightness <= 70; brightness += 10){
-            for (int contrast = 20; contrast <= 80; contrast += 10){
+        for (int brightness = 30; brightness <= 70; brightness += 10) {
+            for (int contrast = 20; contrast <= 80; contrast += 10) {
 
                 previewCamera.setBrightness(brightness);
                 previewCamera.setContrast(contrast);
 
                 Mat preview = houghCirclesRun.takePhoto(previewCamera, "preview", false);
 
-                if (houghCirclesRun.detectCircles(preview).length == Integer.parseInt(numberOfStonesTextfield.getText())){
+                if (houghCirclesRun.detectCircles(preview).length == Integer.parseInt(numberOfStonesTextfield.getText())) {
                     System.out.println("Alle Steine gefunden mit Helligkeit " + brightness + " und Kontrast " + contrast);
                     saveButton.setVisible(true);
                     loadAndAddOrUpdatePreviewImage(preview, true);
 
-                    if (confirmed){
+                    if (confirmed) {
                         brightnessTextfield.setText("" + brightness);
                         contrastTextfield.setText("" + contrast);
                         automaticScanButton.setBackground(Color.GREEN);
-                        return;}
-                    else {
+                        return;
+                    } else {
                         confirmed = true;
                     }
-                }
-                else {
-                    System.out.println("Nicht alle Steine gefunden mit Helligkeit " + brightness + " und Kontrast " + contrast);
+                } else {
+                    System.out.println("Nicht alle Steine gefunden mit Helligkeit " + brightness
+                            + " und Kontrast " + contrast);
                     confirmed = false;
                 }
             }

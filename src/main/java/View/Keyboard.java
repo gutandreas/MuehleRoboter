@@ -2,16 +2,16 @@
 
 package View;
 
-import javax.swing.*;   // JFrame, JPanel, JLabel, JButton
-import java.awt.*;      // GridBagLayout, GridBagConstraints, Insets, Font
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Keyboard implements ActionListener {
 
     private final JPanel keyboard = new JPanel();
-    private Color aliceblue = new Color(200, 235, 255);
-    private JButton[][] jButtons = new JButton[4][15];
+    private final Color aliceblue = new Color(200, 235, 255);
+    private final JButton[][] jButtons = new JButton[4][15];
     private JTextField activeTextfield;
 
     private static final String[][] key = {
@@ -49,11 +49,21 @@ public class Keyboard implements ActionListener {
 
                 // specify padding and insets for the buttons
                 switch (key[row][col]) {
-                    case "Backspace":   cButton.ipadx = 0; break;
-                    case "Tab":         cButton.ipadx = 17; break;
-                    case "Caps":        cButton.ipadx = 10; break;
-                    case "Enter":       cButton.ipadx = 27; break;
-                    case "Shift":       cButton.ipadx = 27; break;
+                    case "Backspace":
+                        cButton.ipadx = 0;
+                        break;
+                    case "Tab":
+                        cButton.ipadx = 17;
+                        break;
+                    case "Caps":
+                        cButton.ipadx = 10;
+                        break;
+                    case "Enter":
+                        cButton.ipadx = 27;
+                        break;
+                    case "Shift":
+                        cButton.ipadx = 27;
+                        break;
                     case "/":
                         cButton.insets = new Insets(0, 0, 0, 24);
                         break;
@@ -94,11 +104,11 @@ public class Keyboard implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         for (int row = 0, i = 0; row < key.length; ++row) {
             for (int col = 0; col < key[row].length; ++col, ++i) {
-                if(e.getSource() == jButtons[row][col]){
+                if (e.getSource() == jButtons[row][col]) {
                     String value = key[row][col];
                     System.out.println(value);
-                    if (value.equals("Backspace")){
-                        activeTextfield.setText(activeTextfield.getText().substring(0, activeTextfield.getText().length()-1));
+                    if (value.equals("Backspace")) {
+                        activeTextfield.setText(activeTextfield.getText().substring(0, activeTextfield.getText().length() - 1));
                         return;
                     }
                     activeTextfield.setText(activeTextfield.getText().concat(value));
