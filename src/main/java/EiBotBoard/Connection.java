@@ -103,7 +103,7 @@ public class Connection {
             yCoord += y;
 
             int factorForCm = 800;
-            int duration = (int) Math.sqrt(x * x + y * y) / speed * 1000;
+            int duration = (int) (Math.sqrt(x * x + y * y) / speed * 1000);
             int tempX;
             int tempY;
 
